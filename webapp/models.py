@@ -1,5 +1,9 @@
+import string
+from random import random
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from user import CustomUser
 
 
 # Create your models here.
@@ -19,17 +23,25 @@ class Category(models.Model):
         return self.name
 
 
-def get_profile_picture_path(instance, filename):
-    return instance.username+'/profile.png'
+def random_string(string_length=10):
+    """Generate a random string of fixed length """
+    letters_and_digits = string.ascii_letters + string.digits
+    return ''.join(random.choice(letters_and_digits) for i in range(string_length))
 
 
-class User(AbstractUser):
-    description = models.TextField(null=True)
-    profile_picture = models.FileField(upload_to=get_profile_picture_path, null=True)
+def get_attachment_path():
+    return 'attachments/'+random_string(42)+'/'
 
-    def __str__(self):
-        return self.username
 
 class Attachment(models.Model):
-    file = models.FileField(upload_to='')
+    file = models.FileField(upload_to=get_attachment_path)
     original_filename = models.CharField(max_length=256, blank=False)
+
+
+class Language(models.Model):
+    name = models.CharField(max_length=30, unique=True, blank=False)
+    default_language = models.BooleanField(null=False)
+
+    def __str__(self):
+        return self.name
+
