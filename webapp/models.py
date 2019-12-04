@@ -3,7 +3,8 @@ from random import random
 
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from user import CustomUser
+
+from users.models import CustomUser
 
 
 # Create your models here.
@@ -18,6 +19,7 @@ class Settings(models.Model):
 
 class Category(models.Model):
     name = models.CharField('name', max_length=50, unique=True, blank=False)
+    entries = models.ManyToManyRel('entries', 'Entry')
 
     def __str__(self):
         return self.name
@@ -30,18 +32,46 @@ def random_string(string_length=10):
 
 
 def get_attachment_path():
-    return 'attachments/'+random_string(42)+'/'
+    return 'attachments/' + random_string(42) + '/'
 
 
 class Attachment(models.Model):
     file = models.FileField(upload_to=get_attachment_path)
     original_filename = models.CharField(max_length=256, blank=False)
+    contents = models.ManyToManyRel('contents', 'Content')
 
 
 class Language(models.Model):
     name = models.CharField(max_length=30, unique=True, blank=False)
     default_language = models.BooleanField(null=False)
 
+    contents = models.ManyToOneRel('contents', 'Content', 'contents')
+
     def __str__(self):
         return self.name
 
+
+class Entry(models.Model):
+    categories = models.ManyToManyField('Category')
+    author = models.ForeignKey('users.CustomUser', null=False, on_delete=models.CASCADE)
+
+
+class Content(models.Model):
+    title = models.CharField(max_length=256, blank=False)
+    text = models.TextField(blank=False)
+    creation_date = models.DateTimeField(null=False)
+    last_edit_date = models.DateTimeField(null=True)
+    attachments = models.ManyToManyField('Attachment')
+    language = models.ForeignKey('Language', null=False, on_delete=models.CASCADE)
+    comments = models.ManyToOneRel('comments', 'Comment', 'comments')
+
+
+class Comment(models.Model):
+    author_name = models.CharField(max_length=80, null=True)
+    author_user = models.ForeignKey('users.CustomUser', null=False, on_delete=models.CASCADE)
+    text = models.TextField(blank=False)
+    passed = models.BooleanField(null=False)
+    publish_date = models.DateTimeField(null=False)
+    content = models.ForeignKey('Content', null=False, on_delete=models.CASCADE)
+    answer_to = models.ForeignKey('Comment', null=True, on_delete=models.CASCADE)
+    answers = models.ManyToOneRel('answers', 'Comment', 'answers')

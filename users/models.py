@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.utils.translation import ugettext_lazy as _
 
 from .managers import CustomUserManager
+#from webapp.models import Entry, Comment
 
 
 class CustomUser(AbstractUser):
@@ -16,8 +17,11 @@ class CustomUser(AbstractUser):
     profile_picture = models.FileField(upload_to=CustomUserManager.get_profile_picture_path, null=True)
     description = models.TextField(null=True)
 
+    entries = models.ManyToOneRel('entries', 'Entry', 'entries')
+    comments = models.ManyToOneRel('comments', 'Comment', 'comments')
+
     USERNAME_FIELDS = ['email', 'username']
-    #    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = []
 
     objects = CustomUserManager()
 
