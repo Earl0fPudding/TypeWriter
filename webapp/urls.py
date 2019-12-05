@@ -17,11 +17,12 @@ Including another URLconf
 from django.urls import path
 from . import views
 from django.conf.urls import i18n
+from .views import home
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
 ]
 
 urlpatterns += i18n.i18n_patterns(
-    path('', views.index)
+    path('', home.index)
 )

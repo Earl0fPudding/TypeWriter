@@ -58,6 +58,9 @@ class Content(models.Model):
     attachments = models.ManyToManyField(Attachment, related_name='contents')
     language = models.ForeignKey(Language, null=False, on_delete=models.CASCADE, related_name='contents')
 
+    def __str__(self):
+        return self.title
+
 
 class Comment(models.Model):
     author_name = models.CharField(max_length=80, null=True)
@@ -67,3 +70,6 @@ class Comment(models.Model):
     publish_date = models.DateTimeField(null=False)
     content = models.ForeignKey(Content, null=False, on_delete=models.CASCADE, related_name='comments')
     answer_to = models.ForeignKey('self', null=True, on_delete=models.CASCADE, related_name='answers')
+
+    def __str__(self):
+        return self.text
