@@ -46,12 +46,13 @@ class Language(models.Model):
 
 
 class Entry(models.Model):
-    categories = models.ManyToManyField(Category, related_name='entries')
+    category = models.ForeignKey(Category, null=False, on_delete=models.CASCADE, related_name='entries')
     author = models.ForeignKey(CustomUser, null=False, on_delete=models.CASCADE, related_name='entries')
 
 
 class Content(models.Model):
     title = models.CharField(max_length=256, blank=False)
+    summary = models.CharField(max_length=200, blank=False)
     text = models.TextField(blank=False)
     creation_date = models.DateTimeField(null=False)
     last_edit_date = models.DateTimeField(null=True)

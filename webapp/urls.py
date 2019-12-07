@@ -16,7 +16,7 @@ Including another URLconf
 # from django.contrib import admin
 from django.urls import path
 from . import views
-from django.conf.urls import i18n
+from django.conf.urls import i18n, url
 from .views import home
 
 urlpatterns = [
@@ -24,5 +24,5 @@ urlpatterns = [
 ]
 
 urlpatterns += i18n.i18n_patterns(
-    path('', home.index)
+    url('', home.show_index, name='home')
 )
