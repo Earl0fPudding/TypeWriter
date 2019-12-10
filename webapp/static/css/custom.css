@@ -1,0 +1,10 @@
+@font-face { font-family: TypeWriter; src: url('TypeWriter.ttf'); }
+
+div {
+  font-family: TypeWriter;
+  font-weight: bolder;
+}
+
+body {
+    background-color: #EFEFEF;
+}
