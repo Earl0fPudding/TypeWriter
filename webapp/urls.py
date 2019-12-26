@@ -18,12 +18,14 @@ from django.urls import path
 from . import views
 from django.conf.urls import i18n, url
 from .views import home
+from django.contrib import admin
 
 urlpatterns = [
-    #path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
 ]
 
 urlpatterns += i18n.i18n_patterns(
     url(r'^$', home.show_index, name='home'),
+    url('login', home.show_login, name='show_login'),
     url('test', home.test)
 )

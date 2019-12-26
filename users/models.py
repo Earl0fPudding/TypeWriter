@@ -10,8 +10,8 @@ class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), null=True, unique=True)
     first_name = models.CharField(max_length=30, null=True)
     last_name = models.CharField(max_length=50, null=True)
-    is_staff = None
-    is_active = None
+    is_staff = models.BooleanField(default=1, null=False)
+    is_active = models.BooleanField(default=1, null=False)
     date_joined = models.DateTimeField(null=True)
     profile_picture = models.FileField(upload_to=CustomUserManager.get_profile_picture_path, null=True)
     description = models.TextField(null=True)

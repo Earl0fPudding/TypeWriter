@@ -27,7 +27,7 @@ SECRET_KEY = '$$t++&qst@ke1_bdn$(9qusvu00o89-au3j7s2b)o$c7%q&bv2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['10.0.1.222', '127.0.0.1']
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
@@ -35,6 +35,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
