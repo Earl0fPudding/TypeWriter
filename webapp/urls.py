@@ -24,5 +24,6 @@ urlpatterns = [
 ]
 
 urlpatterns += i18n.i18n_patterns(
-    url('', home.show_index, name='home')
+    url(r'^$', home.show_index, name='home'),
+    url('test', home.test)
 )

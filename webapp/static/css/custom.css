@@ -2,9 +2,89 @@
 
 div {
   font-family: TypeWriter;
-  font-weight: bolder;
 }
 
 body {
     background-color: #EFEFEF;
+}
+
+.horizontal-divider {
+    height: 1px;
+    border: none;
+    background-color: #000000;
+}
+
+.horizontal-divider-dotted {
+
+    border-bottom: 1px dashed #000000;
+
+}
+
+a:hover {
+    text-decoration: underline !important;
+}
+
+.navbar {
+    padding-bottom: 20px;
+}
+
+.profile-picture {
+    border-radius: 50%;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.top-line {
+    margin-bottom: 20px;
+}
+
+.spacing-line {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+main {
+    padding-bottom: 10px;
+}
+
+footer {
+    padding-bottom: 10px;
+}
+
+.latest-posts-aside {
+    margin-top: 20px;
+}
+
+.article-preview-aside{
+
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.comment {
+    margin-top: 20px;
+}
+
+.comment-profile-picture {
+    margin-left: 15px;
+}
+
+.comment-name-at-profile-picture {
+ /*   padding-left: 30px; */
+}
+
+.read-more-button {
+    height: 25px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+a > .read-more-button {
+    padding-top: 0px;
+}
+
+.comment-section {
+    margin-bottom: 15px;
 }

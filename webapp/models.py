@@ -39,6 +39,7 @@ class Attachment(models.Model):
 
 class Language(models.Model):
     name = models.CharField(max_length=30, unique=True, blank=False)
+    name_short = models.CharField(max_length=10, unique=True, blank=False)
     default_language = models.BooleanField(null=False)
 
     def __str__(self):
