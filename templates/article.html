@@ -1,0 +1,318 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block head_data %}
+{% endblock %}
+
+{% block content %}
+    <main>
+        <article>
+            <div class="row">
+                <div class="col-lg-8 col-md-12">
+                    <div class="col-10 offset-1 horizontal-divider top-line"></div>
+                    <h2 class="bold">{{ content.title }}</h2>
+                    {% if content.header_image %}
+                        <div class="col-10 offset-1">
+                            <img src="{{ content.header_image.file.url }}" class="img-fluid">
+                        </div>
+                    {% endif %}
+                    <p class="bold col-12">{{ content.summary }}</p>
+                    <div class="horizontal-divider-dotted col-8 offset-2"></div>
+                    <p class="text-center h6">written on {{ content.creation_date.date }}
+                        at {{ content.creation_date.time }}<br> last edited on {{ content.last_edit_date.date }}
+                        at {{ content.last_edit_date.time }}<br>
+                        by {{ author.first_name }} {{ author.last_name }}</p>
+                    <div class="horizontal-divider-dotted col-8 offset-2 top-line"></div>
+                    <p class="col-12">{{ content.text | safe }}</p>
+
+
+                    {% if comments_allowed == 1 %}
+                        <div class="col-10 offset-1 horizontal-divider top-line"></div>
+                        <div class="comment-section">
+                            <h3 class="bold">Comments</h3>
+
+                            {% for comment in comments_same_lang %}
+                                {% if forloop.counter0 != 0 %}
+                                    <div class="col-8 offset-2 horizontal-divider-dotted spacing-line"></div>
+                                {% endif %}
+                                <div class="comment">
+                                    {% if comment.author_user_id %}
+                                        <div class="row">
+                                            <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
+                                                <img src="{{ comment.author_user.profile_picture.url }}"
+                                                     class="profile-picture mx-auto"
+                                                     height="40">
+                                            </div>
+                                            <div class="row col-sm-9 col-md-10 col-lg-10 col-10 comment-name-at-profile-picture">
+                                                <div class="col-12 text-left bold">
+                                                    {{ comment.author_user.first_name }} {{ comment.author_user.last_name }}
+                                                </div>
+                                                <div class="col-12 text-left text-secondary h6">
+                                                    {{ comment.publish_date }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="col-lg-6 col-md-12 text-left bold">
+                                            {{ comment.author_name }}
+                                        </div>
+                                        <div class="col-lg-6 col-md-12 text-left text-secondary h6">
+                                            {{ comment.publish_date }}
+                                        </div>
+                                    {% endif %}
+                                    <div class="col-12">
+                                        {{ comment.text }}
+                                    </div>
+                                    <div class="col-2 offset-7 col-md-2 offset-md-9">
+                                        <a href="#">
+                                            <button type="button" class="btn-outline-dark btn read-more-button">Reply
+                                            </button>
+                                        </a>
+                                    </div>
+                                    {% for comment_answer1 in comment.answers.all %}
+                                        {% if forloop.counter0 != 0 %}
+                                            <div class="col-8 offset-2 horizontal-divider-dotted spacing-line"></div>
+
+                                        {% endif %}
+                                        <div class="comment offset-1">
+                                            {% if comment_answer1.author_user_id %}
+                                                <div class="row">
+                                                    <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
+                                                        <img src="{{ comment_answer1.author_user.profile_picture.url }}"
+                                                             class="profile-picture mx-auto"
+                                                             height="40">
+                                                    </div>
+                                                    <div class="row col-sm-9 col-md-10 col-lg-10 col-10 comment-name-at-profile-picture">
+                                                        <div class="col-12 text-left bold">
+                                                            {{ comment_answer1.author_user.first_name }} {{ comment_answer1.author_user.last_name }}
+                                                        </div>
+                                                        <div class="col-12 text-left text-secondary h6">
+                                                            {{ comment_answer1.publish_date }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <div class="col-lg-6 col-md-12 text-left bold">
+                                                    {{ comment_answer1.author_name }}
+                                                </div>
+                                                <div class="col-lg-6 col-md-12 text-left text-secondary h6">
+                                                    {{ comment_answer1.publish_date }}
+                                                </div>
+                                            {% endif %}
+                                            <div class="col-12">
+                                                {{ comment_answer1.text }}
+                                            </div>
+                                            <div class="col-2 offset-7 col-md-2 offset-md-9">
+                                                <a href="#">
+                                                    <button type="button" class="btn-outline-dark btn read-more-button">
+                                                        Reply
+                                                    </button>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    {% endfor %}
+
+                                </div>
+
+                            {% endfor %}
+
+                            {% if comments_different_lang and comments_same_lang %}
+                                <div class="col-8 offset-2 horizontal-divider-dotted spacing-line"></div>
+                            {% endif %}
+
+                            {% for comment in comments_different_lang %}
+                                {% if forloop.counter0 != 0 %}
+                                    <div class="col-8 offset-2 horizontal-divider-dotted spacing-line"></div>
+                                {% endif %}
+                                <div class="comment">
+                                    {% if comment.author_user_id %}
+                                        <div class="row">
+                                            <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
+                                                <img src="{{ comment.author_user.profile_picture.url }}"
+                                                     class="profile-picture mx-auto"
+                                                     height="40">
+                                            </div>
+                                            <div class="row col-sm-9 col-md-10 col-lg-10 col-10 comment-name-at-profile-picture">
+                                                <div class="col-12 text-left bold">
+                                                    {{ comment.author_user.first_name }} {{ comment.author_user.last_name }}
+                                                </div>
+                                                <div class="col-12 text-left text-secondary h6">
+                                                    {{ comment.publish_date }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="col-lg-6 col-md-12 text-left bold">
+                                            {{ comment.author_name }}
+                                        </div>
+                                        <div class="col-lg-6 col-md-12 text-left text-secondary h6">
+                                            {{ comment.publish_date }}
+                                        </div>
+                                    {% endif %}
+                                    <div class="col-12">
+                                        {{ comment.text }}
+                                    </div>
+                                    <div class="col-2 offset-7 col-md-2 offset-md-9">
+                                        <a href="#">
+                                            <button type="button" class="btn-outline-dark btn read-more-button">Reply
+                                            </button>
+                                        </a>
+                                    </div>
+                                    {% for comment_answer1 in comment.answers.all %}
+                                        {% if forloop.counter0 != 0 %}
+                                            <div class="col-8 offset-2 horizontal-divider-dotted spacing-line"></div>
+
+                                        {% endif %}
+                                        <div class="comment offset-1">
+                                            {% if comment_answer1.author_user_id %}
+                                                <div class="row">
+                                                    <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
+                                                        <img src="{{ comment_answer1.author_user.profile_picture.url }}"
+                                                             class="profile-picture mx-auto"
+                                                             height="40">
+                                                    </div>
+                                                    <div class="row col-sm-9 col-md-10 col-lg-10 col-10 comment-name-at-profile-picture">
+                                                        <div class="col-12 text-left bold">
+                                                            {{ comment_answer1.author_user.first_name }} {{ comment_answer1.author_user.last_name }}
+                                                        </div>
+                                                        <div class="col-12 text-left text-secondary h6">
+                                                            {{ comment_answer1.publish_date }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <div class="col-lg-6 col-md-12 text-left bold">
+                                                    {{ comment_answer1.author_name }}
+                                                </div>
+                                                <div class="col-lg-6 col-md-12 text-left text-secondary h6">
+                                                    {{ comment_answer1.publish_date }}
+                                                </div>
+                                            {% endif %}
+                                            <div class="col-12">
+                                                {{ comment_answer1.text }}
+                                            </div>
+                                            <div class="col-2 offset-7 col-md-2 offset-md-9">
+                                                <a href="#">
+                                                    <button type="button" class="btn-outline-dark btn read-more-button">
+                                                        Reply
+                                                    </button>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    {% endfor %}
+
+                                </div>
+
+                            {% endfor %}
+
+
+
+
+                            {% if comments_different_lang or comments_same_lang %}
+                                <div class="col-8 offset-2 horizontal-divider-dotted spacing-line"></div>
+                            {% endif %}
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4 class="bold">Write a new comment</h4>
+                                </div>
+                                <form class="col-12">
+                                    <div class="form-group">
+                                        <label for="new_authorname_id">Your name:</label>
+                                        <input type="text" class="form-control" id="new_authorname_id"
+                                               placeholder="May I ask, what is your name?" required>
+                                        <small id="new_authorname_help" class="form-text text-muted">This name will be
+                                            displayed
+                                            publicly</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="new_comment_text_id">Your comment:</label>
+                                        <textarea id="new_comment_text_id" class="form-control" rows="5"
+                                                  placeholder="May I ask for your opinion?" required></textarea>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="checkbox" required class="form-check-input"
+                                               id="new_comment_ckb_id">
+                                        <label class="form-check-label" for="new_comment_ckb_id">I agree that <u>only my
+                                            name and comment text</u> will be saved on this server and can be made
+                                            publicly
+                                            available for everyone to read.</label>
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <button type="submit" class="btn btn-outline-dark bold">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                </div>
+                <aside class="col-lg-4 col-md-12">
+                    <div class="author-information-aside">
+                        <div class="row">
+                            <div class="col-10 offset-1 horizontal-divider top-line"></div>
+                            <div class="col-lg-12 text-center bold h5" style="margin-bottom: 10px;">
+                                About the author:
+                            </div>
+                            <div class="col-12 text-center" style="margin-bottom: 10px;">
+                                <img src="{{ author.profile_picture.url }}" class="profile-picture mx-auto"
+                                     height="100">
+                            </div>
+                            <div class="col-lg-12 text-center bold">
+                                {{ author.first_name }} {{ author.last_name }}
+                            </div>
+                            <div class="col-lg-12 text-center">
+                                {{ author.description }}
+                            </div>
+                            <div class="col-lg-12 text-center">
+                                <a href="#">
+                                    <button type="button" class="btn-outline-dark btn read-more-button">More from this
+                                        author
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="latest-posts-aside">
+
+                        <div class="col-10 offset-1 horizontal-divider top-line"></div>
+                        <div class="col-12 text-center bold h5">
+                            Latest posts:
+                        </div>
+                        {% for latest_post in latest_posts %}
+                            {% if forloop.counter0 != 0 %}
+                                <div class="col-8 offset-2 horizontal-divider-dotted"></div>
+                            {% endif %}
+                            <div class="article-preview-aside text-dark row">
+                                {% if latest_post.header_image %}
+                                    <div class="col-4 offset-1 text-center">
+                                        <img src="{{ latest_post.header_image.file.url }}" class="img-fluid mx-auto">
+                                    </div>
+                                    <div class="col-6 text-center bold">
+                                        {{ latest_post.title }}
+                                    </div>
+                                {% else %}
+                                    <div class="col-10 offset-1 text-center bold">
+                                        {{ latest_post.title }}
+                                    </div>
+                                {% endif %}
+                                <div class="col-12 text-center">
+                                    <a href="#">
+                                        <button type="button" class="btn-outline-dark btn read-more-button">Read
+                                            more
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+                    </div>
+                </aside>
+            </div>
+        </article>
+    </main>
+
+{% endblock %}

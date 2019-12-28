@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import CustomUser, Language, Category, Entry, Comment, Content
+from .models import CustomUser, Language, Category, Entry, Comment, Content, Settings, Attachment
 
 
 # Register your models here.
-@admin.register(CustomUser, Language, Category, Entry, Comment, Content)
+@admin.register(CustomUser, Language, Category, Entry, Comment, Content, Settings, Attachment)
 class MyAdminSite(admin.ModelAdmin):
     site_header = 'TypeWriter admin site'
 

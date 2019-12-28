@@ -1,10 +1,29 @@
+{% extends 'base_style.html' %}
 {% load i18n %}
-<html>
-    <head>
-        <title></title>
-    </head>
-    <body>
-        <
-    </body>
-</html>
-{% trans "Hello World!" %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-text text-center">Log in</h5>
+                        <form>
+                            <div class="form-label-group">
+                                <input type="email" id="email_id" class="form-control" placeholder="Email address"
+                                       required autofocus>
+                                <label for="email_id">Email address</label>
+                            </div>
+
+                            <div class="form-label-group">
+                                <input type="password" id="pw_id" class="form-control" placeholder="Password"
+                                       required>
+                                <label for="pw_id">Password</label>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

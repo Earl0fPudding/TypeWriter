@@ -19,13 +19,17 @@ from . import views
 from django.conf.urls import i18n, url
 from .views import home
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls)
 ]
 
 urlpatterns += i18n.i18n_patterns(
     url(r'^$', home.show_index, name='home'),
     url('login', home.show_login, name='show_login'),
-    url('test', home.test)
+    path('article/<int:id>', home.show_article, name='show_article'),
 )
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

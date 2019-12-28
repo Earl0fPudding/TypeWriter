@@ -58,6 +58,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'webapp.urls'
 MEDIA_ROOT = '/home/weide/tp_uploads'
+MEDIA_URL = '/media/'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
