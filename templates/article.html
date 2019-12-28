@@ -222,14 +222,21 @@
                                     {% csrf_token %}
                                     <input type="hidden" name="content_id" value="{{ content.id }}">
                                     <input type="hidden" name="answer_to" value="-1">
-                                    <div class="form-group">
-                                        <label for="new_authorname_id">Your name:</label>
-                                        <input type="text" name="author_name" maxlength="80" class="form-control" id="new_authorname_id"
-                                               placeholder="May I ask, what is your name?" required>
-                                        <small id="new_authorname_help" class="form-text text-muted">This name will be
-                                            displayed
-                                            publicly</small>
-                                    </div>
+                                    {% if user.is_authenticated %}
+                                        <input type="hidden" name="author_name" value="-1">
+
+                                    {% else %}
+                                        <div class="form-group">
+                                            <label for="new_authorname_id">Your name:</label>
+                                            <input type="text" name="author_name" maxlength="80" class="form-control"
+                                                   id="new_authorname_id"
+                                                   placeholder="May I ask, what is your name?" required>
+                                            <small id="new_authorname_help" class="form-text text-muted">This name will
+                                                be
+                                                displayed
+                                                publicly</small>
+                                        </div>
+                                    {% endif %}
                                     <div class="form-group">
                                         <label for="new_comment_text_id">Your comment:</label>
                                         <textarea name="text" id="new_comment_text_id" class="form-control" rows="5"
