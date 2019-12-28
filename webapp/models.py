@@ -69,8 +69,8 @@ class Comment(models.Model):
     author_name = models.CharField(max_length=80, null=True, blank=True)
     author_user = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE, related_name='comments', blank=True)
     text = models.TextField(blank=False)
-    passed = models.BooleanField(null=False)
-    publish_date = models.DateTimeField(null=False)
+    passed = models.BooleanField(null=False, default=0)
+    publish_date = models.DateTimeField(null=False, auto_now_add=True)
     content = models.ForeignKey(Content, null=True, on_delete=models.CASCADE, related_name='comments', blank=True)
     answer_to = models.ForeignKey('self', null=True, on_delete=models.CASCADE, related_name='answers', blank=True)
 

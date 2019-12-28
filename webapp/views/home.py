@@ -1,6 +1,8 @@
-from django.http import Http404
-from django.shortcuts import render
+from django.http import Http404, HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
+
+from webapp.forms import CommentForm
 from webapp.models import Entry, Content, Language, Category, Settings, Comment
 
 
@@ -14,6 +16,29 @@ def show_index(request):
 @require_http_methods(['GET'])
 def show_login(request):
     return render(request, 'login.html')
+
+
+@require_http_methods(['POST'])
+def post_comment(request):
+    form = CommentForm(request.POST)
+    if form.is_valid():
+        if form.cleaned_data['answer_to'] != '-1':
+            answer_to = None
+            content_id = form.cleaned_data['content_id']
+        else:
+            answer_to = form.cleaned_data['answer_to']
+            content_id = None
+        if request.user.is_authenticated:
+            new_comment = Comment(author_user=request.user, text=form.cleaned_data['text'], answer_to=answer_to, content_id=content_id)
+        else:
+            new_comment = Comment(author_name=form.cleaned_data['author_name'], text=form.cleaned_data['text'], answer_to=answer_to,
+                                  content_id=content_id)
+        if Settings.objects.get(id=1).comments_manual_valuation == 0:
+            new_comment.passed = 1
+        new_comment.save()
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+   # return redirect(show_article, id=Content.objects.get(id=form.content_id).entry_id)
 
 
 @require_http_methods(['GET'])
