@@ -1,6 +1,7 @@
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
+import markdown
 
 from webapp.forms import CommentForm
 from webapp.models import Entry, Content, Language, Category, Settings, Comment
@@ -10,7 +11,14 @@ from webapp.models import Entry, Content, Language, Category, Settings, Comment
 
 @require_http_methods(['GET'])
 def show_index(request):
-    return render(request, 'index.html')
+    latest_entry_ids = list(Entry.objects.all().reverse().values_list('id', flat=True))[:5]
+
+    page_context = {'general': get_default_context(request),
+                    'latest_posts': Content.objects.filter(entry_id__in=latest_entry_ids,
+                                                           language__name_short__exact=get_language_short_name(
+                                                               request)),
+                    }
+    return render(request, 'index.html', context=page_context)
 
 
 @require_http_methods(['GET'])
@@ -22,32 +30,39 @@ def show_login(request):
 def post_comment(request):
     form = CommentForm(request.POST)
     if form.is_valid():
-        if form.cleaned_data['answer_to'] != '-1':
-            answer_to = None
-            content_id = form.cleaned_data['content_id']
-        else:
+        if form.cleaned_data['answer_to']:
             answer_to = form.cleaned_data['answer_to']
             content_id = None
-        if request.user.is_authenticated:
-            new_comment = Comment(author_user=request.user, text=form.cleaned_data['text'], answer_to=answer_to, content_id=content_id)
         else:
-            new_comment = Comment(author_name=form.cleaned_data['author_name'], text=form.cleaned_data['text'], answer_to=answer_to,
+            answer_to = None
+            content_id = form.cleaned_data['content_id']
+
+        if request.user.is_authenticated:
+            new_comment = Comment(author_user=request.user, text=form.cleaned_data['text'], answer_to=answer_to,
+                                  content_id=content_id)
+        else:
+            new_comment = Comment(author_name=form.cleaned_data['author_name'], text=form.cleaned_data['text'],
+                                  answer_to=answer_to,
                                   content_id=content_id)
         if Settings.objects.get(id=1).comments_manual_valuation == 0:
             new_comment.passed = 1
         new_comment.save()
 
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-   # return redirect(show_article, id=Content.objects.get(id=form.content_id).entry_id)
+
+
+# return redirect(show_article, id=Content.objects.get(id=form.content_id).entry_id)
 
 
 @require_http_methods(['GET'])
 def show_article(request, id):
     latest_entry_ids = list(Entry.objects.all().reverse().values_list('id', flat=True))[:5]
+    content = Content.objects.filter(entry_id__exact=id,
+                                     language__name_short__exact=get_language_short_name(
+                                         request)).first()
     page_context = {'general': get_default_context(request),
-                    'content': Content.objects.filter(entry_id__exact=id,
-                                                      language__name_short__exact=get_language_short_name(
-                                                          request)).first(),
+                    'text': markdown.markdown(content.text, output_format='html5'),
+                    'content': content,
                     'author': Entry.objects.get(id=id).author,
                     'latest_posts': Content.objects.filter(entry_id__in=latest_entry_ids,
                                                            language__name_short__exact=get_language_short_name(
@@ -75,6 +90,7 @@ def get_default_context(request):
     for language in Language.objects.all():
         urls.append(cur_url.replace('/' + get_language_short_name(request) + '/', '/' + language.name_short + '/'))
     urls.reverse()
-    context = {'languages': Language.objects.all(), 'language_urls': urls, 'categories': Category.objects.all()}
+    context = {'languages': Language.objects.all(), 'language_urls': urls, 'categories': Category.objects.all(),
+               'settings': Settings.objects.get(id=1)}
     Language.objects.all().count()
     return context
