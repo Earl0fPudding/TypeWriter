@@ -30,7 +30,8 @@ urlpatterns += i18n.i18n_patterns(
     url(r'^$', home.show_index, name='home'),
     url('login', home.show_login, name='show_login'),
     path('article/<int:id>', home.show_article, name='show_article'),
-    path('comments/new', home.post_comment, name='post_comment')
+    path('comments/new', home.post_comment, name='post_comment'),
+    path('comments/delete', home.comment_delete, name='comment_delete')
 )
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

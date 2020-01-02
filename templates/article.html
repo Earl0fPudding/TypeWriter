@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block head_data %}
+    <title>{{ content.title }} - TypeWriter</title>
 {% endblock %}
 
 {% block content %}
@@ -22,9 +23,11 @@
                     <p class="text-center h6">written on {{ content.creation_date.date }}
                         at {{ content.creation_date.time }}<br> last edited on {{ content.last_edit_date.date }}
                         at {{ content.last_edit_date.time }}<br>
-                        by {{ author.first_name }} {{ author.last_name }}</p>
+                        by {{ author.first_name }} {{ author.last_name }}<br>
+                        in category {{ content.entry.category }}
+                    </p>
                     <div class="horizontal-divider-dotted col-8 offset-2 top-line"></div>
-                    <p class="col-12">{{ content.text | safe }}</p>
+                    <p class="col-12">{{ text | safe }}</p>
 
 
                     {% if comments_allowed == 1 %}
@@ -36,7 +39,16 @@
                                 {% if forloop.counter0 != 0 %}
                                     <div class="col-8 offset-2 horizontal-divider-dotted spacing-line"></div>
                                 {% endif %}
-                                <div class="comment">
+                                <div class="comment" id="comment-id-{{ comment.id }}">
+                                    {% if user == content.entry.author %}
+                                        <a href="#!">
+                                            <button type="button"
+                                                    class="comment-delete-btn btn-outline-dark btn read-more-button"
+                                                    value="{{ comment.id }}">
+                                                Delete
+                                            </button>
+                                        </a>
+                                    {% endif %}
                                     {% if comment.author_user_id %}
                                         <div class="row">
                                             <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
@@ -221,11 +233,7 @@
                                 <form class="col-12" method="post" action="{% url 'post_comment' %}">
                                     {% csrf_token %}
                                     <input type="hidden" name="content_id" value="{{ content.id }}">
-                                    <input type="hidden" name="answer_to" value="-1">
-                                    {% if user.is_authenticated %}
-                                        <input type="hidden" name="author_name" value="-1">
-
-                                    {% else %}
+                                    {% if user.is_authenticated == 0 %}
                                         <div class="form-group">
                                             <label for="new_authorname_id">Your name:</label>
                                             <input type="text" name="author_name" maxlength="80" class="form-control"
@@ -310,7 +318,7 @@
                                     </div>
                                 {% endif %}
                                 <div class="col-12 text-center">
-                                    <a href="#">
+                                    <a href="{% url 'show_article' latest_post.entry_id %}">
                                         <button type="button" class="btn-outline-dark btn read-more-button">Read
                                             more
                                         </button>
@@ -324,5 +332,21 @@
             </div>
         </article>
     </main>
+
+    <script type="application/javascript">
+        $(document).ready(function () {
+            $(".comment-delete-btn").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'comment_delete' %}",
+                    data: {
+                        "id": this.value,
+                        "csrfmiddlewaretoken": '{{ csrf_token }}'
+                    }
+                });
+                $("#comment-id-" + this.value).css({display: "none"});
+            });
+        });
+    </script>
 
 {% endblock %}

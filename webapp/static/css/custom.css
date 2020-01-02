@@ -20,8 +20,16 @@ body {
 
 }
 
-a:hover {
+.underline-on-hover:hover {
     text-decoration: underline !important;
+}
+
+a:hover{
+    text-decoration: none !important;
+}
+
+.no-underline-on-hover:hover {
+    text-decoration: none !important;
 }
 
 .navbar {
@@ -87,4 +95,8 @@ a > .read-more-button {
 
 .comment-section {
     margin-bottom: 15px;
+}
+
+.post-preview:hover .bold {
+    text-decoration: underline !important;
 }
