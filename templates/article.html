@@ -344,7 +344,7 @@
                         "csrfmiddlewaretoken": '{{ csrf_token }}'
                     }
                 });
-                $("#comment-id-" + this.value).css({display: "none"});
+                $("#comment-id-" + this.value).slideToggle(1000);
             });
         });
     </script>
