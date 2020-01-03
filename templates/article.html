@@ -335,15 +335,14 @@
     <script type="application/javascript">
         $(document).ready(function () {
             $(".comment-delete-btn").click(function () {
+                let comment_id = this.value;
                 $.ajax({
-                    type: "POST",
-                    url: "{% url 'comment_delete' %}",
-                    data: {
-                        "id": this.value,
-                        "csrfmiddlewaretoken": '{{ csrf_token }}'
+                    type: "DELETE",
+                    url: "{% url 'comment_delete' '0' %}".replace('0', comment_id),
+                    success: function () {
+                        $("#comment-id-" + comment_id).slideToggle(1000);
                     }
                 });
-                $("#comment-id-" + this.value).slideToggle(1000);
             });
         });
     </script>
