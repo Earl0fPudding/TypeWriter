@@ -94,12 +94,3 @@ def get_default_context(request):
                'settings': Settings.objects.get(id=1)}
     Language.objects.all().count()
     return context
-
-
-@require_http_methods(['POST'])
-def comment_delete(request):
-    if request.user.is_authenticated:
-        comment = Comment.objects.get(id=request.POST['id'])
-        if comment.content.entry.author == request.user:
-            comment.delete()
-            return HttpResponse(status=200)

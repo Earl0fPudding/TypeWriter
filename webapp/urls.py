@@ -18,6 +18,7 @@ from django.urls import path
 from . import views
 from django.conf.urls import i18n, url
 from .views import home
+from .resource_controllers import comment_controller
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
@@ -31,7 +32,7 @@ urlpatterns += i18n.i18n_patterns(
     url('login', home.show_login, name='show_login'),
     path('article/<int:id>', home.show_article, name='show_article'),
     path('comments/new', home.post_comment, name='post_comment'),
-    path('comments/delete', home.comment_delete, name='comment_delete')
+    path('comments/delete', comment_controller.comment_delete, name='comment_delete')
 )
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
