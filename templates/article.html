@@ -32,7 +32,7 @@
 
                     {% if comments_allowed == 1 %}
                         <div class="col-10 offset-1 horizontal-divider top-line"></div>
-                        <div class="comment-section">
+                        <div id="comment-section">
                             <h3 class="bold">Comments</h3>
 
                             {% for comment in comments_same_lang %}
@@ -226,11 +226,13 @@
                             {% if comments_different_lang or comments_same_lang %}
                                 <div class="col-8 offset-2 horizontal-divider-dotted spacing-line"></div>
                             {% endif %}
+                        </div>
+                        <div id="new-comment-section">
                             <div class="row">
                                 <div class="col-12">
                                     <h4 class="bold">Write a new comment</h4>
                                 </div>
-                                <form class="col-12" method="post" action="{% url 'post_comment' %}">
+                                <form class="col-12" id="new-comment-form">
                                     {% csrf_token %}
                                     <input type="hidden" name="content_id" value="{{ content.id }}">
                                     {% if user.is_authenticated == 0 %}
@@ -259,7 +261,7 @@
                                             available for everyone to read.</label>
                                     </div>
                                     <div class="col-12 text-center">
-                                        <button type="submit" class="btn btn-outline-dark bold">Submit</button>
+                                        <button type="button" class="submit btn btn-outline-dark bold">Submit</button>
                                     </div>
                                 </form>
                             </div>
@@ -343,6 +345,59 @@
                         $("#comment-id-" + comment_id).slideToggle(1000);
                     }
                 });
+            });
+
+            $("#new-comment-form .submit").click(function () {
+                if ($('#new_comment_ckb_id').is(':checked')) {
+                    $.ajax({
+                        type: "POST",
+                        url: "{% url 'post_comment' %}",
+                        data: $("#new-comment-form").serialize(),
+                        success: function (data) {
+                            let new_comment = JSON.parse(data)[0];
+
+                            let appendString = '<div class="comment">';
+                            if (new_comment.fields.author_user_id != null) {
+                                appendString += '<div class="row"><div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture"><img src="' + new_comment.fields.author_user.profile_picture + '" class="profile-picture mx-auto" height="40"></div><div class="row col-sm-9 col-md-10 col-lg-10 col-10 comment-name-at-profile-picture">\n'
+                                    +
+                                    '                                                <div class="col-12 text-left bold">\n' +
+                                    'XXXX XXXXX' +
+                                    '                                                </div>\n' +
+                                    '                                                <div class="col-12 text-left text-secondary h6">\n'
+                                    +
+                                    new Date(new_comment.fields.publish_date).toString() +
+                                    '                                                </div>\n' +
+                                    '                                            </div>\n' +
+                                    '                                        </div>\n';
+                            } else {
+                                appendString += '<div class="col-lg-6 col-md-12 text-left bold">\n'
+                                    +
+                                    new_comment.fields.author_name +
+                                    '                                        </div>\n' +
+                                    '                                        <div class="col-lg-6 col-md-12 text-left text-secondary h6">\n'
+                                    +
+                                    new Date(new_comment.fields.publish_date).toString() +
+                                    '                                        </div>\n';
+                            }
+                            appendString += '<div class="col-12">\n' +
+                                new_comment.fields.text +
+                                '                                    </div>\n' +
+                                '                                    <div class="col-2 offset-7 col-md-2 offset-md-9">\n' +
+                                '                                        <a href="#">\n' +
+                                '                                            <button type="button" class="btn-outline-dark btn read-more-button">Reply\n' +
+                                '                                            </button>\n' +
+                                '                                        </a>\n' +
+                                '                                    </div>';
+
+
+                            let append_item = $(appendString).hide();
+                            $("#comment-section").append(append_item);
+                            append_item.show('slow');
+
+                            $('#new-comment-form').trigger("reset");
+                        }
+                    });
+                }
             });
         });
     </script>

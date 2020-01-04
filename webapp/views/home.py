@@ -26,34 +26,6 @@ def show_login(request):
     return render(request, 'login.html')
 
 
-@require_http_methods(['POST'])
-def post_comment(request):
-    form = CommentForm(request.POST)
-    if form.is_valid():
-        if form.cleaned_data['answer_to']:
-            answer_to = form.cleaned_data['answer_to']
-            content_id = None
-        else:
-            answer_to = None
-            content_id = form.cleaned_data['content_id']
-
-        if request.user.is_authenticated:
-            new_comment = Comment(author_user=request.user, text=form.cleaned_data['text'], answer_to=answer_to,
-                                  content_id=content_id)
-        else:
-            new_comment = Comment(author_name=form.cleaned_data['author_name'], text=form.cleaned_data['text'],
-                                  answer_to=answer_to,
-                                  content_id=content_id)
-        if Settings.objects.get(id=1).comments_manual_valuation == 0:
-            new_comment.passed = 1
-        new_comment.save()
-
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-
-
-# return redirect(show_article, id=Content.objects.get(id=form.content_id).entry_id)
-
-
 @require_http_methods(['GET'])
 def show_article(request, id):
     latest_entry_ids = list(Entry.objects.all().reverse().values_list('id', flat=True))[:5]
