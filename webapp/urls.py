@@ -32,7 +32,9 @@ urlpatterns += i18n.i18n_patterns(
     url('login', home.show_login, name='show_login'),
     path('article/<int:id>', home.show_article, name='show_article'),
     path('comments/new', comment_controller.post_comment, name='post_comment'),
-    path('comments/<int:id>', comment_controller.comment_delete, name='comment_delete')
+    path('comments/<int:id>', comment_controller.comment_delete, name='comment_delete'),
+    path('imprint', home.show_imprint, name='show_imprint')
+
 )
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block head_data %}
+    <title>Imprint and Privacy Policy - TypeWriter</title>
+{% endblock %}
+
+{% block content %}
+    <main>
+        <div class="row">
+            <div class="col-lg-8 col-12">
+                <div class="col-10 offset-1 horizontal-divider top-line"></div>
+                {{ imprint_text | safe }}
+            </div>
+        </div>
+    </main>
+{% endblock %}

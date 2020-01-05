@@ -67,3 +67,9 @@ def get_default_context(request):
                'settings': Settings.objects.get(id=1), 'uploads_path': settings.MEDIA_URL}
     Language.objects.all().count()
     return context
+
+
+def show_imprint(request):
+    page_context = {'general': get_default_context(request),
+                    'imprint_text': markdown.markdown(settings.IMPRINT)}
+    return render(request, 'imprint.html', context=page_context)
