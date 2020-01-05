@@ -2,6 +2,7 @@ from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
 import markdown
+from django.conf import settings
 
 from webapp.forms import CommentForm
 from webapp.models import Entry, Content, Language, Category, Settings, Comment
@@ -63,6 +64,6 @@ def get_default_context(request):
         urls.append(cur_url.replace('/' + get_language_short_name(request) + '/', '/' + language.name_short + '/'))
     urls.reverse()
     context = {'languages': Language.objects.all(), 'language_urls': urls, 'categories': Category.objects.all(),
-               'settings': Settings.objects.get(id=1)}
+               'settings': Settings.objects.get(id=1), 'uploads_path': settings.MEDIA_URL}
     Language.objects.all().count()
     return context

@@ -10,7 +10,7 @@ from webapp.models import Entry, Content, Language, Category, Settings, Comment
 
 
 @require_http_methods(['POST'])
-#@csrf_exempt
+# @csrf_exempt
 def post_comment(request):
     form = CommentForm(request.POST)
     if form.is_valid():
@@ -32,7 +32,9 @@ def post_comment(request):
             new_comment.passed = 1
         new_comment.save()
 
-        return HttpResponse(content=serializers.serialize('json', [Comment.objects.get(id=new_comment.id)]), status=201)
+        return HttpResponse(content=serializers.serialize('json', [Comment.objects.get(id=new_comment.id)],
+                                                          use_natural_foreign_keys=True, use_natural_primary_keys=True),
+                            status=201, content_type='application/json')
 
 
 @csrf_exempt
