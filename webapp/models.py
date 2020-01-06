@@ -46,7 +46,7 @@ class Language(models.Model):
 
 
 class Entry(models.Model):
-    category = models.ForeignKey(Category, null=False, on_delete=models.CASCADE, related_name='entries')
+    categories = models.ManyToManyField(Category, related_name='entries', null=False, blank=False)
     author = models.ForeignKey(CustomUser, null=False, on_delete=models.CASCADE, related_name='entries')
 
 
