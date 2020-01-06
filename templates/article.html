@@ -155,6 +155,15 @@
                                     <div class="col-8 offset-2 horizontal-divider-dotted spacing-line"></div>
                                 {% endif %}
                                 <div class="comment">
+                                    {% if user == content.entry.author %}
+                                        <a href="#!">
+                                            <button type="button"
+                                                    class="comment-delete-btn btn-outline-dark btn read-more-button"
+                                                    value="{{ comment.id }}">
+                                                Delete
+                                            </button>
+                                        </a>
+                                    {% endif %}
                                     {% if comment.author_user_id %}
                                         <div class="row">
                                             <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
