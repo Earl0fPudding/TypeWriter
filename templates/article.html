@@ -21,10 +21,26 @@
                     <p class="bold col-12">{{ content.summary }}</p>
                     <div class="horizontal-divider-dotted col-8 offset-2"></div>
                     <p class="text-center h6">written on {{ content.creation_date.date }}
-                        at {{ content.creation_date.time }}<br> last edited on {{ content.last_edit_date.date }}
-                        at {{ content.last_edit_date.time }}<br>
+                        at {{ content.creation_date.time }}<br>
+                        {% if content.last_edit_date %}
+                            last edited on {{ content.last_edit_date.date }}
+                            at {{ content.last_edit_date.time }}<br>
+                        {% endif %}
                         by {{ author.first_name }} {{ author.last_name }}<br>
-                        in category {{ content.entry.category }}
+                        {% if content.entry.categories.all|length == 1 %}
+                            in category {{ content.entry.categories.all.0 }}
+                        {% else %}
+                            in categories
+                            {% for category in content.entry.categories.all %}
+                                {% if forloop.last %}
+                                    & {{ category }}
+                                {% elif forloop.counter >= content.entry.categories.all|length|add:'-1' %}
+                                    {{ category }}
+                                {% else %}
+                                    {{ category }},
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                     </p>
                     <div class="horizontal-divider-dotted col-8 offset-2 top-line"></div>
                     <p class="col-12">{{ text | safe }}</p>
