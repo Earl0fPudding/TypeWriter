@@ -72,4 +72,10 @@ def get_default_context(request):
 def show_imprint(request):
     page_context = {'general': get_default_context(request),
                     'imprint_text': markdown.markdown(settings.IMPRINT)}
-    return render(request, 'imprint.html', context=page_context)
+    return render(request, 'blank_page.html', context=page_context)
+
+
+def show_privacy_policy(request):
+    page_context = {'general': get_default_context(request),
+                    'imprint_text': markdown.markdown(settings.PRIVACY_POLICY)}
+    return render(request, 'blank_page.html', context=page_context)
