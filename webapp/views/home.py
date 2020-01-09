@@ -34,7 +34,7 @@ def show_article(request, id):
                                      language__name_short__exact=get_language_short_name(
                                          request)).first()
     page_context = {'general': get_default_context(request),
-                    'text': markdown.markdown(content.text, output_format='html5'),
+#                    'text': markdown.markdown(content.text, output_format='html5'),
                     'content': content,
                     'author': Entry.objects.get(id=id).author,
                     'latest_posts': Content.objects.filter(entry_id__in=latest_entry_ids,

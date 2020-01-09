@@ -6,4 +6,3 @@ from .models import CustomUser, Language, Category, Entry, Comment, Content, Set
 @admin.register(CustomUser, Language, Category, Entry, Comment, Content, Settings, Attachment)
 class MyAdminSite(admin.ModelAdmin):
     site_header = 'TypeWriter admin site'
-

@@ -43,14 +43,52 @@
                         {% endif %}
                     </p>
                     <div class="horizontal-divider-dotted col-8 offset-2 top-line"></div>
-                    <p class="col-12">{{ text | safe }}</p>
+                    <p class="col-12">{{ content.text | safe }}</p>
 
 
                     {% if comments_allowed == 1 %}
                         <div class="col-10 offset-1 horizontal-divider top-line"></div>
+                        <h2 class="bold text-center">Comments</h2>
+                        <div id="new-comment-section">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4 class="bold">Write a new comment</h4>
+                                </div>
+                                <form class="col-12" id="new-comment-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="content_id" value="{{ content.id }}">
+                                    {% if user.is_authenticated == 0 %}
+                                        <div class="form-group">
+                                            <label for="new_authorname_id">Your name:</label>
+                                            <input type="text" name="author_name" maxlength="80" class="form-control"
+                                                   id="new_authorname_id"
+                                                   placeholder="May I ask, what is your name?" required>
+                                            <small id="new_authorname_help" class="form-text text-muted">This name will
+                                                be
+                                                displayed
+                                                publicly</small>
+                                        </div>
+                                    {% endif %}
+                                    <div class="form-group">
+                                        <label for="new_comment_text_id">Your comment:</label>
+                                        <textarea name="text" id="new_comment_text_id" class="form-control" rows="5"
+                                                  placeholder="May I ask for your opinion?" required></textarea>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="checkbox" required class="form-check-input"
+                                               id="new_comment_ckb_id">
+                                        <label class="form-check-label" for="new_comment_ckb_id">I agree that <u>only my
+                                            name and comment text</u> will be saved on this server and can be made
+                                            publicly
+                                            available for everyone to read.</label>
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <button type="button" class="submit btn btn-outline-dark bold">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                         <div id="comment-section">
-                            <h3 class="bold">Comments</h3>
-
                             {% for comment in comments_same_lang %}
                                 {% if forloop.counter0 != 0 %}
                                     <div class="col-8 offset-2 horizontal-divider-dotted spacing-line"></div>
@@ -252,45 +290,6 @@
                                 <div class="col-8 offset-2 horizontal-divider-dotted spacing-line"></div>
                             {% endif %}
                         </div>
-                        <div id="new-comment-section">
-                            <div class="row">
-                                <div class="col-12">
-                                    <h4 class="bold">Write a new comment</h4>
-                                </div>
-                                <form class="col-12" id="new-comment-form">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="content_id" value="{{ content.id }}">
-                                    {% if user.is_authenticated == 0 %}
-                                        <div class="form-group">
-                                            <label for="new_authorname_id">Your name:</label>
-                                            <input type="text" name="author_name" maxlength="80" class="form-control"
-                                                   id="new_authorname_id"
-                                                   placeholder="May I ask, what is your name?" required>
-                                            <small id="new_authorname_help" class="form-text text-muted">This name will
-                                                be
-                                                displayed
-                                                publicly</small>
-                                        </div>
-                                    {% endif %}
-                                    <div class="form-group">
-                                        <label for="new_comment_text_id">Your comment:</label>
-                                        <textarea name="text" id="new_comment_text_id" class="form-control" rows="5"
-                                                  placeholder="May I ask for your opinion?" required></textarea>
-                                    </div>
-                                    <div class="form-check">
-                                        <input type="checkbox" required class="form-check-input"
-                                               id="new_comment_ckb_id">
-                                        <label class="form-check-label" for="new_comment_ckb_id">I agree that <u>only my
-                                            name and comment text</u> will be saved on this server and can be made
-                                            publicly
-                                            available for everyone to read.</label>
-                                    </div>
-                                    <div class="col-12 text-center">
-                                        <button type="button" class="submit btn btn-outline-dark bold">Submit</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
                     {% endif %}
 
                 </div>
@@ -358,7 +357,9 @@
             </div>
         </article>
     </main>
+{% endblock %}
 
+{% block script %}
     <script type="application/javascript">
         $(document).ready(function () {
             var uploads_path = "{{ general.uploads_path }}";
@@ -418,7 +419,7 @@
 
 
                             let append_item = $(appendString).hide();
-                            $("#comment-section").append(append_item);
+                            $("#comment-section").prepend(append_item);
                             append_item.show('slow');
 
                             $('#new-comment-form').trigger("reset");
@@ -428,5 +429,4 @@
             });
         });
     </script>
-
 {% endblock %}

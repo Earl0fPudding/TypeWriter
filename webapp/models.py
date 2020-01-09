@@ -2,6 +2,7 @@ import string
 import random
 
 from django.db import models
+from ckeditor.fields import RichTextField
 from django.contrib.auth.models import AbstractUser
 
 from users.models import CustomUser
@@ -53,7 +54,7 @@ class Entry(models.Model):
 class Content(models.Model):
     title = models.CharField(max_length=256, blank=False)
     summary = models.CharField(max_length=200, blank=False)
-    text = models.TextField(blank=False)
+    text = RichTextField(blank=False, null=False)
     header_image = models.ForeignKey(Attachment, on_delete=models.DO_NOTHING, related_name='contents', null=True, blank=True)
     creation_date = models.DateTimeField(null=False)
     last_edit_date = models.DateTimeField(null=True, blank=True)
