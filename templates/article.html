@@ -4,6 +4,7 @@
 
 {% block head_data %}
     <title>{{ content.title }} - TypeWriter</title>
+    <script type="text/javascript" src="{% static 'js/jquery.syntaxhighlighter.min.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -360,8 +361,9 @@
 {% endblock %}
 
 {% block script %}
-    <script type="application/javascript">
+    <script type="text/javascript">
         $(document).ready(function () {
+            $.SyntaxHighlighter.init();
             var uploads_path = "{{ general.uploads_path }}";
             $(".comment-delete-btn").click(function () {
                 let comment_id = this.value;

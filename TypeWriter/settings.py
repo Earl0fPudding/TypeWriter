@@ -143,3 +143,11 @@ LOCALE_PATHS = (
 STATIC_URL = '/static/'
 STATIC_ROOT = 'webapp/static/'
 CKEDITOR_BASEPATH = '/static/ckeditor/ckeditor/'
+
+CKEDITOR_CONFIGS = {
+    "default": {
+        "toolbar": "full",
+        "extraPlugins": ["codesnippet"],
+        "removePlugins": ["smiley", "flash"],
+    }
+}
