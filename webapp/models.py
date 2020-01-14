@@ -1,9 +1,11 @@
+import os
 import string
 import random
 
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 
 from users.models import CustomUser
 
@@ -29,8 +31,26 @@ def random_string(string_length=10):
     return ''.join(random.choice(letters_and_digits) for i in range(string_length))
 
 
+def get_list_of_files(dirName):
+    # create a list of file and sub directories
+    # names in the given directory
+    listOfFile = os.listdir(dirName)
+    allFiles = list()
+    # Iterate over all the entries
+    for entry in listOfFile:
+        # Create full path
+        fullPath = os.path.join(dirName, entry)
+        if os.path.isdir(fullPath):
+            allFiles.append(fullPath)
+
+    return allFiles
+
+
 def get_attachment_path(instance, filename):
-    return 'attachments/' + random_string(42) + '/' + filename
+    rnd_str = random_string(42)
+    while any(rnd_str in s for s in get_list_of_files(settings.MEDIA_ROOT + "/attachments/")):
+        rnd_str = random_string(42)
+    return 'attachments/' + rnd_str + '/' + filename
 
 
 class Attachment(models.Model):
@@ -55,10 +75,11 @@ class Content(models.Model):
     title = models.CharField(max_length=256, blank=False)
     summary = models.CharField(max_length=200, blank=False)
     text = RichTextField(blank=False, null=False)
-    header_image = models.ForeignKey(Attachment, on_delete=models.DO_NOTHING, related_name='contents', null=True, blank=True)
+    header_image = models.ForeignKey(Attachment, on_delete=models.DO_NOTHING, related_name='contents', null=True,
+                                     blank=True)
     creation_date = models.DateTimeField(null=False)
     last_edit_date = models.DateTimeField(null=True, blank=True)
-   # attachments = models.ManyToManyField(Attachment, related_name='contents', blank=True)
+    # attachments = models.ManyToManyField(Attachment, related_name='contents', blank=True)
     language = models.ForeignKey(Language, null=False, on_delete=models.CASCADE, related_name='contents')
     entry = models.ForeignKey(Entry, null=False, on_delete=models.CASCADE, related_name='contents')
 
@@ -68,7 +89,8 @@ class Content(models.Model):
 
 class Comment(models.Model):
     author_name = models.CharField(max_length=80, null=True, blank=True)
-    author_user = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE, related_name='comments', blank=True)
+    author_user = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE, related_name='comments',
+                                    blank=True)
     text = models.TextField(blank=False)
     passed = models.BooleanField(null=False, default=0)
     publish_date = models.DateTimeField(null=False, auto_now_add=True)
