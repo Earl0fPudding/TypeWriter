@@ -5,7 +5,7 @@ div {
 }
 
 body {
-    background-color: #EFEFEF;
+    background-color: #fbead6;
 }
 
 .horizontal-divider {
@@ -99,4 +99,8 @@ a > .read-more-button {
 
 .post-preview:hover .bold {
     text-decoration: underline !important;
+}
+
+.post-preview {
+    padding-bottom: 200px;
 }
