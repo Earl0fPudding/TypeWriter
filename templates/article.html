@@ -4,14 +4,15 @@
 
 {% block head_data %}
     <title>{{ content.title }} - TypeWriter</title>
-    <script type="text/javascript" src="{% static 'js/jquery.syntaxhighlighter.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/prism-solar.css' %}">
+    <script type="text/javascript" src="{% static 'js/prism-solar.js' %}"></script>
 {% endblock %}
 
 {% block content %}
     <main>
         <article>
             <div class="row">
-                <div class="col-lg-8 col-md-12">
+                <div class="col-lg-8 col-12">
                     <div class="col-10 offset-1 horizontal-divider top-line"></div>
                     <h2 class="bold">{{ content.title }}</h2>
                     {% if content.header_image %}
@@ -363,7 +364,6 @@
 {% block script %}
     <script type="text/javascript">
         $(document).ready(function () {
-            $.SyntaxHighlighter.init();
             var uploads_path = "{{ general.uploads_path }}";
             $(".comment-delete-btn").click(function () {
                 let comment_id = this.value;
