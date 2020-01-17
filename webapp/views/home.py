@@ -5,7 +5,7 @@ import markdown
 from django.conf import settings
 
 from webapp.forms import CommentForm
-from webapp.models import Entry, Content, Language, Category, Settings, Comment
+from webapp.models import Entry, Content, Language, Category, Settings, Comment, TranslatedText
 
 
 # Create your views here.
@@ -29,14 +29,14 @@ def show_login(request):
 
 @require_http_methods(['GET'])
 def show_article(request, id):
+    author = Entry.objects.get(id=id).author
     latest_entry_ids = list(Entry.objects.all().reverse().values_list('id', flat=True))[:5]
     content = Content.objects.filter(entry_id__exact=id,
                                      language__name_short__exact=get_language_short_name(
                                          request)).first()
     page_context = {'general': get_default_context(request),
-#                    'text': markdown.markdown(content.text, output_format='html5'),
                     'content': content,
-                    'author': Entry.objects.get(id=id).author,
+                    'author': author,
                     'latest_posts': Content.objects.filter(entry_id__in=latest_entry_ids,
                                                            language__name_short__exact=get_language_short_name(
                                                                request)),
@@ -48,7 +48,11 @@ def show_article(request, id):
                             request)).first().id),
                     'comments_different_lang': Comment.objects.filter(content__entry_id__exact=id).exclude(
                         content__language_id__exact=Language.objects.filter(
-                            name_short__exact=get_language_short_name(request)).first().id)}
+                            name_short__exact=get_language_short_name(request)).first().id),
+                    'author_desc': TranslatedText.objects.get(
+                        translatable_textgroup_id__exact=author.description_short.id,
+                        language__name_short__exact=get_language_short_name(request))
+                    }
 
     return render(request, 'article.html', context=page_context)
 
@@ -58,24 +62,37 @@ def get_language_short_name(request):
 
 
 def get_default_context(request):
+    db_settings = Settings.objects.get(id=1)
     cur_url = request.build_absolute_uri()
     urls = []
     for language in Language.objects.all():
         urls.append(cur_url.replace('/' + get_language_short_name(request) + '/', '/' + language.name_short + '/'))
     urls.reverse()
-    context = {'languages': Language.objects.all(), 'language_urls': urls, 'categories': Category.objects.all(),
-               'settings': Settings.objects.get(id=1), 'uploads_path': settings.MEDIA_URL}
-    Language.objects.all().count()
+    context = {'languages': Language.objects.all(),
+               'language_urls': urls,
+               'categories': Category.objects.all(),
+               'settings': db_settings,
+               'blog_subtitle': TranslatedText.objects.get(
+                   translatable_textgroup_id__exact=db_settings.blog_subtitle.id,
+                   language__name_short__exact=get_language_short_name(request)),
+               'blog_description': TranslatedText.objects.get(
+                   translatable_textgroup_id__exact=db_settings.blog_description.id,
+                   language__name_short__exact=get_language_short_name(request)),
+               'uploads_path': settings.MEDIA_URL}
     return context
 
 
 def show_imprint(request):
     page_context = {'general': get_default_context(request),
-                    'imprint_text': markdown.markdown(settings.IMPRINT)}
+                    'text': TranslatedText.objects.get(
+                        translatable_textgroup_id__exact=Settings.objects.get(id=1).imprint_text.id,
+                        language__name_short__exact=get_language_short_name(request))}
     return render(request, 'blank_page.html', context=page_context)
 
 
 def show_privacy_policy(request):
     page_context = {'general': get_default_context(request),
-                    'imprint_text': markdown.markdown(settings.PRIVACY_POLICY)}
+                    'text': TranslatedText.objects.get(
+                        translatable_textgroup_id__exact=Settings.objects.get(id=1).privacy_policy_text.id,
+                        language__name_short__exact=get_language_short_name(request))}
     return render(request, 'blank_page.html', context=page_context)
