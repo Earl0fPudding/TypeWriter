@@ -10,12 +10,39 @@ from django.conf import settings
 from users.models import CustomUser
 
 
+class Language(models.Model):
+    name = models.CharField(max_length=30, unique=True, blank=False)
+    name_short = models.CharField(max_length=10, unique=True, blank=False)
+    default_language = models.BooleanField(null=False)
+
+    def __str__(self):
+        return self.name
+
+
+class TranslatableTextgroup(models.Model):
+    pass
+
+
+class TranslatedText(models.Model):
+    text = RichTextField(null=False, blank=False)
+    translatable_textgroup = models.ForeignKey(TranslatableTextgroup, related_name='translated_texts', null=False,
+                                               blank=False, on_delete=models.CASCADE)
+    language = models.ForeignKey(Language, related_name='translated_texts', null=False, blank=False,
+                                 on_delete=models.CASCADE)
+
+
 class Settings(models.Model):
     blog_title = models.CharField('blog title', max_length=20, null=False)
-    blog_subtitle = models.CharField('blog subtitle', max_length=100, null=True)
-    blog_description = models.TextField('blog description', null=True)
+    blog_subtitle = models.ForeignKey(TranslatableTextgroup, related_name='+', on_delete=models.CASCADE, blank=True,
+                                      null=True)
+    blog_description = models.ForeignKey(TranslatableTextgroup, related_name='+', on_delete=models.CASCADE, blank=True,
+                                         null=True)
     comments_allowed = models.BooleanField('comments allowed', null=False)
     comments_manual_valuation = models.BooleanField(null=False)
+    imprint_text = models.ForeignKey(TranslatableTextgroup, related_name='+', on_delete=models.DO_NOTHING, null=True,
+                                     blank=True)
+    privacy_policy_text = models.ForeignKey(TranslatableTextgroup, related_name='+', on_delete=models.DO_NOTHING,
+                                            null=True, blank=True)
 
 
 class Category(models.Model):
@@ -55,15 +82,6 @@ def get_attachment_path(instance, filename):
 
 class Attachment(models.Model):
     file = models.FileField(upload_to=get_attachment_path)
-
-
-class Language(models.Model):
-    name = models.CharField(max_length=30, unique=True, blank=False)
-    name_short = models.CharField(max_length=10, unique=True, blank=False)
-    default_language = models.BooleanField(null=False)
-
-    def __str__(self):
-        return self.name
 
 
 class Entry(models.Model):

@@ -15,8 +15,8 @@ class CustomUser(AbstractUser):
     is_active = models.BooleanField(default=1, null=False)
     date_joined = models.DateTimeField(null=True, blank=True)
     profile_picture = models.FileField(upload_to=CustomUserManager.get_profile_picture_path, null=True, blank=True)
-    description = models.TextField(null=True, blank=True)
-    description_short = models.CharField(max_length=200, null=True, blank=True)
+    description = models.ForeignKey('webapp.TranslatableTextgroup', related_name='+', on_delete=models.CASCADE, blank=True, null=True)
+    description_short = models.ForeignKey('webapp.TranslatableTextgroup', related_name='+', on_delete=models.CASCADE, blank=True, null=True)
 
     USERNAME_FIELDS = ['email', 'username']
     REQUIRED_FIELDS = []
