@@ -98,3 +98,10 @@ def show_privacy_policy(request):
                         translatable_textgroup_id__exact=Settings.objects.get(id=1).privacy_policy_text.id,
                         language__name_short__exact=get_language_short_name(request))}
     return render(request, 'blank_page.html', context=page_context)
+
+
+def show_discover(request):
+    page_context = {
+        'general': get_default_context(request),
+    }
+    return render(request, 'discover.html', context=page_context)

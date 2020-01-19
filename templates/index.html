@@ -14,7 +14,7 @@
                 <h2 class="bold">Welcome to the {{ general.settings.blog_title }} blog!</h2>
                 <p class="bold">{{ general.blog_description.text | safe }}</p>
                 <div class="horizontal-divider-dotted col-8 offset-2"></div>
-                <h2 class="text-center bold">Latest posts</h2>
+                <h2 class="text-center bold post-preview-title">Latest posts</h2>
 
                 {% for latest_post in latest_posts %}
                     <a class="post-preview text-dark" href="{% url 'show_article' latest_post.entry_id %}">
@@ -57,10 +57,10 @@
                             <h2>Categories:</h2>
                         </div>
                         <div class="col-10 offset-1 col-lg-10 offset-lg-1 text-center">
-                            <ul class="list-group" style="background-color: #EFEFEF;">
+                            <ul class="list-group list-group-flush" style="background-color: #EFEFEF;">
                                 {% for category in general.categories %}
-                                    <li class="list-group-item d-flex justify-content-between align-items-center"
-                                        style="background-color: #fbefe0;">
+                                    <li class="list-group-item bold d-flex justify-content-between align-items-center"
+                                        style="background-color: #fbead6;">
                                         {{ category }}
                                         <span class="badge badge-dark badge-pill">{{ category.entries.all | length }}</span>
                                     </li>

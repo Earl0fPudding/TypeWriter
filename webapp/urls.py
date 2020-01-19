@@ -34,7 +34,8 @@ urlpatterns += i18n.i18n_patterns(
     path('comments/new', comment_controller.post_comment, name='post_comment'),
     path('comments/<int:id>', comment_controller.comment_delete, name='comment_delete'),
     path('imprint', home.show_imprint, name='show_imprint'),
-    path('privacy_policy', home.show_privacy_policy, name='show_privacy_policy')
+    path('privacy_policy', home.show_privacy_policy, name='show_privacy_policy'),
+    path('discover', home.show_discover, name='show_discover'),
 )
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
