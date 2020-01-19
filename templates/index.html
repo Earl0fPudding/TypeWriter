@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block head_data %}
+    <title>Home - TypeWriter</title>
+{% endblock %}
+
+{% block content %}
+    <main>
+        <div class="row">
+            <div class="col-lg-8 col-12">
+                <div class="col-10 offset-1 horizontal-divider top-line"></div>
+                <h2 class="bold">Welcome to the {{ general.settings.blog_title }} blog!</h2>
+                <p class="bold">{{ general.blog_description.text | safe }}</p>
+                <div class="horizontal-divider-dotted col-8 offset-2"></div>
+                <h2 class="text-center bold">Latest posts</h2>
+
+                {% for latest_post in latest_posts %}
+                    <a class="post-preview text-dark" href="{% url 'show_article' latest_post.entry_id %}">
+                        {% if latest_post.header_image %}
+                            <div class="row text-dark text-center text-md-left">
+                                <div class="col-md-4 col-8 offset-2 offset-md-0">
+                                    <img src="{{ latest_post.header_image.file.url }}" class="img-fluid">
+                                </div>
+                                <div class="col-md-8 col-12">
+                                    <h4 class="bold">{{ latest_post.title }}</h4>
+                                    <p><span
+                                            class="text-muted">by {{ latest_post.entry.author.first_name }} {{ latest_post.entry.author.last_name }} on {{ latest_post.creation_date.date }}<br></span>
+                                        {{ latest_post.summary }}</p>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="col-12">
+                                <h4 class="bold">{{ latest_post.title }}</h4>
+                                <p><span
+                                        class="text-muted">by {{ latest_post.entry.author.first_name }} {{ latest_post.entry.author.last_name }} on {{ latest_post.creation_date.date }}<br></span>
+                                    {{ latest_post.summary }}</p>
+                            </div>
+                        {% endif %}
+                        <div class="col-12 text-center">
+                            <a href="{% url 'show_article' latest_post.entry_id %}">
+                                <button type="button" class="btn-outline-dark btn read-more-button">Read
+                                    more
+                                </button>
+                            </a>
+                        </div>
+                    </a>
+                {% endfor %}
+
+            </div>
+            <aside class="col-lg-4 col-md-12">
+                <div class="categories-aside">
+                    <div class="row">
+                        <div class="col-10 offset-1 horizontal-divider top-line"></div>
+                        <div class="col-12 text-center">
+                            <h2>Categories:</h2>
+                        </div>
+                        <div class="col-10 offset-1 col-lg-10 offset-lg-1 text-center">
+                            <ul class="list-group" style="background-color: #EFEFEF;">
+                                {% for category in general.categories %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center"
+                                        style="background-color: #fbefe0;">
+                                        {{ category }}
+                                        <span class="badge badge-dark badge-pill">{{ category.entries.all | length }}</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+{% endblock %}
