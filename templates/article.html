@@ -14,13 +14,13 @@
             <div class="row">
                 <div class="col-lg-8 col-12">
                     <div class="col-10 offset-1 horizontal-divider top-line"></div>
-                    <h2 class="bold">{{ content.title }}</h2>
+                    <h2 class="bold article-title">{{ content.title }}</h2>
                     {% if content.header_image %}
-                        <div class="col-10 offset-1">
+                        <div class="col-10 offset-1 article-image">
                             <img src="{{ content.header_image.file.url }}" class="img-fluid">
                         </div>
                     {% endif %}
-                    <p class="bold col-12">{{ content.summary }}</p>
+                    <p class="bold col-12 article-summary">{{ content.summary }}</p>
                     <div class="horizontal-divider-dotted col-8 offset-2"></div>
                     <p class="text-center h6">written on {{ content.creation_date.date }}
                         at {{ content.creation_date.time }}<br>
@@ -45,7 +45,7 @@
                         {% endif %}
                     </p>
                     <div class="horizontal-divider-dotted col-8 offset-2 top-line"></div>
-                    <p class="col-12">{{ content.text | safe }}</p>
+                    {{ content.text | safe }}
 
 
                     {% if comments_allowed == 1 %}

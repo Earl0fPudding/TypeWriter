@@ -104,3 +104,11 @@ a > .read-more-button {
 .post-preview {
     padding-bottom: 200px;
 }
+
+.article-title {
+    margin-bottom: 20px;
+}
+
+.article-image{
+    margin-bottom: 20px;
+}
