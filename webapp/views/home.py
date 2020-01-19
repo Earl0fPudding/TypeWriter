@@ -84,6 +84,7 @@ def get_default_context(request):
 
 def show_imprint(request):
     page_context = {'general': get_default_context(request),
+                    'page_title': 'Imprint',
                     'text': TranslatedText.objects.get(
                         translatable_textgroup_id__exact=Settings.objects.get(id=1).imprint_text.id,
                         language__name_short__exact=get_language_short_name(request))}
@@ -92,6 +93,7 @@ def show_imprint(request):
 
 def show_privacy_policy(request):
     page_context = {'general': get_default_context(request),
+                    'page_title': 'Privacy Policy',
                     'text': TranslatedText.objects.get(
                         translatable_textgroup_id__exact=Settings.objects.get(id=1).privacy_policy_text.id,
                         language__name_short__exact=get_language_short_name(request))}
