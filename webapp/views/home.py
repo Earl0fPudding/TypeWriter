@@ -4,7 +4,7 @@ from django.views.decorators.http import require_http_methods
 import markdown
 from django.conf import settings
 
-from webapp.forms import CommentForm
+from webapp.forms import CommentForm, DiscoverForm, SearchForm
 from webapp.models import Entry, Content, Language, Category, Settings, Comment, TranslatedText
 
 
@@ -101,7 +101,21 @@ def show_privacy_policy(request):
 
 
 def show_discover(request):
+    contents = None
+    form = DiscoverForm(request.GET)
+    if form.is_valid():
+        if form.cleaned_data['answer_to']:
+            answer_to = form.cleaned_data['answer_to']
+    else:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            contents = Content.objects.filter(title__contains=form.cleaned_data['keywords'],
+                                              language__name_short__exact=get_language_short_name(request))
+
     page_context = {
         'general': get_default_context(request),
+        'current_language': Language.objects.get(name_short__exact=get_language_short_name(request)),
+        'results': contents,
+        'form':form
     }
     return render(request, 'discover.html', context=page_context)

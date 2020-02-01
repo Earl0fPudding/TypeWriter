@@ -11,8 +11,187 @@
         <div class="row">
             <div class="col-lg-8 col-12">
                 <div class="col-10 offset-1 horizontal-divider top-line"></div>
-                <h2 class="bold">Search and filter through the whole blog</h2>
+                <h2 class="bold">Discover this blog</h2>
+                <div class="row col-12">
+                    <form>
+                        <div class="form-group">
+                            <label for="search_string">Keywords</label>
+                            {% if form.cleaned_data.keywords %}
+                                <input type="text" class="form-control" id="search_string" name="keywords"
+                                       value="{{ form.cleaned_data.keywords }}">
+                            {% else %}
+                                <input type="text" class="form-control" id="search_string" name="keywords"
+                                       placeholder="Enter keywords">
+                            {% endif %}
+                        </div>
+                        <div class="row discover-item">
+                            <div class="col-md-4 col-12">Search for keywords in</div>
+                            <div class="col-md-8 col-12">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="ckb_title" name="title_or_both"
+                                           class="custom-control-input" value="title" checked>
+                                    <label class="custom-control-label" for="ckb_title">title only</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="ckb_text" name="title_or_both"
+                                           class="custom-control-input" value="both">
+                                    <label class="custom-control-label" for="ckb_text">title and text</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row discover-item">
+                            <div class="col-md-2 col-12">Languages:</div>
+                            <div class="col-md-10 col-12">
+                                {% for language in general.languages %}
+                                    <div class="custom-control custom-checkbox custom-control-inline">
+                                        {% if current_language.id == language.id %}
+                                            <input type="checkbox" id="ckb_language_{{ language.id }}" name="languages"
+                                                   class="custom-control-input" checked>
+                                        {% else %}
+                                            <input type="checkbox" id="ckb_language_{{ language.id }}" name="languages"
+                                                   class="custom-control-input">
+                                        {% endif %}
+                                        <label class="custom-control-label"
+                                               for="ckb_language_{{ language.id }}">{{ language }}</label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="row discover-item">
+                            <div class="col-md-2 col-12">Categories:</div>
+                            <div class="col-md-8 col-12" id="cat_toggle">
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="ckb_all_cat" name="all_cat"
+                                           class="custom-control-input" value="all" checked>
+                                    <label class="custom-control-label" for="ckb_all_cat">all</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="ckb_select_cat" name="all_cat"
+                                           class="custom-control-input" value="select">
+                                    <label class="custom-control-label" for="ckb_select_cat">select</label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-8 offset-md-2" id="category_select_list" style="display: none;">
+                                {% for category in general.categories %}
+                                    <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" id="ckb_category_{{ category.id }}" name="categories"
+                                               class="custom-control-input">
+                                        <label class="custom-control-label"
+                                               for="ckb_category_{{ category.id }}">{{ category }}</label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-12">Time frame:</div>
+                        </div>
+                        <div class="row discover-item">
+                            <div class="offset-md-2"></div>
+                            <div class="col-md-10 col-12 form-inline">
+                                <div class="col-md-3 col-12">Start date:</div>
+                                <div class="form-group col-4 col-md-2">
+                                    <label for="start_day_id">Day:</label>
+                                    <input type="number" name="start_day" class="form-control col-12" id="start_day_id"
+                                           max="31"
+                                           min="1" value="1">
+                                </div>
+                                <div class="form-group col-4 col-md-2">
+                                    <label for="start_mon_id">Month:</label>
+                                    <input type="number" name="start_month" class="form-control col-12"
+                                           id="start_mon_id" max="31"
+                                           min="1" value="1">
+                                </div>
+                                <div class="form-group col-5 col-md-3">
+                                    <label for="start_year_id">Year:</label>
+                                    <input type="number" name="start_year" class="form-control col-10"
+                                           id="start_year_id" max="3000"
+                                           min="2020" value="2020">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row discover-item">
+                            <div class="offset-md-2"></div>
+                            <div class="col-md-10 col-12 form-inline">
+                                <div class="col-md-3 col-12">End date:</div>
+                                <div class="form-group col-4 col-md-2">
+                                    <label for="end_day_id">Day:</label>
+                                    <input type="number" name="end_day" class="form-control col-12" id="end_day_id"
+                                           max="31"
+                                           min="1" value="{% now "d" %}">
+                                </div>
+                                <div class="form-group col-4 col-md-2">
+                                    <label for="end_mon_id">Month:</label>
+                                    <input type="number" name="end_month" class="form-control col-12" id="end_mon_id"
+                                           max="31"
+                                           min="1" value="{% now "m" %}">
+                                </div>
+                                <div class="form-group col-5 col-md-3">
+                                    <label for="end_year_id">Year:</label>
+                                    <input type="number" name="end_year" class="form-control col-10" id="end_year_id"
+                                           max="3000"
+                                           min="2020" value="{% now "Y" %}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12" style="text-align: center;">
+                                <button class="btn btn-outline-dark" type="submit"><strong>Search</strong></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-12">
+                    {% if results == None %}
+                        <p>No results found. Try to use different keywords or parameters.</p>
+                    {% endif %}
+                    {% for content in results %}
+                        <a class="post-preview text-dark" href="{% url 'show_article' content.entry_id %}">
+                            {% if content.header_image %}
+                                <div class="row text-dark text-center text-md-left">
+                                    <div class="col-md-4 col-8 offset-2 offset-md-0">
+                                        <img src="{{ content.header_image.file.url }}" class="img-fluid">
+                                    </div>
+                                    <div class="col-md-8 col-12">
+                                        <h4 class="bold">{{ content.title }}</h4>
+                                        <p><span
+                                                class="text-muted">by {{ content.entry.author.first_name }} {{ content.entry.author.last_name }} on {{ content.creation_date.date }}<br></span>
+                                            {{ content.summary }}</p>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="col-12">
+                                    <h4 class="bold">{{ content.title }}</h4>
+                                    <p><span
+                                            class="text-muted">by {{ content.entry.author.first_name }} {{ content.entry.author.last_name }} on {{ content.creation_date.date }}<br></span>
+                                        {{ content.summary }}</p>
+                                </div>
+                            {% endif %}
+                            <div class="col-12 text-center">
+                                <a href="{% url 'show_article' content.entry_id %}">
+                                    <button type="button" class="btn-outline-dark btn read-more-button">Read
+                                        more
+                                    </button>
+                                </a>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </main>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#cat_toggle").click(function () {
+                if ($('#ckb_select_cat').is(':checked')) {
+                    $('#category_select_list').show();
+                } else {
+                    $('#category_select_list').hide();
+                }
+            })
+        });
+    </script>
 {% endblock %}

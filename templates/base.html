@@ -40,8 +40,8 @@
                         </div>
                     </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <form class="form-inline my-2 my-lg-0" method="get" action="{% url 'show_discover' %}">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" name="keywords">
                     <button class="btn btn-outline-dark my-2 my-sm-0" type="submit"><strong>Search</strong></button>
                 </form>
             </div>
@@ -59,7 +59,7 @@
             <div class="row">
                 <div class="col-12 text-center">
                     <a class="text-dark bold underline-on-hover" href="{% url 'show_imprint' %}">Imprint</a> | <a class="text-dark bold underline-on-hover" href="{% url 'show_privacy_policy' %}">Privacy Policy</a><br>
-                    powered by TypeWriter <br>
+                    powered by TypeWriter<br>
                     (c) 2019 Weidenauer
                 </div>
             </div>
