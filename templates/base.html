@@ -24,7 +24,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="categoryDropdown">
                             {% for category in general.categories %}
-                                <a class="dropdown-item underline-on-hover" href="#">{{ category.name }}</a>
+                                <a class="dropdown-item underline-on-hover" href="{% url 'show_discover' %}?keywords=&title_or_text=title&languages=2&all_cat=select&start_day=1&start_month=1&start_year=2020&end_day={% now "d" %}&end_month={% now "m" %}&end_year={% now "Y" %}&categories={{ category.id }}">{{ category.name }}</a>
                             {% endfor %}
                         </div>
                     </li>
