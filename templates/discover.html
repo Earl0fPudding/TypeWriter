@@ -13,12 +13,12 @@
                 <div class="col-10 offset-1 horizontal-divider top-line"></div>
                 <h2 class="bold">Discover this blog</h2>
                 <div class="row col-12">
-                    <form>
+                    <form method="get" action="{% url 'show_discover' %}">
                         <div class="form-group">
                             <label for="search_string">Keywords</label>
-                            {% if form.cleaned_data.keywords %}
+                            {% if form.data.keywords %}
                                 <input type="text" class="form-control" id="search_string" name="keywords"
-                                       value="{{ form.cleaned_data.keywords }}">
+                                       value="{{ form.data.keywords }}">
                             {% else %}
                                 <input type="text" class="form-control" id="search_string" name="keywords"
                                        placeholder="Enter keywords">
@@ -28,13 +28,13 @@
                             <div class="col-md-4 col-12">Search for keywords in</div>
                             <div class="col-md-8 col-12">
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" id="ckb_title" name="title_or_both"
+                                    <input type="radio" id="ckb_title" name="title_or_text"
                                            class="custom-control-input" value="title" checked>
                                     <label class="custom-control-label" for="ckb_title">title only</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" id="ckb_text" name="title_or_both"
-                                           class="custom-control-input" value="both">
+                                    <input type="radio" id="ckb_text" name="title_or_text"
+                                           class="custom-control-input" value="text">
                                     <label class="custom-control-label" for="ckb_text">title and text</label>
                                 </div>
                             </div>
@@ -46,10 +46,10 @@
                                     <div class="custom-control custom-checkbox custom-control-inline">
                                         {% if current_language.id == language.id %}
                                             <input type="checkbox" id="ckb_language_{{ language.id }}" name="languages"
-                                                   class="custom-control-input" checked>
+                                                   class="custom-control-input" value="{{ language.id }}" checked>
                                         {% else %}
                                             <input type="checkbox" id="ckb_language_{{ language.id }}" name="languages"
-                                                   class="custom-control-input">
+                                                   class="custom-control-input" value="{{ language.id }}">
                                         {% endif %}
                                         <label class="custom-control-label"
                                                for="ckb_language_{{ language.id }}">{{ language }}</label>
@@ -75,7 +75,7 @@
                                 {% for category in general.categories %}
                                     <div class="custom-control custom-checkbox custom-control-inline">
                                         <input type="checkbox" id="ckb_category_{{ category.id }}" name="categories"
-                                               class="custom-control-input">
+                                               class="custom-control-input" value="{{ category.id }}">
                                         <label class="custom-control-label"
                                                for="ckb_category_{{ category.id }}">{{ category }}</label>
                                     </div>
@@ -167,13 +167,6 @@
                                         {{ content.summary }}</p>
                                 </div>
                             {% endif %}
-                            <div class="col-12 text-center">
-                                <a href="{% url 'show_article' content.entry_id %}">
-                                    <button type="button" class="btn-outline-dark btn read-more-button">Read
-                                        more
-                                    </button>
-                                </a>
-                            </div>
                         </a>
                     {% endfor %}
                 </div>

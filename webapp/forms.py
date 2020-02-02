@@ -11,7 +11,7 @@ class CommentForm(forms.Form):
 
 class DiscoverForm(forms.Form):
     keywords = forms.CharField(max_length=200, required=False),
-    title_or_both = forms.RadioSelect(choices={"title", "both"}),
+    title_or_text = forms.RadioSelect(choices={"title", "both"}),
     languages = forms.CheckboxSelectMultiple(),
     all_cat = forms.RadioSelect(choices={"all", "select"}),
     categories = forms.CheckboxSelectMultiple(),

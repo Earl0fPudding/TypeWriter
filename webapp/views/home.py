@@ -1,4 +1,5 @@
 from django.http import Http404, HttpResponseRedirect, HttpResponse
+import datetime
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
 import markdown
@@ -104,18 +105,48 @@ def show_discover(request):
     contents = None
     form = DiscoverForm(request.GET)
     if form.is_valid():
-        if form.cleaned_data['answer_to']:
-            answer_to = form.cleaned_data['answer_to']
+        if 'languages' in form.data:
+            selected_langs = Language.objects.filter(pk__in=form.data['languages'])
+        else:
+            selected_langs = []
+        if form.data['all_cat'] == 'all':
+            selected_cats = Category.objects.all()
+        elif 'categories' in form.data:
+            selected_cats = Category.objects.filter(pk__in=form.data['categories'])
+        else:
+            selected_cats = []
+        start_date = datetime.datetime(int(form.data['start_year']), int(form.data['start_month']),
+                                       int(form.data['start_day']), 0, 0,
+                                       0)
+        end_date = datetime.datetime(int(form.data['end_year']), int(form.data['end_month']), int(form.data['end_day']),
+                                     23, 59, 59)
+        contents = Content.objects.filter(language__in=selected_langs,
+                                          entry__categories__in=selected_cats,
+                                          creation_date__range=[start_date, end_date]).distinct()
+
+        if 'keywords' in form.data and form.data['keywords'] != '':
+            keyword_filtered_contents = []
+            for content in contents:
+                if form.data['title_or_text'] == 'title':
+                    if form.data['keywords'].lower() in content.title.lower():
+                        keyword_filtered_contents.append(content)
+                else:
+                    if form.data['keywords'].lower() in content.title.lower() \
+                            or form.data['keywords'] in content.summary.lower() \
+                            or form.data['keywords'] in content.text.lower():
+                        keyword_filtered_contents.append(content)
+            contents = keyword_filtered_contents
+
     else:
         form = SearchForm(request.GET)
         if form.is_valid():
-            contents = Content.objects.filter(title__contains=form.cleaned_data['keywords'],
+            contents = Content.objects.filter(title__icontains=form.data['keywords'],
                                               language__name_short__exact=get_language_short_name(request))
 
     page_context = {
         'general': get_default_context(request),
         'current_language': Language.objects.get(name_short__exact=get_language_short_name(request)),
         'results': contents,
-        'form':form
+        'form': form
     }
     return render(request, 'discover.html', context=page_context)
