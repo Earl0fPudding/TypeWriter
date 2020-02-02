@@ -12,9 +12,9 @@ class CommentForm(forms.Form):
 class DiscoverForm(forms.Form):
     keywords = forms.CharField(max_length=200, required=False),
     title_or_text = forms.RadioSelect(choices={"title", "both"}),
-    languages = forms.CheckboxSelectMultiple(),
+    languages = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple()),
     all_cat = forms.RadioSelect(choices={"all", "select"}),
-    categories = forms.CheckboxSelectMultiple(),
+    categories = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple()),,
     start_day = forms.IntegerField(required=True, min_value=1, max_value=31),
     start_month = forms.IntegerField(required=True, min_value=1, max_value=12),
     start_year = forms.IntegerField(required=True, min_value=2020, max_value=3000),

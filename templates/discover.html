@@ -28,13 +28,19 @@
                             <div class="col-md-4 col-12">Search for keywords in</div>
                             <div class="col-md-8 col-12">
                                 <div class="custom-control custom-radio">
+
                                     <input type="radio" id="ckb_title" name="title_or_text"
-                                           class="custom-control-input" value="title" checked>
+                                           class="custom-control-input" value="title"
+                                            {% if not form.data.title_or_text %}
+                                           checked {% elif form.data.title_or_text and form.data.title_or_text == 'title' %}
+                                           checked {% endif %}>
                                     <label class="custom-control-label" for="ckb_title">title only</label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="ckb_text" name="title_or_text"
-                                           class="custom-control-input" value="text">
+                                           class="custom-control-input" value="text"
+                                            {% if form.data.title_or_text and form.data.title_or_text == 'text' %}
+                                           checked {% endif %}>
                                     <label class="custom-control-label" for="ckb_text">title and text</label>
                                 </div>
                             </div>
@@ -44,13 +50,14 @@
                             <div class="col-md-10 col-12">
                                 {% for language in general.languages %}
                                     <div class="custom-control custom-checkbox custom-control-inline">
-                                        {% if current_language.id == language.id %}
-                                            <input type="checkbox" id="ckb_language_{{ language.id }}" name="languages"
-                                                   class="custom-control-input" value="{{ language.id }}" checked>
-                                        {% else %}
-                                            <input type="checkbox" id="ckb_language_{{ language.id }}" name="languages"
-                                                   class="custom-control-input" value="{{ language.id }}">
-                                        {% endif %}
+
+                                        <input type="checkbox" id="ckb_language_{{ language.id }}" name="languages"
+                                               class="custom-control-input" value="{{ language.id }}"
+                                                {% if not form.data.languages and current_language.id == language.id %}
+                                               checked
+                                                {% elif form.data.languages and language.id|stringformat:'d' in selected_langs %}
+                                               checked {% endif %}>
+
                                         <label class="custom-control-label"
                                                for="ckb_language_{{ language.id }}">{{ language }}</label>
                                     </div>
@@ -62,20 +69,29 @@
                             <div class="col-md-8 col-12" id="cat_toggle">
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="ckb_all_cat" name="all_cat"
-                                           class="custom-control-input" value="all" checked>
+                                           class="custom-control-input" value="all" {% if not form.data.all_cat %}
+                                           checked {% elif form.data.all_cat and form.data.all_cat == 'all' %}
+                                           checked {% endif %}>
                                     <label class="custom-control-label" for="ckb_all_cat">all</label>
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="ckb_select_cat" name="all_cat"
-                                           class="custom-control-input" value="select">
+                                           class="custom-control-input" value="select"
+                                            {% if form.data.all_cat and form.data.all_cat == 'select' %}
+                                           checked {% endif %}>
                                     <label class="custom-control-label" for="ckb_select_cat">select</label>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-8 offset-md-2" id="category_select_list" style="display: none;">
+                            <div class="col-12 col-md-8 offset-md-2" id="category_select_list"
+                                    {% if form.data.all_cat and form.data.all_cat == 'all' %}
+                                 style="display: none;" {% elif not form.data.all_cat %}
+                                 style="display: none;" {% endif %}>
                                 {% for category in general.categories %}
                                     <div class="custom-control custom-checkbox custom-control-inline">
                                         <input type="checkbox" id="ckb_category_{{ category.id }}" name="categories"
-                                               class="custom-control-input" value="{{ category.id }}">
+                                               class="custom-control-input" value="{{ category.id }}"
+                                                {% if form.data.categories and category.id|stringformat:'d' in selected_cats %}
+                                               checked {% endif %}>
                                         <label class="custom-control-label"
                                                for="ckb_category_{{ category.id }}">{{ category }}</label>
                                     </div>
@@ -93,19 +109,22 @@
                                     <label for="start_day_id">Day:</label>
                                     <input type="number" name="start_day" class="form-control col-12" id="start_day_id"
                                            max="31"
-                                           min="1" value="1">
+                                           min="1" {% if form.data.start_day %}
+                                           value="{{ form.data.start_day }}" {% else %} value="1" {% endif %}>
                                 </div>
                                 <div class="form-group col-4 col-md-2">
                                     <label for="start_mon_id">Month:</label>
                                     <input type="number" name="start_month" class="form-control col-12"
-                                           id="start_mon_id" max="31"
-                                           min="1" value="1">
+                                           id="start_mon_id" max="12"
+                                           min="1"  {% if form.data.start_month %}
+                                           value="{{ form.data.start_month }}" {% else %} value="1" {% endif %}>
                                 </div>
                                 <div class="form-group col-5 col-md-3">
                                     <label for="start_year_id">Year:</label>
                                     <input type="number" name="start_year" class="form-control col-10"
                                            id="start_year_id" max="3000"
-                                           min="2020" value="2020">
+                                           min="2020"  {% if form.data.start_year %}
+                                           value="{{ form.data.start_year }}" {% else %} value="2020" {% endif %}>
                                 </div>
                             </div>
                         </div>
@@ -118,19 +137,24 @@
                                     <label for="end_day_id">Day:</label>
                                     <input type="number" name="end_day" class="form-control col-12" id="end_day_id"
                                            max="31"
-                                           min="1" value="{% now "d" %}">
+                                           min="1"  {% if form.data.end_day %}
+                                           value="{{ form.data.end_day }}" {% else %} value="{% now "d" %}" {% endif %}>
                                 </div>
                                 <div class="form-group col-4 col-md-2">
                                     <label for="end_mon_id">Month:</label>
                                     <input type="number" name="end_month" class="form-control col-12" id="end_mon_id"
-                                           max="31"
-                                           min="1" value="{% now "m" %}">
+                                           max="12"
+                                           min="1" {% if form.data.end_month %}
+                                           value="{{ form.data.end_month }}" {% else %}
+                                           value="{% now "m" %}" {% endif %}>
                                 </div>
                                 <div class="form-group col-5 col-md-3">
                                     <label for="end_year_id">Year:</label>
                                     <input type="number" name="end_year" class="form-control col-10" id="end_year_id"
                                            max="3000"
-                                           min="2020" value="{% now "Y" %}">
+                                           min="2020" {% if form.data.end_year %}
+                                           value="{{ form.data.end_year }}" {% else %}
+                                           value="{% now "Y" %}" {% endif %}>
                                 </div>
                             </div>
                         </div>

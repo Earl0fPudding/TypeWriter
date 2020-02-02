@@ -106,13 +106,13 @@ def show_discover(request):
     form = DiscoverForm(request.GET)
     if form.is_valid():
         if 'languages' in form.data:
-            selected_langs = Language.objects.filter(pk__in=form.data['languages'])
+            selected_langs = Language.objects.filter(pk__in=request.GET.getlist('languages'))
         else:
             selected_langs = []
         if form.data['all_cat'] == 'all':
             selected_cats = Category.objects.all()
         elif 'categories' in form.data:
-            selected_cats = Category.objects.filter(pk__in=form.data['categories'])
+            selected_cats = Category.objects.filter(pk__in=request.GET.getlist('categories'))
         else:
             selected_cats = []
         start_date = datetime.datetime(int(form.data['start_year']), int(form.data['start_month']),
@@ -142,11 +142,12 @@ def show_discover(request):
         if form.is_valid():
             contents = Content.objects.filter(title__icontains=form.data['keywords'],
                                               language__name_short__exact=get_language_short_name(request))
-
     page_context = {
         'general': get_default_context(request),
         'current_language': Language.objects.get(name_short__exact=get_language_short_name(request)),
         'results': contents,
-        'form': form
+        'form': form,
+        'selected_langs': request.GET.getlist('languages'),
+        'selected_cats': request.GET.getlist('categories')
     }
     return render(request, 'discover.html', context=page_context)
