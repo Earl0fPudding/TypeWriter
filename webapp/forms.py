@@ -14,7 +14,7 @@ class DiscoverForm(forms.Form):
     title_or_text = forms.RadioSelect(choices={"title", "both"}),
     languages = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple()),
     all_cat = forms.RadioSelect(choices={"all", "select"}),
-    categories = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple()),,
+    categories = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple()),
     start_day = forms.IntegerField(required=True, min_value=1, max_value=31),
     start_month = forms.IntegerField(required=True, min_value=1, max_value=12),
     start_year = forms.IntegerField(required=True, min_value=2020, max_value=3000),
