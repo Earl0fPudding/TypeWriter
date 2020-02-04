@@ -79,7 +79,8 @@
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" required class=" custom-control-input"
                                                id="new_comment_ckb_id">
-                                        <label class="custom-control-label" for="new_comment_ckb_id">I agree that <u>only my
+                                        <label class="custom-control-label" for="new_comment_ckb_id">I agree that <u>only
+                                            my
                                             name and comment text</u> will be saved on this server and can be made
                                             publicly
                                             available for everyone to read.</label>
@@ -110,6 +111,12 @@
                                             {% if comment.author_user.profile_picture %}
                                                 <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
                                                     <img src="{{ comment.author_user.profile_picture.url }}"
+                                                         class="profile-picture mx-auto"
+                                                         height="40">
+                                                </div>
+                                            {% else %}
+                                                <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
+                                                    <img src="{% static 'img/default_profile_pic.svg' %}"
                                                          class="profile-picture mx-auto"
                                                          height="40">
                                                 </div>
@@ -255,6 +262,12 @@
                                                                  class="profile-picture mx-auto"
                                                                  height="40">
                                                         </div>
+                                                    {% else %}
+                                                         <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
+                                                            <img src="{% static 'img/default_profile_pic.svg' %}"
+                                                                 class="profile-picture mx-auto"
+                                                                 height="40">
+                                                        </div>
                                                     {% endif %}
                                                     <div class="row col-sm-9 col-md-10 col-lg-10 col-10 comment-name-at-profile-picture">
                                                         <div class="col-12 text-left bold">
@@ -311,6 +324,11 @@
                             {% if author.profile_picture %}
                                 <div class="col-12 text-center" style="margin-bottom: 10px;">
                                     <img src="{{ author.profile_picture.url }}" class="profile-picture mx-auto"
+                                         height="100">
+                                </div>
+                            {% else %}
+                                <div class="col-12 text-center" style="margin-bottom: 10px;">
+                                    <img src="{% static 'img/default_profile_pic.svg' %}" class="profile-picture mx-auto"
                                          height="100">
                                 </div>
                             {% endif %}
