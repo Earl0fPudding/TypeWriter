@@ -2,7 +2,6 @@ from django.http import Http404, HttpResponseRedirect, HttpResponse
 import datetime
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
-import markdown
 from django.conf import settings
 
 from webapp.forms import CommentForm, DiscoverForm, SearchForm

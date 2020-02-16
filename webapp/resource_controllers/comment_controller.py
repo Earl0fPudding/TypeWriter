@@ -3,7 +3,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.core import serializers
-import markdown
 
 from webapp.forms import CommentForm
 from webapp.models import Entry, Content, Language, Category, Settings, Comment
@@ -22,11 +21,11 @@ def post_comment(request):
             content_id = form.cleaned_data['content_id']
 
         if request.user.is_authenticated:
-            new_comment = Comment(author_user=request.user, text=form.cleaned_data['text'], answer_to=answer_to,
+            new_comment = Comment(author_user=request.user, text=form.cleaned_data['text'], answer_to_id=answer_to,
                                   content_id=content_id)
         else:
             new_comment = Comment(author_name=form.cleaned_data['author_name'], text=form.cleaned_data['text'],
-                                  answer_to=answer_to,
+                                  answer_to_id=answer_to,
                                   content_id=content_id)
         if Settings.objects.get(id=1).comments_manual_valuation == 0:
             new_comment.passed = 1
@@ -35,6 +34,8 @@ def post_comment(request):
         return HttpResponse(content=serializers.serialize('json', [Comment.objects.get(id=new_comment.id)],
                                                           use_natural_foreign_keys=True, use_natural_primary_keys=True),
                             status=201, content_type='application/json')
+    else:
+        return HttpResponse(status=400)
 
 
 @csrf_exempt

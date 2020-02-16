@@ -86,7 +86,8 @@
                                             available for everyone to read.</label>
                                     </div>
                                     <div class="col-12 text-center">
-                                        <button type="button" class="submit btn btn-outline-dark bold">Submit</button>
+                                        <button type="button" class="comment-submit btn btn-outline-dark bold">Submit
+                                        </button>
                                     </div>
                                 </form>
                             </div>
@@ -147,49 +148,108 @@
                                             </button>
                                         </a>
                                     </div>
-                                    {% for comment_answer1 in comment.answers.all %}
-                                        {% if forloop.counter0 != 0 %}
-                                            <div class="col-8 offset-2 horizontal-divider-dotted spacing-line"></div>
-
-                                        {% endif %}
-                                        <div class="comment offset-1">
-                                            {% if comment_answer1.author_user_id %}
-                                                <div class="row">
-                                                    <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
-                                                        <img src="{{ comment_answer1.author_user.profile_picture.url }}"
-                                                             class="profile-picture mx-auto"
-                                                             height="40">
-                                                    </div>
-                                                    <div class="row col-sm-9 col-md-10 col-lg-10 col-10 comment-name-at-profile-picture">
-                                                        <div class="col-12 text-left bold">
-                                                            {{ comment_answer1.author_user.first_name }} {{ comment_answer1.author_user.last_name }}
-                                                        </div>
-                                                        <div class="col-12 text-left text-secondary h6">
-                                                            {{ comment_answer1.publish_date }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            {% else %}
-                                                <div class="col-lg-6 col-md-12 text-left bold">
-                                                    {{ comment_answer1.author_name }}
-                                                </div>
-                                                <div class="col-lg-6 col-md-12 text-left text-secondary h6">
-                                                    {{ comment_answer1.publish_date }}
+                                    <div class="offset-1">
+                                        <form class="col-12" id="answer-comment-form-{{ comment.id }}">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="answer_to" class="hidden-answer-id"
+                                                   value="{{ comment.id }}">
+                                            <input type="hidden" name="content_id" value="{{ content.id }}">
+                                            {% if user.is_authenticated == 0 %}
+                                                <div class="form-group">
+                                                    <label for="answer_authorname_id_{{ comment.id }}">Your
+                                                        name:</label>
+                                                    <input type="text" name="author_name" maxlength="80"
+                                                           class="form-control"
+                                                           id="answer_authorname_id_{{ comment.id }}"
+                                                           placeholder="May I ask, what is your name?" required>
+                                                    <small id="new_authorname_help" class="form-text text-muted">This
+                                                        name will
+                                                        be
+                                                        displayed
+                                                        publicly</small>
                                                 </div>
                                             {% endif %}
-                                            <div class="col-12">
-                                                {{ comment_answer1.text }}
+                                            <div class="form-group">
+                                                <label for="answer_comment_text_id_{{ comment.id }}">Your
+                                                    answer:</label>
+                                                <textarea name="text" id="answer_comment_text_id_{{ comment.id }}"
+                                                          class="form-control"
+                                                          rows="5"
+                                                          placeholder="May I ask for your opinion?" required></textarea>
                                             </div>
-                                            <div class="col-2 offset-7 col-md-2 offset-md-9">
-                                                <a href="#">
-                                                    <button type="button" class="btn-outline-dark btn read-more-button">
-                                                        Reply
-                                                    </button>
-                                                </a>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" required class=" custom-control-input"
+                                                       id="answer_comment_ckb_id_{{ comment.id }}">
+                                                <label class="custom-control-label"
+                                                       for="answer_comment_ckb_id_{{ comment.id }}">I agree
+                                                    that <u>only
+                                                        my
+                                                        name and comment text</u> will be saved on this server and can
+                                                    be made
+                                                    publicly
+                                                    available for everyone to read.</label>
                                             </div>
-                                        </div>
+                                            <div class="col-12 text-center">
+                                                <button type="button" class="comment-submit btn btn-outline-dark bold">
+                                                    Answer
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="offset-1" id="comment-answer-list-id-{{ comment.id }}">
+                                        {% for comment_answer1 in comment.answers.all %}
+                                            {% if forloop.counter0 != 0 %}
+                                                <div class="col-8 offset-2 horizontal-divider-dotted spacing-line"></div>
 
-                                    {% endfor %}
+                                            {% endif %}
+                                            <div class="comment">
+                                                {% if comment_answer1.author_user_id %}
+                                                    <div class="row">
+                                                        {% if comment_answer1.author_user.profile_picture %}
+                                                            <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
+                                                                <img src="{{ comment_answer1.author_user.profile_picture.url }}"
+                                                                     class="profile-picture mx-auto"
+                                                                     height="40">
+                                                            </div>
+                                                        {% else %}
+                                                            <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
+                                                                <img src="{% static 'img/default_profile_pic.svg' %}"
+                                                                     class="profile-picture mx-auto"
+                                                                     height="40">
+                                                            </div>
+                                                        {% endif %}
+                                                        <div class="row col-sm-9 col-md-10 col-lg-10 col-10 comment-name-at-profile-picture">
+                                                            <div class="col-12 text-left bold">
+                                                                {{ comment_answer1.author_user.first_name }} {{ comment_answer1.author_user.last_name }}
+                                                            </div>
+                                                            <div class="col-12 text-left text-secondary h6">
+                                                                {{ comment_answer1.publish_date }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="col-lg-6 col-md-12 text-left bold">
+                                                        {{ comment_answer1.author_name }}
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-12 text-left text-secondary h6">
+                                                        {{ comment_answer1.publish_date }}
+                                                    </div>
+                                                {% endif %}
+                                                <div class="col-12">
+                                                    {{ comment_answer1.text }}
+                                                </div>
+                                                <!--<div class="col-2 offset-7 col-md-2 offset-md-9">
+                                                    <a href="#">
+                                                        <button type="button"
+                                                                class="btn-outline-dark btn read-more-button">
+                                                            Reply
+                                                        </button>
+                                                    </a>
+                                                </div> -->
+                                            </div>
+
+                                        {% endfor %}
+                                    </div>
 
                                 </div>
 
@@ -216,11 +276,19 @@
                                     {% if comment.author_user_id %}
                                         <div class="row">
                                             {% if comment.author_user_id %}
-                                                <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
-                                                    <img src="{{ comment.author_user.profile_picture.url }}"
-                                                         class="profile-picture mx-auto"
-                                                         height="40">
-                                                </div>
+                                                {% if comment.author_user.profile_picture %}
+                                                    <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
+                                                        <img src="{{ comment.author_user.profile_picture.url }}"
+                                                             class="profile-picture mx-auto"
+                                                             height="40">
+                                                    </div>
+                                                {% else %}
+                                                    <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
+                                                        <img src="{% static 'img/default_profile_pic.svg' %}"
+                                                             class="profile-picture mx-auto"
+                                                             height="40">
+                                                    </div>
+                                                {% endif %}
                                             {% endif %}
                                             <div class="row col-sm-9 col-md-10 col-lg-10 col-10 comment-name-at-profile-picture">
                                                 <div class="col-12 text-left bold">
@@ -248,65 +316,62 @@
                                             </button>
                                         </a>
                                     </div>
-                                    {% for comment_answer1 in comment.answers.all %}
-                                        {% if forloop.counter0 != 0 %}
-                                            <div class="col-8 offset-2 horizontal-divider-dotted spacing-line"></div>
+                                    <div class="offset-1" id="comment-answer-list-id-{{ comment.id }}">
+                                        {% for comment_answer1 in comment.answers.all %}
+                                            {% if forloop.counter0 != 0 %}
+                                                <div class="col-8 offset-2 horizontal-divider-dotted spacing-line"></div>
 
-                                        {% endif %}
-                                        <div class="comment offset-1">
-                                            {% if comment_answer1.author_user_id %}
-                                                <div class="row">
-                                                    {% if comment_answer1.author_user.profile_picture %}
-                                                        <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
-                                                            <img src="{{ comment_answer1.author_user.profile_picture.url }}"
-                                                                 class="profile-picture mx-auto"
-                                                                 height="40">
-                                                        </div>
-                                                    {% else %}
-                                                         <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
-                                                            <img src="{% static 'img/default_profile_pic.svg' %}"
-                                                                 class="profile-picture mx-auto"
-                                                                 height="40">
-                                                        </div>
-                                                    {% endif %}
-                                                    <div class="row col-sm-9 col-md-10 col-lg-10 col-10 comment-name-at-profile-picture">
-                                                        <div class="col-12 text-left bold">
-                                                            {{ comment_answer1.author_user.first_name }} {{ comment_answer1.author_user.last_name }}
-                                                        </div>
-                                                        <div class="col-12 text-left text-secondary h6">
-                                                            {{ comment_answer1.publish_date }}
+                                            {% endif %}
+                                            <div class="comment">
+                                                {% if comment_answer1.author_user_id %}
+                                                    <div class="row">
+                                                        {% if comment_answer1.author_user.profile_picture %}
+                                                            <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
+                                                                <img src="{{ comment_answer1.author_user.profile_picture.url }}"
+                                                                     class="profile-picture mx-auto"
+                                                                     height="40">
+                                                            </div>
+                                                        {% else %}
+                                                            <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
+                                                                <img src="{% static 'img/default_profile_pic.svg' %}"
+                                                                     class="profile-picture mx-auto"
+                                                                     height="40">
+                                                            </div>
+                                                        {% endif %}
+                                                        <div class="row col-sm-9 col-md-10 col-lg-10 col-10 comment-name-at-profile-picture">
+                                                            <div class="col-12 text-left bold">
+                                                                {{ comment_answer1.author_user.first_name }} {{ comment_answer1.author_user.last_name }}
+                                                            </div>
+                                                            <div class="col-12 text-left text-secondary h6">
+                                                                {{ comment_answer1.publish_date }}
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                {% else %}
+                                                    <div class="col-lg-6 col-md-12 text-left bold">
+                                                        {{ comment_answer1.author_name }}
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-12 text-left text-secondary h6">
+                                                        {{ comment_answer1.publish_date }}
+                                                    </div>
+                                                {% endif %}
+                                                <div class="col-12">
+                                                    {{ comment_answer1.text }}
                                                 </div>
-                                            {% else %}
-                                                <div class="col-lg-6 col-md-12 text-left bold">
-                                                    {{ comment_answer1.author_name }}
-                                                </div>
-                                                <div class="col-lg-6 col-md-12 text-left text-secondary h6">
-                                                    {{ comment_answer1.publish_date }}
-                                                </div>
-                                            {% endif %}
-                                            <div class="col-12">
-                                                {{ comment_answer1.text }}
+                                                <!--<div class="col-2 offset-7 col-md-2 offset-md-9">
+                                                    <a href="#">
+                                                        <button type="button"
+                                                                class="btn-outline-dark btn read-more-button">
+                                                            Reply
+                                                        </button>
+                                                    </a>
+                                                </div> -->
                                             </div>
-                                            <div class="col-2 offset-7 col-md-2 offset-md-9">
-                                                <a href="#">
-                                                    <button type="button" class="btn-outline-dark btn read-more-button">
-                                                        Reply
-                                                    </button>
-                                                </a>
-                                            </div>
-                                        </div>
 
-                                    {% endfor %}
-
+                                        {% endfor %}
+                                    </div>
                                 </div>
-
                             {% endfor %}
-
-
-
-
                             {% if comments_different_lang or comments_same_lang %}
                                 <div class="col-8 offset-2 horizontal-divider-dotted spacing-line"></div>
                             {% endif %}
@@ -328,7 +393,8 @@
                                 </div>
                             {% else %}
                                 <div class="col-12 text-center" style="margin-bottom: 10px;">
-                                    <img src="{% static 'img/default_profile_pic.svg' %}" class="profile-picture mx-auto"
+                                    <img src="{% static 'img/default_profile_pic.svg' %}"
+                                         class="profile-picture mx-auto"
                                          height="100">
                                 </div>
                             {% endif %}
@@ -402,12 +468,21 @@
                 });
             });
 
-            $("#new-comment-form .submit").click(function () {
-                if ($('#new_comment_ckb_id').is(':checked')) {
+            $(".comment-submit").click(function () {
+                let data, isAnswer, id;
+                if ($(this).parent().parent().find("input").hasClass("hidden-answer-id")) {
+                    id = $(this).parent().parent().find("input")[1].value; // [0] -> csrf_token; [1] -> id
+                    data = $('#answer-comment-form-' + id).serialize();
+                    isAnswer = true;
+                } else {
+                    data = $("#new-comment-form").serialize();
+                    isAnswer = false;
+                }
+                if ((!isAnswer && $('#new_comment_ckb_id').is(':checked')) || (isAnswer && $('#answer_comment_ckb_id_' + id).is(':checked'))) {
                     $.ajax({
                         type: "POST",
                         url: "{% url 'post_comment' %}",
-                        data: $("#new-comment-form").serialize(),
+                        data: data,
                         success: function (data) {
                             let new_comment = data[0];
 
@@ -437,24 +512,28 @@
                             }
                             appendString += '<div class="col-12">\n' +
                                 new_comment.fields.text +
-                                '                                    </div>\n' +
-                                '                                    <div class="col-2 offset-7 col-md-2 offset-md-9">\n' +
-                                '                                        <a href="#">\n' +
-                                '                                            <button type="button" class="btn-outline-dark btn read-more-button">Reply\n' +
-                                '                                            </button>\n' +
-                                '                                        </a>\n' +
-                                '                                    </div>';
+                                '                                    </div>\n';
 
 
                             let append_item = $(appendString).hide();
-                            $("#comment-section").prepend(append_item);
+                            if (isAnswer) {
+                                $('#answer-comment-form-' + id).trigger("reset");
+                                $('#answer-comment-form-' + id).slideToggle(1000);
+                                $('#comment-answer-list-id-' + id).prepend(append_item);
+                            } else {
+                                $('#new-comment-form').trigger("reset");
+                                $("#comment-section").prepend(append_item);
+                            }
                             append_item.show('slow');
 
-                            $('#new-comment-form').trigger("reset");
                         }
                     });
                 }
             });
         });
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
     </script>
 {% endblock %}
