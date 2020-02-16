@@ -43,7 +43,9 @@ def comment_delete(request, id):
     if request.method == 'DELETE':
         if request.user.is_authenticated:
             comment = get_object_or_404(Comment, pk=id)
-            if comment.content.entry.author == request.user:
+            if request.user.is_superuser or (
+                    comment.content is not None and comment.content.entry.author == request.user) or (
+                    comment.author_user_id is not None and comment.author_user_id == request.user.id):
                 comment.delete()
                 return HttpResponse(status=204)
         else:

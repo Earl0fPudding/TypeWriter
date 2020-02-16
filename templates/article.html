@@ -207,9 +207,17 @@
                                         {% for comment_answer1 in comment.answers.all %}
                                             {% if forloop.counter0 != 0 %}
                                                 <div class="col-8 offset-2 horizontal-divider-dotted spacing-line"></div>
-
                                             {% endif %}
-                                            <div class="comment">
+                                            <div class="comment" id="comment-id-{{ comment_answer1.id }}">
+                                                {% if user == content.entry.author %}
+                                                    <a href="#!">
+                                                        <button type="button"
+                                                                class="comment-delete-btn btn-outline-danger btn read-more-button"
+                                                                value="{{ comment_answer1.id }}">
+                                                            Delete
+                                                        </button>
+                                                    </a>
+                                                {% endif %}
                                                 {% if comment_answer1.author_user_id %}
                                                     <div class="row">
                                                         {% if comment_answer1.author_user.profile_picture %}
@@ -335,7 +343,16 @@
                                                 <div class="col-8 offset-2 horizontal-divider-dotted spacing-line"></div>
 
                                             {% endif %}
-                                            <div class="comment">
+                                            <div class="comment" id="comment-id-{{ comment_answer1.id }}">
+                                                {% if user == content.entry.author %}
+                                                    <a href="#!">
+                                                        <button type="button"
+                                                                class="comment-delete-btn btn-outline-danger btn read-more-button"
+                                                                value="{{ comment_answer1.id }}">
+                                                            Delete
+                                                        </button>
+                                                    </a>
+                                                {% endif %}
                                                 {% if comment_answer1.author_user_id %}
                                                     <div class="row">
                                                         {% if comment_answer1.author_user.profile_picture %}
@@ -471,6 +488,7 @@
         $(document).ready(function () {
             let uploads_path = "{{ general.uploads_path }}";
             let static_path = "{{ general.static_path }}";
+
             $(".comment-delete-btn").click(function () {
                 let comment_id = this.value;
                 $.ajax({
@@ -512,10 +530,10 @@
                             if (new_comment.fields.author_user != null) {
                                 let author = JSON.parse(new_comment.fields.author_user)[0];
                                 let profile_pic_path;
-                                if(author.fields.profile_picture!=''){
-                                    profile_pic_path=uploads_path + author.fields.profile_picture;
-                                }else{
-                                    profile_pic_path=static_path+'img/default_profile_pic.svg';
+                                if (author.fields.profile_picture != '') {
+                                    profile_pic_path = uploads_path + author.fields.profile_picture;
+                                } else {
+                                    profile_pic_path = static_path + 'img/default_profile_pic.svg';
                                 }
                                 appendString += '<div class="row"><div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture"><img src="' + profile_pic_path + '" class="profile-picture mx-auto" height="40"></div><div class="row col-sm-9 col-md-10 col-lg-10 col-10 comment-name-at-profile-picture">\n'
                                     +
