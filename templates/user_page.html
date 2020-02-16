@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block head_data %}
+    <title>{{ user.username }} - TypeWriter</title>
+{% endblock %}
+
+{% block content %}
+    <main>
+        <div class="row">
+            <div class="col-lg-8 col-12">
+                <div class="col-10 offset-1 horizontal-divider top-line"></div>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        {% if user.profile_picture %}
+                            <img src="{{ user.profile_picture.url }}" class="profile-picture mx-auto" height="150">
+                        {% else %}
+                            <img src="{% static 'img/default_profile_pic.svg' %}" class="mx-auto" height="150">
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center font-weight-bold">
+                        {{ user.first_name }} {{ user.last_name }}<br>
+                        @{{ user.username }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        {{ desc.text | safe }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                    <div class="horizontal-divider-dotted col-8 offset-2"></div>
+                <h2 class="text-center bold post-preview-title">Latest posts of {{ user.first_name }}:</h2>
+                        {% for content in author_content %}
+                            <a class="post-preview text-dark" href="{% url 'show_article' content.entry_id %}">
+                                {% if content.header_image %}
+                                    <div class="row text-dark text-center text-md-left">
+                                        <div class="col-md-4 col-8 offset-2 offset-md-0">
+                                            <img src="{{ content.header_image.file.url }}" class="img-fluid">
+                                        </div>
+                                        <div class="col-md-8 col-12">
+                                            <h4 class="bold">{{ content.title }}</h4>
+                                            <p><span
+                                                    class="text-muted">by {{ content.entry.author.first_name }} {{ content.entry.author.last_name }} on {{ content.creation_date.date }}<br></span>
+                                                {{ content.summary }}</p>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="col-12">
+                                        <h4 class="bold">{{ content.title }}</h4>
+                                        <p><span
+                                                class="text-muted">by {{ content.entry.author.first_name }} {{ content.entry.author.last_name }} on {{ content.creation_date.date }}<br></span>
+                                            {{ content.summary }}</p>
+                                    </div>
+                                {% endif %}
+                                <div class="col-12 text-center">
+                                    <a href="{% url 'show_article' content.entry_id %}">
+                                        <button type="button" class="btn-outline-dark btn read-more-button">Read
+                                            more
+                                        </button>
+                                    </a>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

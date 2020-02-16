@@ -6,6 +6,7 @@ from django.conf import settings
 
 from webapp.forms import CommentForm, DiscoverForm, SearchForm
 from webapp.models import Entry, Content, Language, Category, Settings, Comment, TranslatedText
+from users.models import CustomUser
 
 
 # Create your views here.
@@ -81,6 +82,20 @@ def get_default_context(request):
                'uploads_path': settings.MEDIA_URL,
                'static_path': settings.STATIC_URL}
     return context
+
+
+def show_user_page(request, username):
+    user = CustomUser.objects.get(username__exact=username)
+    page_context = {'general': get_default_context(request),
+                    'user': user,
+                    'desc': TranslatedText.objects.get(
+                        translatable_textgroup_id__exact=user.description.id,
+                        language__name_short__exact=get_language_short_name(request)),
+                    'author_content': Content.objects.filter(entry__author=user,
+                                                             language__name_short__exact=get_language_short_name(
+                                                                 request))
+                    }
+    return render(request, 'user_page.html', context=page_context)
 
 
 def show_imprint(request):

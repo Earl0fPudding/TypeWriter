@@ -36,6 +36,7 @@ urlpatterns += i18n.i18n_patterns(
     path('imprint', home.show_imprint, name='show_imprint'),
     path('privacy_policy', home.show_privacy_policy, name='show_privacy_policy'),
     path('discover', home.show_discover, name='show_discover'),
+    path('@<slug:username>', home.show_user_page, name='show_user_page')
 )
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
