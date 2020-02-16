@@ -143,13 +143,20 @@
                                         {{ comment.text }}
                                     </div>
                                     <div class="col-2 offset-7 col-md-2 offset-md-9">
-                                        <a href="#">
-                                            <button type="button" class="btn-outline-dark btn read-more-button">Reply
+                                        <a href="#!" class="comment-reply-button">
+                                            <button type="button" id="comment-reply-button-{{ comment.id }}"
+                                                    class="btn-outline-dark btn read-more-button"
+                                                    style="display: block;">
+                                                Reply
                                             </button>
+                                            <img src="{% static 'img/close_icon.svg' %}"
+                                                 id="comment-reply-close-{{ comment.id }}" height="35"
+                                                 style="display: none;">
                                         </a>
                                     </div>
                                     <div class="offset-1">
-                                        <form class="col-12" id="answer-comment-form-{{ comment.id }}">
+                                        <form class="col-12" id="answer-comment-form-{{ comment.id }}"
+                                              style="display: none;">
                                             {% csrf_token %}
                                             <input type="hidden" name="answer_to" class="hidden-answer-id"
                                                    value="{{ comment.id }}">
@@ -311,9 +318,15 @@
                                         {{ comment.text }}
                                     </div>
                                     <div class="col-2 offset-7 col-md-2 offset-md-9">
-                                        <a href="#">
-                                            <button type="button" class="btn-outline-dark btn read-more-button">Reply
+                                        <a href="#!" class="comment-reply-button">
+                                            <button type="button" id="comment-reply-button-{{ comment.id }}"
+                                                    class="btn-outline-dark btn read-more-button"
+                                                    style="display: block;">
+                                                Reply
                                             </button>
+                                            <img src="{% static 'img/close_icon.svg' %}"
+                                                 id="comment-reply-close-{{ comment.id }}" height="35"
+                                                 style="display: none;">
                                         </a>
                                     </div>
                                     <div class="offset-1" id="comment-answer-list-id-{{ comment.id }}">
@@ -457,6 +470,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             let uploads_path = "{{ general.uploads_path }}";
+            let static_path = "{{ general.static_path }}";
             $(".comment-delete-btn").click(function () {
                 let comment_id = this.value;
                 $.ajax({
@@ -467,6 +481,14 @@
                     }
                 });
             });
+
+            $(".comment-reply-button").click(function () {
+                    let id = $(this).parent().parent().attr('id').replace('comment-id-', '');
+                    $('#answer-comment-form-' + id).slideToggle(1000);
+                    $("#comment-reply-button-" + id).slideToggle(1000);
+                    $("#comment-reply-close-" + id).slideToggle(1000);
+                }
+            );
 
             $(".comment-submit").click(function () {
                 let data, isAnswer, id;
@@ -519,6 +541,8 @@
                             if (isAnswer) {
                                 $('#answer-comment-form-' + id).trigger("reset");
                                 $('#answer-comment-form-' + id).slideToggle(1000);
+                                $("#comment-reply-button-" + id).slideToggle(1000);
+                                $("#comment-reply-close-" + id).slideToggle(1000);
                                 $('#comment-answer-list-id-' + id).prepend(append_item);
                             } else {
                                 $('#new-comment-form').trigger("reset");
