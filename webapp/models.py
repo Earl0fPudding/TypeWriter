@@ -19,6 +19,18 @@ class Language(models.Model):
         return self.name
 
 
+class TranslatableSmalltext(models.Model):
+    pass
+
+
+class TranslatedSmalltext(models.Model):
+    text = models.CharField(max_length=50, null=False, blank=False)
+    translatable_smalltext = models.ForeignKey(TranslatableSmalltext, related_name='translated_smalltexts', null=False,
+                                               blank=False, on_delete=models.CASCADE)
+    language = models.ForeignKey(Language, related_name='translated_smalltexts', null=False, blank=False,
+                                 on_delete=models.CASCADE)
+
+
 class TranslatableTextgroup(models.Model):
     pass
 
@@ -46,10 +58,8 @@ class Settings(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField('name', max_length=50, unique=True, blank=False)
-
-    def __str__(self):
-        return self.name
+    name = models.OneToOneField(TranslatableSmalltext, related_name='+', on_delete=models.CASCADE, blank=False,
+                                null=False)
 
 
 def random_string(string_length=10):
@@ -85,7 +95,7 @@ class Attachment(models.Model):
 
 
 class Entry(models.Model):
-    categories = models.ManyToManyField(Category, related_name='entries', null=False, blank=False)
+    categories = models.ManyToManyField(Category, related_name='entries', blank=False)
     author = models.ForeignKey(CustomUser, null=False, on_delete=models.CASCADE, related_name='entries')
 
 
