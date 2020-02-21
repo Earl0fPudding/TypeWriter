@@ -44,7 +44,8 @@ class TranslatedText(models.Model):
 
 
 class Settings(models.Model):
-    blog_title = models.CharField('blog title', max_length=20, null=False)
+    blog_title = models.OneToOneField(TranslatableSmalltext, related_name='+', on_delete=models.CASCADE, blank=False,
+                                      null=False)
     blog_subtitle = models.ForeignKey(TranslatableTextgroup, related_name='+', on_delete=models.CASCADE, blank=True,
                                       null=True)
     blog_description = models.ForeignKey(TranslatableTextgroup, related_name='+', on_delete=models.CASCADE, blank=True,
