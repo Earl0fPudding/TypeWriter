@@ -5,7 +5,7 @@ from django.views.decorators.http import require_http_methods
 from django.conf import settings
 
 from webapp.forms import CommentForm, DiscoverForm, SearchForm
-from webapp.models import Entry, Content, Language, Category, Settings, Comment, TranslatedText
+from webapp.models import Entry, Content, Language, Category, Settings, Comment, TranslatedText, TranslatedSmalltext
 from users.models import CustomUser
 
 
@@ -69,18 +69,25 @@ def get_default_context(request):
     for language in Language.objects.all():
         urls.append(cur_url.replace('/' + get_language_short_name(request) + '/', '/' + language.name_short + '/'))
     urls.reverse()
-    context = {'languages': Language.objects.all(),
-               'language_urls': urls,
-               'categories': Category.objects.all(),
-               'settings': db_settings,
-               'blog_subtitle': TranslatedText.objects.get(
-                   translatable_textgroup_id__exact=db_settings.blog_subtitle.id,
-                   language__name_short__exact=get_language_short_name(request)),
-               'blog_description': TranslatedText.objects.get(
-                   translatable_textgroup_id__exact=db_settings.blog_description.id,
-                   language__name_short__exact=get_language_short_name(request)),
-               'uploads_path': settings.MEDIA_URL,
-               'static_path': settings.STATIC_URL}
+    context = {'blog_title': TranslatedSmalltext.objects.get(
+        translatable_smalltext_id=db_settings.blog_title_id,
+        language__name_short__exact=get_language_short_name(request)),
+        'languages': Language.objects.all(),
+        'language_urls': urls,
+        'cur_lang_short_name':get_language_short_name(request),
+        'categories_lang': TranslatedSmalltext.objects.filter(
+            translatable_smalltext_id__in=Category.objects.all().values_list('name_id'),
+            language__name_short__exact=get_language_short_name(request)),
+        'categories': Category.objects.all(),
+        'settings': db_settings,
+        'blog_subtitle': TranslatedText.objects.get(
+            translatable_textgroup_id__exact=db_settings.blog_subtitle.id,
+            language__name_short__exact=get_language_short_name(request)),
+        'blog_description': TranslatedText.objects.get(
+            translatable_textgroup_id__exact=db_settings.blog_description.id,
+            language__name_short__exact=get_language_short_name(request)),
+        'uploads_path': settings.MEDIA_URL,
+        'static_path': settings.STATIC_URL}
     return context
 
 

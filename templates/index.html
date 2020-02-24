@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% load static %}
+{% load custom_tags %}
 
 {% block head_data %}
-    <title>Home - TypeWriter</title>
+    <title>Home - {{ general.blog_title.text }}</title>
 {% endblock %}
 
 {% block content %}
@@ -11,7 +12,7 @@
         <div class="row">
             <div class="col-lg-8 col-12">
                 <div class="col-10 offset-1 horizontal-divider top-line"></div>
-                <h2 class="bold">Welcome to the {{ general.settings.blog_title }} blog!</h2>
+                <h2 class="bold">Welcome to the {{ general.blog_title.text }} blog!</h2>
                 <p class="bold">{{ general.blog_description.text | safe }}</p>
                 <div class="horizontal-divider-dotted col-8 offset-2"></div>
                 <h2 class="text-center bold post-preview-title">Latest posts</h2>
@@ -63,7 +64,7 @@
                                         style="background-color: #fbead6;">
                                         <a class="text-dark underline-on-hover"
                                            href="{% url 'show_discover' %}?keywords=&title_or_text=title&languages=2&all_cat=select&start_day=1&start_month=1&start_year=2020&end_day={% now "d" %}&end_month={% now "m" %}&end_year={% now "Y" %}&categories={{ category.id }}">
-                                            {{ category }}
+                                            {{ category.id|get_category_name:general.cur_lang_short_name }}
                                         </a>
                                         <span class="badge badge-dark badge-pill">{{ category.entries.all | length }}</span>
                                     </li>

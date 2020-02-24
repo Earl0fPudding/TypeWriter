@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% load static %}
+{% load custom_tags %}
 
 {% block head_data %}
     <title>{{ content.title }} - TypeWriter</title>
@@ -30,16 +31,16 @@
                         {% endif %}
                         by {{ author.first_name }} {{ author.last_name }}<br>
                         {% if content.entry.categories.all|length == 1 %}
-                            in category {{ content.entry.categories.all.0 }}
+                            in category {{ content.entry.categories.all.0.id|get_category_name:general.cur_lang_short_name }}
                         {% else %}
                             in categories
                             {% for category in content.entry.categories.all %}
                                 {% if forloop.last %}
-                                    & {{ category }}
+                                    & {{ category.id|get_category_name:general.cur_lang_short_name }}
                                 {% elif forloop.counter >= content.entry.categories.all|length|add:'-1' %}
-                                    {{ category }}
+                                    {{ category.id|get_category_name:general.cur_lang_short_name }}
                                 {% else %}
-                                    {{ category }},
+                                    {{ category.id|get_category_name:general.cur_lang_short_name }},
                                 {% endif %}
                             {% endfor %}
                         {% endif %}

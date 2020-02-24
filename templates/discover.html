@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% load static %}
+{% load custom_tags %}
 
 {% block head_data %}
     <title>Discover articles - TypeWriter</title>
@@ -93,7 +94,7 @@
                                                 {% if form.data.categories and category.id|stringformat:'d' in selected_cats %}
                                                checked {% endif %}>
                                         <label class="custom-control-label"
-                                               for="ckb_category_{{ category.id }}">{{ category }}</label>
+                                               for="ckb_category_{{ category.id }}">{{ category.id|get_category_name:general.cur_lang_short_name }}</label>
                                     </div>
                                 {% endfor %}
                             </div>
