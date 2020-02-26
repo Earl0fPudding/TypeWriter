@@ -20,7 +20,8 @@ class Language(models.Model):
 
 
 class TranslatableSmalltext(models.Model):
-    pass
+    def __str__(self):
+        return 'TxtSmGrp - "' + TranslatedSmalltext.objects.filter(translatable_smalltext_id=self.id)[0].text + '"'
 
 
 class TranslatedSmalltext(models.Model):
@@ -32,7 +33,8 @@ class TranslatedSmalltext(models.Model):
 
 
 class TranslatableTextgroup(models.Model):
-    pass
+    def __str__(self):
+        return 'TxtGrp - "' + TranslatedText.objects.filter(translatable_textgroup_id__exact=self.id)[0].text[:75] + '"'
 
 
 class TranslatedText(models.Model):
@@ -61,6 +63,9 @@ class Settings(models.Model):
 class Category(models.Model):
     name = models.OneToOneField(TranslatableSmalltext, related_name='+', on_delete=models.CASCADE, blank=False,
                                 null=False)
+
+    def __str__(self):
+        return TranslatedSmalltext.objects.filter(translatable_smalltext_id=self.name_id)[0].text
 
 
 def random_string(string_length=10):
