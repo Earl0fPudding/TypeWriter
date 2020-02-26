@@ -31,7 +31,8 @@
                         {% endif %}
                         by {{ author.first_name }} {{ author.last_name }}<br>
                         {% if content.entry.categories.all|length == 1 %}
-                            in category {{ content.entry.categories.all.0.id|get_category_name:general.cur_lang_short_name }}
+                            in category
+                            {{ content.entry.categories.all.0.id|get_category_name:general.cur_lang_short_name }}
                         {% else %}
                             in categories
                             {% for category in content.entry.categories.all %}
@@ -548,6 +549,9 @@
                                     '                                            </div>\n' +
                                     '                                        </div>\n';
                             } else {
+                                {% if comment_manual_valuated == 1 %}
+                                    appendString += '<div class="text-center text-danger">Comment needs to be verified by the author to be public!</div>';
+                                {% endif %}
                                 appendString += '<div class="col-lg-6 col-md-12 text-left bold">\n'
                                     +
                                     new_comment.fields.author_name +
@@ -580,9 +584,5 @@
                 }
             });
         });
-
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
     </script>
 {% endblock %}

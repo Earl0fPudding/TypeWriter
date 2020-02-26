@@ -44,10 +44,10 @@ def show_article(request, id):
                     'comments_allowed': Settings.objects.get(id=1).comments_allowed,
                     'comment_manual_valuated': Settings.objects.get(id=1).comments_manual_valuation,
                     'comments_same_lang': Comment.objects.
-                        filter(content__entry_id__exact=id, content__language_id__exact=Language.objects.filter(
+                        filter(passed=True, content__entry_id__exact=id, content__language_id__exact=Language.objects.filter(
                         name_short__exact=get_language_short_name(
                             request)).first().id),
-                    'comments_different_lang': Comment.objects.filter(content__entry_id__exact=id).exclude(
+                    'comments_different_lang': Comment.objects.filter(passed=True, content__entry_id__exact=id).exclude(
                         content__language_id__exact=Language.objects.filter(
                             name_short__exact=get_language_short_name(request)).first().id),
                     'author_desc': TranslatedText.objects.get(

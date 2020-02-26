@@ -21,7 +21,7 @@ def post_comment(request):
             content_id = form.cleaned_data['content_id']
 
         if request.user.is_authenticated:
-            new_comment = Comment(author_user=request.user, text=form.cleaned_data['text'], answer_to_id=answer_to,
+            new_comment = Comment(author_user=request.user, passed=True, text=form.cleaned_data['text'], answer_to_id=answer_to,
                                   content_id=content_id)
         else:
             new_comment = Comment(author_name=form.cleaned_data['author_name'], text=form.cleaned_data['text'],
