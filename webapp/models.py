@@ -21,7 +21,10 @@ class Language(models.Model):
 
 class TranslatableSmalltext(models.Model):
     def __str__(self):
-        return 'TxtSmGrp - "' + TranslatedSmalltext.objects.filter(translatable_smalltext_id=self.id)[0].text + '"'
+        if len(TranslatedSmalltext.objects.filter(translatable_smalltext_id=self.id)) > 0:
+            return 'TxtSmGrp - "' + TranslatedSmalltext.objects.filter(translatable_smalltext_id=self.id)[0].text + '"'
+        else:
+            return "Empty SmallTextgroup"
 
 
 class TranslatedSmalltext(models.Model):
@@ -34,7 +37,11 @@ class TranslatedSmalltext(models.Model):
 
 class TranslatableTextgroup(models.Model):
     def __str__(self):
-        return 'TxtGrp - "' + TranslatedText.objects.filter(translatable_textgroup_id__exact=self.id)[0].text[:75] + '"'
+        if len(TranslatedText.objects.filter(translatable_textgroup_id__exact=self.id)) > 0:
+            return 'TxtGrp - "' + TranslatedText.objects.filter(translatable_textgroup_id__exact=self.id)[0].text[
+                                  :75] + '"'
+        else:
+            return "Empty Textgroup"
 
 
 class TranslatedText(models.Model):
@@ -65,7 +72,10 @@ class Category(models.Model):
                                 null=False)
 
     def __str__(self):
-        return TranslatedSmalltext.objects.filter(translatable_smalltext_id=self.name_id)[0].text
+        if len(TranslatedSmalltext.objects.filter(translatable_smalltext_id=self.name_id)) > 0:
+            return TranslatedSmalltext.objects.filter(translatable_smalltext_id=self.name_id)[0].text
+        else:
+            return "Empty category"
 
 
 def random_string(string_length=10):
