@@ -1,10 +1,11 @@
 {% extends 'base_style.html' %}
 {% load custom_tags %}
+{% load i18n %}
 
 {% block body %}
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bold">
-            <a class="navbar-brand underline-on-hover" href="{% url 'home' %}">TypeWriter</a>
+            <a class="navbar-brand underline-on-hover" href="{% url 'home' %}">{{general.blog_title.text}}</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -13,15 +14,15 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link underline-on-hover" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link underline-on-hover" href="{% url 'home' %}">{% trans 'Home' %} <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link underline-on-hover" href="{% url 'show_discover' %}">Discover</a>
+                        <a class="nav-link underline-on-hover" href="{% url 'show_discover' %}">{% trans 'Discover' %}</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle underline-on-hover" href="#" id="categoryDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Categories
+                            {% trans 'Categories' %}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="categoryDropdown">
                             {% for category in general.categories %}
@@ -42,8 +43,8 @@
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0" method="get" action="{% url 'show_discover' %}">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" name="keywords">
-                    <button class="btn btn-outline-dark my-2 my-sm-0" type="submit"><strong>Search</strong></button>
+                    <input class="form-control mr-sm-2" type="search" placeholder="{% trans 'Search' %}" name="keywords">
+                    <button class="btn btn-outline-dark my-2 my-sm-0" type="submit"><strong>{% trans 'Search' %}</strong></button>
                 </form>
             </div>
         </nav>
@@ -59,9 +60,9 @@
             </div>
             <div class="row">
                 <div class="col-12 text-center">
-                    <a class="text-dark bold underline-on-hover" href="{% url 'show_imprint' %}">Imprint</a> | <a class="text-dark bold underline-on-hover" href="{% url 'show_privacy_policy' %}">Privacy Policy</a><br>
+                    <a class="text-dark bold underline-on-hover" href="{% url 'show_imprint' %}">{% trans 'Imprint' %}</a> | <a class="text-dark bold underline-on-hover" href="{% url 'show_privacy_policy' %}">{% trans 'Privacy Policy' %}</a><br>
                     powered by TypeWriter<br>
-                    (c) 2019 Weidenauer
+                    (c) 2020 Weidenauer
                 </div>
             </div>
         </footer>
