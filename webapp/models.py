@@ -104,6 +104,12 @@ class Entry(models.Model):
     categories = models.ManyToManyField(Category, related_name='entries', blank=False)
     author = models.ForeignKey(CustomUser, null=False, on_delete=models.CASCADE, related_name='entries')
 
+    def __str__(self):
+        if len(Content.objects.filter(entry_id=self.id)) > 0:
+            return Content.objects.filter(entry_id=self.id)[0].title
+        else:
+            return "Empty entry"
+
 
 class Content(models.Model):
     title = models.CharField(max_length=256, blank=False)
