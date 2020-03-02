@@ -103,7 +103,7 @@
                                             <button type="button"
                                                     class="comment-delete-btn btn-outline-danger btn read-more-button"
                                                     value="{{ comment.id }}">
-                                                Delete
+                                                {% trans 'Delete' %}
                                             </button>
                                         </a>
                                     {% endif %}
@@ -435,7 +435,7 @@
                                 {{ author_desc.text | safe }}
                             </div>
                             <div class="col-lg-12 text-center">
-                                <a href="#">
+                                <a href="{% url 'show_user_page' author.username %}">
                                     <button type="button" class="btn-outline-dark btn read-more-button">
                                         {% trans 'More from this author' %}
                                     </button>

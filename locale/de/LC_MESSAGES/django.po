@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-02 05:30+0000\n"
+"POT-Creation-Date: 2020-03-02 05:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,7 +28,7 @@ msgstr "Deutsch"
 
 #: templates/article.html:26
 msgid "written on"
-msgstr "geschrieben am"
+msgstr "verfasst am"
 
 #: templates/article.html:27 templates/article.html:30
 msgid "at"
@@ -91,6 +91,10 @@ msgstr ""
 #: templates/article.html:89
 msgid "Submit"
 msgstr "Abschicken"
+
+#: templates/article.html:106
+msgid "Delete"
+msgstr "Löschen"
 
 #: templates/article.html:150 templates/article.html:333
 msgid "Reply"
