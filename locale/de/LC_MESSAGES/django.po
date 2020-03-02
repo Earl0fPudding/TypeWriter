@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-26 21:10+0000\n"
+"POT-Creation-Date: 2020-03-02 05:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,33 +26,125 @@ msgstr "Englisch"
 msgid "German"
 msgstr "Deutsch"
 
-#: templates/base.html:16
+#: templates/article.html:26
+msgid "written on"
+msgstr "geschrieben am"
+
+#: templates/article.html:27 templates/article.html:30
+msgid "at"
+msgstr "um"
+
+#: templates/article.html:29
+msgid "last edited on"
+msgstr "zuletzt editiert am"
+
+#: templates/article.html:32 templates/index.html:30 templates/index.html:38
+msgid "by"
+msgstr "von"
+
+#: templates/article.html:34
+msgid "in category"
+msgstr "in der Kategorie"
+
+#: templates/article.html:37
+#, fuzzy
+#| msgid "Categories"
+msgid "in categories"
+msgstr "in den Kategorien"
+
+#: templates/article.html:55
+msgid "Comments"
+msgstr "Kommentare"
+
+#: templates/article.html:59
+msgid "Write a new comment"
+msgstr "Verfasse einen neuen Kommentar"
+
+#: templates/article.html:66
+msgid "Your name:"
+msgstr "Ihr Name:"
+
+#: templates/article.html:69
+msgid "May I ask, what is your name?"
+msgstr "Ich bitte um Ihren Namen."
+
+#: templates/article.html:71
+msgid "This name will be displayed publicly"
+msgstr "Der Name wird öffentlich lesbar sein"
+
+#: templates/article.html:75
+msgid "Your comment:"
+msgstr "Ihr Kommentar:"
+
+#: templates/article.html:77
+msgid "May I ask for your opinion?"
+msgstr "Dürfte ich um Ihre Meinung fragen?"
+
+#: templates/article.html:84
+msgid ""
+"I agree that <u>only my name and comment text</u> will be saved on this "
+"server and can be made publicly available for everyone to read."
+msgstr ""
+"Ich stimme zu dass <u>nur meine Name und Kommentar</u> auf dieser Webseite "
+"öffentlich verfügbar gemacht werden können."
+
+#: templates/article.html:89
+msgid "Submit"
+msgstr "Abschicken"
+
+#: templates/article.html:150 templates/article.html:333
+msgid "Reply"
+msgstr "Antworten"
+
+#: templates/article.html:417
+msgid "About the author:"
+msgstr "Über diesen Autor:"
+
+#: templates/article.html:440
+msgid "More from this author"
+msgstr "Mehr von diesem Autor"
+
+#: templates/article.html:451
+#, fuzzy
+#| msgid "Latest posts"
+msgid "Latest posts:"
+msgstr "Neueste Einträge"
+
+#: templates/article.html:473
+msgid "Read more"
+msgstr "Weiterlesen"
+
+#: templates/base.html:17
 msgid "Home"
 msgstr "Home"
 
-#: templates/base.html:19
+#: templates/base.html:20
 msgid "Discover"
 msgstr "Entdecken"
 
-#: templates/base.html:24
+#: templates/base.html:25
 msgid "Categories"
 msgstr "Kategorien"
 
-#: templates/base.html:45 templates/base.html:46
+#: templates/base.html:46 templates/base.html:47
 msgid "Search"
 msgstr "Suchen"
 
-#: templates/base.html:62
+#: templates/base.html:63
 msgid "Imprint"
 msgstr "Impressum"
 
-#: templates/base.html:62
+#: templates/base.html:63
 msgid "Privacy Policy"
 msgstr "Datenschutzerklärung"
 
 #: templates/index.html:18
 msgid "Latest posts"
 msgstr "Neueste Einträge"
+
+#: templates/index.html:30 templates/index.html:38
+msgid "on"
+msgstr "am"
 
 #: users/managers.py:16
 msgid "The username must be set"

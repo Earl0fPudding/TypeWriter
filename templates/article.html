@@ -23,18 +23,18 @@
                     {% endif %}
                     <p class="bold col-12 article-summary">{{ content.summary }}</p>
                     <div class="horizontal-divider-dotted col-8 offset-2"></div>
-                    <p class="text-center h6">written on {{ content.creation_date.date }}
-                        at {{ content.creation_date.time }}<br>
+                    <p class="text-center h6">{% trans 'written on' %} {{ content.creation_date.date }}
+                        {% trans 'at' %} {{ content.creation_date.time }}<br>
                         {% if content.last_edit_date %}
-                            last edited on {{ content.last_edit_date.date }}
-                            at {{ content.last_edit_date.time }}<br>
+                            {% trans 'last edited on' %} {{ content.last_edit_date.date }}
+                            {% trans 'at' %} {{ content.last_edit_date.time }}<br>
                         {% endif %}
-                        by {{ author.first_name }} {{ author.last_name }}<br>
+                        {% trans 'by' %} {{ author.first_name }} {{ author.last_name }}<br>
                         {% if content.entry.categories.all|length == 1 %}
-                            in category
+                            {% trans 'in category' %}
                             {{ content.entry.categories.all.0.id|get_category_name:general.cur_lang_short_name }}
                         {% else %}
-                            in categories
+                            {% trans 'in categories' %}
                             {% for category in content.entry.categories.all %}
                                 {% if forloop.last %}
                                     & {{ category.id|get_category_name:general.cur_lang_short_name }}
@@ -52,43 +52,41 @@
 
                     {% if comments_allowed == 1 %}
                         <div class="col-10 offset-1 horizontal-divider top-line"></div>
-                        <h2 class="bold text-center">Comments</h2>
+                        <h2 class="bold text-center">{% trans 'Comments' %}</h2>
                         <div id="new-comment-section">
                             <div class="row">
                                 <div class="col-12">
-                                    <h4 class="bold">Write a new comment</h4>
+                                    <h4 class="bold">{% trans 'Write a new comment' %}</h4>
                                 </div>
                                 <form class="col-12" id="new-comment-form">
                                     {% csrf_token %}
                                     <input type="hidden" name="content_id" value="{{ content.id }}">
                                     {% if user.is_authenticated == 0 %}
                                         <div class="form-group">
-                                            <label for="new_authorname_id">Your name:</label>
+                                            <label for="new_authorname_id">{% trans 'Your name:' %}</label>
                                             <input type="text" name="author_name" maxlength="80" class="form-control"
                                                    id="new_authorname_id"
-                                                   placeholder="May I ask, what is your name?" required>
-                                            <small id="new_authorname_help" class="form-text text-muted">This name will
-                                                be
-                                                displayed
-                                                publicly</small>
+                                                   placeholder="{% trans 'May I ask, what is your name?' %}" required>
+                                            <small id="new_authorname_help"
+                                                   class="form-text text-muted">{% trans 'This name will be displayed publicly' %}</small>
                                         </div>
                                     {% endif %}
                                     <div class="form-group">
-                                        <label for="new_comment_text_id">Your comment:</label>
+                                        <label for="new_comment_text_id">{% trans 'Your comment:' %}</label>
                                         <textarea name="text" id="new_comment_text_id" class="form-control" rows="5"
-                                                  placeholder="May I ask for your opinion?" required></textarea>
+                                                  placeholder="{% trans 'May I ask for your opinion?' %}"
+                                                  required></textarea>
                                     </div>
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" required class=" custom-control-input"
                                                id="new_comment_ckb_id">
-                                        <label class="custom-control-label" for="new_comment_ckb_id">I agree that <u>only
-                                            my
-                                            name and comment text</u> will be saved on this server and can be made
-                                            publicly
-                                            available for everyone to read.</label>
+                                        <label class="custom-control-label"
+                                               for="new_comment_ckb_id">{% trans 'I agree that <u>only my name and comment text</u> will be saved on this server and can be made publicly available for everyone to read.' %}
+                                        </label>
                                     </div>
                                     <div class="col-12 text-center">
-                                        <button type="button" class="comment-submit btn btn-outline-dark bold">Submit
+                                        <button type="button"
+                                                class="comment-submit btn btn-outline-dark bold">{% trans 'Submit' %}
                                         </button>
                                     </div>
                                 </form>
@@ -149,7 +147,7 @@
                                             <button type="button" id="comment-reply-button-{{ comment.id }}"
                                                     class="btn-outline-dark btn read-more-button"
                                                     style="display: block;">
-                                                Reply
+                                                {% trans 'Reply' %}
                                             </button>
                                             <img src="{% static 'img/close_icon.svg' %}"
                                                  id="comment-reply-close-{{ comment.id }}" height="35"
@@ -332,7 +330,7 @@
                                             <button type="button" id="comment-reply-button-{{ comment.id }}"
                                                     class="btn-outline-dark btn read-more-button"
                                                     style="display: block;">
-                                                Reply
+                                                {% trans 'Reply' %}
                                             </button>
                                             <img src="{% static 'img/close_icon.svg' %}"
                                                  id="comment-reply-close-{{ comment.id }}" height="35"
@@ -416,7 +414,7 @@
                         <div class="row">
                             <div class="col-10 offset-1 horizontal-divider top-line"></div>
                             <div class="col-lg-12 text-center bold h5" style="margin-bottom: 10px;">
-                                About the author:
+                                {% trans 'About the author:' %}
                             </div>
                             {% if author.profile_picture %}
                                 <div class="col-12 text-center" style="margin-bottom: 10px;">
@@ -438,8 +436,8 @@
                             </div>
                             <div class="col-lg-12 text-center">
                                 <a href="#">
-                                    <button type="button" class="btn-outline-dark btn read-more-button">More from this
-                                        author
+                                    <button type="button" class="btn-outline-dark btn read-more-button">
+                                        {% trans 'More from this author' %}
                                     </button>
                                 </a>
                             </div>
@@ -450,7 +448,7 @@
 
                         <div class="col-10 offset-1 horizontal-divider top-line"></div>
                         <div class="col-12 text-center bold h5">
-                            Latest posts:
+                            {% trans 'Latest posts:' %}
                         </div>
                         {% for latest_post in latest_posts %}
                             {% if forloop.counter0 != 0 %}
@@ -471,8 +469,8 @@
                                 {% endif %}
                                 <div class="col-12 text-center">
                                     <a href="{% url 'show_article' latest_post.entry_id %}">
-                                        <button type="button" class="btn-outline-dark btn read-more-button">Read
-                                            more
+                                        <button type="button" class="btn-outline-dark btn read-more-button">
+                                            {% trans 'Read more' %}
                                         </button>
                                     </a>
                                 </div>
