@@ -22,7 +22,7 @@
                         </div>
                     {% endif %}
                     <p class="bold col-12 article-summary">{{ content.summary }}</p>
-                    <div class="horizontal-divider-dotted col-8 offset-2"></div>
+                    <div class="horizontal-divider-dotted col-8 offset-2" style="margin-bottom: 5px;"></div>
                     <p class="text-center h6">{% trans 'written on' %} {{ content.creation_date.date }}
                         {% trans 'at' %} {{ content.creation_date.time }}<br>
                         {% if content.last_edit_date %}
@@ -214,7 +214,7 @@
                                                         <button type="button"
                                                                 class="comment-delete-btn btn-outline-danger btn read-more-button"
                                                                 value="{{ comment_answer1.id }}">
-                                                            Delete
+                                                            {% trans 'Delete' %}
                                                         </button>
                                                     </a>
                                                 {% endif %}
@@ -284,7 +284,7 @@
                                             <button type="button"
                                                     class="comment-delete-btn btn-outline-danger btn read-more-button"
                                                     value="{{ comment.id }}">
-                                                Delete
+                                                {% trans 'Delete' %}
                                             </button>
                                         </a>
                                     {% endif %}
@@ -349,7 +349,7 @@
                                                         <button type="button"
                                                                 class="comment-delete-btn btn-outline-danger btn read-more-button"
                                                                 value="{{ comment_answer1.id }}">
-                                                            Delete
+                                                            {% trans 'Delete' %}
                                                         </button>
                                                     </a>
                                                 {% endif %}

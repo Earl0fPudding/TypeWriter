@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-02 05:39+0000\n"
+"POT-Creation-Date: 2020-03-04 20:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,6 +39,7 @@ msgid "last edited on"
 msgstr "zuletzt editiert am"
 
 #: templates/article.html:32 templates/index.html:30 templates/index.html:38
+#: templates/user_page.html:48 templates/user_page.html:56
 msgid "by"
 msgstr "von"
 
@@ -47,8 +48,6 @@ msgid "in category"
 msgstr "in der Kategorie"
 
 #: templates/article.html:37
-#, fuzzy
-#| msgid "Categories"
 msgid "in categories"
 msgstr "in den Kategorien"
 
@@ -92,7 +91,8 @@ msgstr ""
 msgid "Submit"
 msgstr "Abschicken"
 
-#: templates/article.html:106
+#: templates/article.html:106 templates/article.html:217
+#: templates/article.html:287 templates/article.html:352
 msgid "Delete"
 msgstr "Löschen"
 
@@ -109,12 +109,10 @@ msgid "More from this author"
 msgstr "Mehr von diesem Autor"
 
 #: templates/article.html:451
-#, fuzzy
-#| msgid "Latest posts"
 msgid "Latest posts:"
-msgstr "Neueste Einträge"
+msgstr "Neueste Einträge:"
 
-#: templates/article.html:473
+#: templates/article.html:473 templates/user_page.html:63
 msgid "Read more"
 msgstr "Weiterlesen"
 
@@ -146,9 +144,14 @@ msgstr "Datenschutzerklärung"
 msgid "Latest posts"
 msgstr "Neueste Einträge"
 
-#: templates/index.html:30 templates/index.html:38
+#: templates/index.html:30 templates/index.html:38 templates/user_page.html:48
+#: templates/user_page.html:56
 msgid "on"
 msgstr "am"
+
+#: templates/user_page.html:37
+msgid "Latest posts of"
+msgstr "Neueste Einträge von"
 
 #: users/managers.py:16
 msgid "The username must be set"

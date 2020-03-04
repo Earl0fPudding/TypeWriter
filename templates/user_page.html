@@ -33,8 +33,8 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
-                    <div class="horizontal-divider-dotted col-8 offset-2"></div>
-                <h2 class="text-center bold post-preview-title">Latest posts of {{ user.first_name }}:</h2>
+                        <div class="horizontal-divider-dotted col-8 offset-2"></div>
+                        <h2 class="text-center bold post-preview-title">{% trans 'Latest posts of' %} {{ user.first_name }}:</h2>
                         {% for content in author_content %}
                             <a class="post-preview text-dark" href="{% url 'show_article' content.entry_id %}">
                                 {% if content.header_image %}
@@ -45,7 +45,7 @@
                                         <div class="col-md-8 col-12">
                                             <h4 class="bold">{{ content.title }}</h4>
                                             <p><span
-                                                    class="text-muted">by {{ content.entry.author.first_name }} {{ content.entry.author.last_name }} on {{ content.creation_date.date }}<br></span>
+                                                    class="text-muted">{% trans 'by' %} {{ content.entry.author.first_name }} {{ content.entry.author.last_name }} {% trans 'on' %} {{ content.creation_date.date }}<br></span>
                                                 {{ content.summary }}</p>
                                         </div>
                                     </div>
@@ -53,14 +53,14 @@
                                     <div class="col-12">
                                         <h4 class="bold">{{ content.title }}</h4>
                                         <p><span
-                                                class="text-muted">by {{ content.entry.author.first_name }} {{ content.entry.author.last_name }} on {{ content.creation_date.date }}<br></span>
+                                                class="text-muted">{% trans 'by' %} {{ content.entry.author.first_name }} {{ content.entry.author.last_name }} {% trans 'on' %} {{ content.creation_date.date }}<br></span>
                                             {{ content.summary }}</p>
                                     </div>
                                 {% endif %}
                                 <div class="col-12 text-center">
                                     <a href="{% url 'show_article' content.entry_id %}">
-                                        <button type="button" class="btn-outline-dark btn read-more-button">Read
-                                            more
+                                        <button type="button" class="btn-outline-dark btn read-more-button">
+                                            {% trans 'Read more' %}
                                         </button>
                                     </a>
                                 </div>
