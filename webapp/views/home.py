@@ -75,6 +75,7 @@ def get_default_context(request):
         'languages': Language.objects.all(),
         'language_urls': urls,
         'cur_lang_short_name':get_language_short_name(request),
+        'cur_lang':Language.objects.get(name_short__exact=get_language_short_name(request)),
         'categories_lang': TranslatedSmalltext.objects.filter(
             translatable_smalltext_id__in=Category.objects.all().values_list('name_id'),
             language__name_short__exact=get_language_short_name(request)),
