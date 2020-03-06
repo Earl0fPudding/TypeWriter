@@ -7,6 +7,36 @@
     <title>{{ content.title }} - TypeWriter</title>
     <link rel="stylesheet" href="{% static 'css/prism-solar.css' %}">
     <script type="text/javascript" src="{% static 'js/prism-solar.js' %}"></script>
+
+    <!-- META tags -->
+    <meta name="description" content="{{ content.summary }}">
+    <!-- <link rel="canonical" href="#"/> -->
+    <meta property="og:locale" content="{{ general.cur_lang_short_name }}">
+    <meta property="og:type" content="article/website">
+    <meta property="og:title" content="{{ content.title }}">
+    <meta property="og:description" content="{{ content.summary }}">
+    <!--    <meta property="og:url" content="https://link-to.website.tld/article"> -->
+    <meta property="og:site_name" content="{{ general.blog_title }}">
+    <!--    <meta property="article:tag" content="tech">
+        <meta property="article:tag" content="linux..."> -->
+    {% for category in entry.categories.all %}
+        <meta property="article:section" content="{{ category.id|get_category_name:general.cur_lang_short_name }}"/>
+    {% endfor %}
+    <!--    <meta property="article:published_time" content="2019-08-14T12:00:59+00:00"/>
+        <meta property="article:modified_time" content="2019-11-13T07:51:32+00:00"/>
+        <meta property="og:updated_time" content="2019-11-13T07:51:32+00:00"/> -->
+    {% if content.header_image %}
+        <meta property="og:image"
+              content="{{ content.header_image.file.url }}"/>
+        <meta property="og:image:secure_url"
+              content="{{ content.header_image.file.url }}"/>
+        <!--  <meta property="og:image:width" content="1500"/>
+          <meta property="og:image:height" content="788"/> -->
+        <meta name="twitter:image" content="{{ content.header_image.file.url }}">
+    {% endif %}
+    <meta name="twitter:card" content="{{ content.summary }}">
+    <meta name="twitter:title" content="{{ content.title }}">
+    <meta name="twitter:description" content="{{ content.summary }}">
 {% endblock %}
 
 {% block content %}
