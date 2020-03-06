@@ -67,7 +67,10 @@ def get_default_context(request):
     cur_url = request.build_absolute_uri()
     urls = []
     for language in Language.objects.all():
-        urls.append(cur_url.replace('/' + get_language_short_name(request) + '/', '/' + language.name_short + '/'))
+        url=cur_url.replace('/' + get_language_short_name(request) + '/', '/' + language.name_short + '/')
+        url=url[url.find('/')+2:]
+        url=url[url.find('/'):]
+        urls.append(url)
     urls.reverse()
     context = {'blog_title': TranslatedSmalltext.objects.get(
         translatable_smalltext_id=db_settings.blog_title_id,
