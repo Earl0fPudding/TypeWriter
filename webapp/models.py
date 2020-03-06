@@ -34,6 +34,9 @@ class TranslatedSmalltext(models.Model):
     language = models.ForeignKey(Language, related_name='translated_smalltexts', null=False, blank=False,
                                  on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.text
+
 
 class TranslatableTextgroup(models.Model):
     def __str__(self):
@@ -50,6 +53,9 @@ class TranslatedText(models.Model):
                                                blank=False, on_delete=models.CASCADE)
     language = models.ForeignKey(Language, related_name='translated_texts', null=False, blank=False,
                                  on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.text
 
 
 class Settings(models.Model):
