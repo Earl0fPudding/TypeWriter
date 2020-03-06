@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-04 20:26+0000\n"
+"POT-Creation-Date: 2020-03-06 12:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -124,7 +124,7 @@ msgstr "Home"
 msgid "Discover"
 msgstr "Entdecken"
 
-#: templates/base.html:25
+#: templates/base.html:25 templates/index.html:58
 msgid "Categories"
 msgstr "Kategorien"
 
