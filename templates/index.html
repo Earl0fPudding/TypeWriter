@@ -1,9 +1,9 @@
-{% extends 'base.html' %}
+{% extends 'base_with_default_meta.html' %}
 {% load i18n %}
 {% load static %}
 {% load custom_tags %}
 
-{% block head_data %}
+{% block extended_head_data %}
     <title>Home - {{ general.blog_title.text }}</title>
 {% endblock %}
 
