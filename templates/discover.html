@@ -4,7 +4,7 @@
 {% load custom_tags %}
 
 {% block extended_head_data %}
-    <title>Discover articles - TypeWriter</title>
+    <title>{% trans 'Discover articles' %} - {{ general.blog_title.text }}</title>
 {% endblock %}
 
 {% block content %}
@@ -12,21 +12,21 @@
         <div class="row">
             <div class="col-lg-8 col-12">
                 <div class="col-10 offset-1 horizontal-divider top-line"></div>
-                <h2 class="bold">Discover this blog</h2>
+                <h2 class="bold">{% trans 'Discover this blog' %}</h2>
                 <div class="row col-12">
                     <form method="get" action="{% url 'show_discover' %}">
                         <div class="form-group">
-                            <label for="search_string">Keywords</label>
+                            <label for="search_string">{% trans 'Keywords' %}</label>
                             {% if form.data.keywords %}
                                 <input type="text" class="form-control" id="search_string" name="keywords"
                                        value="{{ form.data.keywords }}">
                             {% else %}
                                 <input type="text" class="form-control" id="search_string" name="keywords"
-                                       placeholder="Enter keywords">
+                                       placeholder="{% trans 'Enter keywords' %}">
                             {% endif %}
                         </div>
                         <div class="row discover-item">
-                            <div class="col-md-4 col-12">Search for keywords in</div>
+                            <div class="col-md-4 col-12">{% trans 'Search for keywords in' %}</div>
                             <div class="col-md-8 col-12">
                                 <div class="custom-control custom-radio">
 
@@ -35,19 +35,19 @@
                                             {% if not form.data.title_or_text %}
                                            checked {% elif form.data.title_or_text and form.data.title_or_text == 'title' %}
                                            checked {% endif %}>
-                                    <label class="custom-control-label" for="ckb_title">title only</label>
+                                    <label class="custom-control-label" for="ckb_title">{% trans 'title only' %}</label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="ckb_text" name="title_or_text"
                                            class="custom-control-input" value="text"
                                             {% if form.data.title_or_text and form.data.title_or_text == 'text' %}
                                            checked {% endif %}>
-                                    <label class="custom-control-label" for="ckb_text">title and text</label>
+                                    <label class="custom-control-label" for="ckb_text">{% trans 'title and text' %}</label>
                                 </div>
                             </div>
                         </div>
                         <div class="row discover-item">
-                            <div class="col-md-2 col-12">Languages:</div>
+                            <div class="col-md-2 col-12">{% trans 'Languages' %}:</div>
                             <div class="col-md-10 col-12">
                                 {% for language in general.languages %}
                                     <div class="custom-control custom-checkbox custom-control-inline">
@@ -66,21 +66,21 @@
                             </div>
                         </div>
                         <div class="row discover-item">
-                            <div class="col-md-2 col-12">Categories:</div>
+                            <div class="col-md-2 col-12">{% trans 'Categories' %}:</div>
                             <div class="col-md-8 col-12" id="cat_toggle">
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="ckb_all_cat" name="all_cat"
                                            class="custom-control-input" value="all" {% if not form.data.all_cat %}
                                            checked {% elif form.data.all_cat and form.data.all_cat == 'all' %}
                                            checked {% endif %}>
-                                    <label class="custom-control-label" for="ckb_all_cat">all</label>
+                                    <label class="custom-control-label" for="ckb_all_cat">{% trans 'all' %}</label>
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="ckb_select_cat" name="all_cat"
                                            class="custom-control-input" value="select"
                                             {% if form.data.all_cat and form.data.all_cat == 'select' %}
                                            checked {% endif %}>
-                                    <label class="custom-control-label" for="ckb_select_cat">select</label>
+                                    <label class="custom-control-label" for="ckb_select_cat">{% trans 'select' %}</label>
                                 </div>
                             </div>
                             <div class="col-12 col-md-8 offset-md-2" id="category_select_list"
@@ -100,28 +100,28 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-3 col-12">Time frame:</div>
+                            <div class="col-md-3 col-12">{% trans 'Time frame' %}:</div>
                         </div>
                         <div class="row discover-item">
                             <div class="offset-md-2"></div>
                             <div class="col-md-10 col-12 form-inline">
-                                <div class="col-md-3 col-12">Start date:</div>
+                                <div class="col-md-3 col-12">{% trans 'Start date' %}:</div>
                                 <div class="form-group col-4 col-md-2">
-                                    <label for="start_day_id">Day:</label>
+                                    <label for="start_day_id">{% trans 'Day' %}:</label>
                                     <input type="number" name="start_day" class="form-control col-12" id="start_day_id"
                                            max="31"
                                            min="1" {% if form.data.start_day %}
                                            value="{{ form.data.start_day }}" {% else %} value="1" {% endif %}>
                                 </div>
                                 <div class="form-group col-4 col-md-2">
-                                    <label for="start_mon_id">Month:</label>
+                                    <label for="start_mon_id">{% trans 'Month' %}:</label>
                                     <input type="number" name="start_month" class="form-control col-12"
                                            id="start_mon_id" max="12"
                                            min="1"  {% if form.data.start_month %}
                                            value="{{ form.data.start_month }}" {% else %} value="1" {% endif %}>
                                 </div>
                                 <div class="form-group col-5 col-md-3">
-                                    <label for="start_year_id">Year:</label>
+                                    <label for="start_year_id">{% trans 'Year' %}:</label>
                                     <input type="number" name="start_year" class="form-control col-10"
                                            id="start_year_id" max="3000"
                                            min="2020"  {% if form.data.start_year %}
@@ -133,16 +133,16 @@
                         <div class="row discover-item">
                             <div class="offset-md-2"></div>
                             <div class="col-md-10 col-12 form-inline">
-                                <div class="col-md-3 col-12">End date:</div>
+                                <div class="col-md-3 col-12">{% trans 'End date' %}:</div>
                                 <div class="form-group col-4 col-md-2">
-                                    <label for="end_day_id">Day:</label>
+                                    <label for="end_day_id">{% trans 'Day' %}:</label>
                                     <input type="number" name="end_day" class="form-control col-12" id="end_day_id"
                                            max="31"
                                            min="1"  {% if form.data.end_day %}
                                            value="{{ form.data.end_day }}" {% else %} value="{% now "d" %}" {% endif %}>
                                 </div>
                                 <div class="form-group col-4 col-md-2">
-                                    <label for="end_mon_id">Month:</label>
+                                    <label for="end_mon_id">{% trans 'Month' %}:</label>
                                     <input type="number" name="end_month" class="form-control col-12" id="end_mon_id"
                                            max="12"
                                            min="1" {% if form.data.end_month %}
@@ -150,7 +150,7 @@
                                            value="{% now "m" %}" {% endif %}>
                                 </div>
                                 <div class="form-group col-5 col-md-3">
-                                    <label for="end_year_id">Year:</label>
+                                    <label for="end_year_id">{% trans 'Year' %}:</label>
                                     <input type="number" name="end_year" class="form-control col-10" id="end_year_id"
                                            max="3000"
                                            min="2020" {% if form.data.end_year %}
@@ -161,14 +161,14 @@
                         </div>
                         <div class="row">
                             <div class="col-12" style="text-align: center;">
-                                <button class="btn btn-outline-dark" type="submit"><strong>Search</strong></button>
+                                <button class="btn btn-outline-dark" type="submit"><strong>{% trans 'Search' %}</strong></button>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="col-12">
                     {% if results == None %}
-                        <p>No results found. Try to use different keywords or parameters.</p>
+                        <p>{% trans 'No results found. Try to use different keywords or parameters.' %}</p>
                     {% endif %}
                     {% for content in results %}
                         <a class="post-preview text-dark" href="{% url 'show_article' content.entry_id %}">
@@ -180,7 +180,7 @@
                                     <div class="col-md-8 col-12">
                                         <h4 class="bold">{{ content.title }}</h4>
                                         <p><span
-                                                class="text-muted">by {{ content.entry.author.first_name }} {{ content.entry.author.last_name }} on {{ content.creation_date.date }}<br></span>
+                                                class="text-muted">{% trans 'by' %} {{ content.entry.author.first_name }} {{ content.entry.author.last_name }} {% trans 'on' %} {{ content.creation_date.date }}<br></span>
                                             {{ content.summary }}</p>
                                     </div>
                                 </div>
@@ -188,7 +188,7 @@
                                 <div class="col-12">
                                     <h4 class="bold">{{ content.title }}</h4>
                                     <p><span
-                                            class="text-muted">by {{ content.entry.author.first_name }} {{ content.entry.author.last_name }} on {{ content.creation_date.date }}<br></span>
+                                            class="text-muted">{% trans 'by' %} {{ content.entry.author.first_name }} {{ content.entry.author.last_name }} {% trans 'on' %} {{ content.creation_date.date }}<br></span>
                                         {{ content.summary }}</p>
                                 </div>
                             {% endif %}

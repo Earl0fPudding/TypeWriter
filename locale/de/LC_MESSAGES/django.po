@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-06 12:30+0000\n"
+"POT-Creation-Date: 2020-03-08 16:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,60 +26,65 @@ msgstr "Englisch"
 msgid "German"
 msgstr "Deutsch"
 
-#: templates/article.html:26
+#: templates/article.html:51
+msgid "Header image"
+msgstr "Artikelbild"
+
+#: templates/article.html:56
 msgid "written on"
 msgstr "verfasst am"
 
-#: templates/article.html:27 templates/article.html:30
+#: templates/article.html:57 templates/article.html:60
 msgid "at"
 msgstr "um"
 
-#: templates/article.html:29
+#: templates/article.html:59
 msgid "last edited on"
 msgstr "zuletzt editiert am"
 
-#: templates/article.html:32 templates/index.html:30 templates/index.html:38
+#: templates/article.html:62 templates/discover.html:183
+#: templates/discover.html:191 templates/index.html:30 templates/index.html:38
 #: templates/user_page.html:48 templates/user_page.html:56
 msgid "by"
 msgstr "von"
 
-#: templates/article.html:34
+#: templates/article.html:64
 msgid "in category"
 msgstr "in der Kategorie"
 
-#: templates/article.html:37
+#: templates/article.html:67
 msgid "in categories"
 msgstr "in den Kategorien"
 
-#: templates/article.html:55
+#: templates/article.html:85
 msgid "Comments"
 msgstr "Kommentare"
 
-#: templates/article.html:59
+#: templates/article.html:89
 msgid "Write a new comment"
 msgstr "Verfasse einen neuen Kommentar"
 
-#: templates/article.html:66
+#: templates/article.html:96
 msgid "Your name:"
 msgstr "Ihr Name:"
 
-#: templates/article.html:69
+#: templates/article.html:99
 msgid "May I ask, what is your name?"
 msgstr "Ich bitte um Ihren Namen."
 
-#: templates/article.html:71
+#: templates/article.html:101
 msgid "This name will be displayed publicly"
 msgstr "Der Name wird öffentlich lesbar sein"
 
-#: templates/article.html:75
+#: templates/article.html:105
 msgid "Your comment:"
 msgstr "Ihr Kommentar:"
 
-#: templates/article.html:77
+#: templates/article.html:107
 msgid "May I ask for your opinion?"
 msgstr "Dürfte ich um Ihre Meinung fragen?"
 
-#: templates/article.html:84
+#: templates/article.html:114
 msgid ""
 "I agree that <u>only my name and comment text</u> will be saved on this "
 "server and can be made publicly available for everyone to read."
@@ -87,32 +92,32 @@ msgstr ""
 "Ich stimme zu dass <u>nur meine Name und Kommentar</u> auf dieser Webseite "
 "öffentlich verfügbar gemacht werden können."
 
-#: templates/article.html:89
+#: templates/article.html:119
 msgid "Submit"
 msgstr "Abschicken"
 
-#: templates/article.html:106 templates/article.html:217
-#: templates/article.html:287 templates/article.html:352
+#: templates/article.html:136 templates/article.html:247
+#: templates/article.html:317 templates/article.html:382
 msgid "Delete"
 msgstr "Löschen"
 
-#: templates/article.html:150 templates/article.html:333
+#: templates/article.html:180 templates/article.html:363
 msgid "Reply"
 msgstr "Antworten"
 
-#: templates/article.html:417
+#: templates/article.html:447
 msgid "About the author:"
 msgstr "Über diesen Autor:"
 
-#: templates/article.html:440
+#: templates/article.html:470
 msgid "More from this author"
 msgstr "Mehr von diesem Autor"
 
-#: templates/article.html:451
+#: templates/article.html:481
 msgid "Latest posts:"
 msgstr "Neueste Einträge:"
 
-#: templates/article.html:473 templates/user_page.html:63
+#: templates/article.html:503 templates/user_page.html:63
 msgid "Read more"
 msgstr "Weiterlesen"
 
@@ -124,11 +129,11 @@ msgstr "Home"
 msgid "Discover"
 msgstr "Entdecken"
 
-#: templates/base.html:25 templates/index.html:58
+#: templates/base.html:25 templates/discover.html:69 templates/index.html:58
 msgid "Categories"
 msgstr "Kategorien"
 
-#: templates/base.html:46 templates/base.html:47
+#: templates/base.html:46 templates/base.html:47 templates/discover.html:164
 msgid "Search"
 msgstr "Suchen"
 
@@ -140,14 +145,85 @@ msgstr "Impressum"
 msgid "Privacy Policy"
 msgstr "Datenschutzerklärung"
 
-#: templates/index.html:18
-msgid "Latest posts"
-msgstr "Neueste Einträge"
+#: templates/discover.html:7
+msgid "Discover articles"
+msgstr "Entdecke Einträge"
 
+#: templates/discover.html:15
+msgid "Discover this blog"
+msgstr "Entdecke diesen Blog"
+
+#: templates/discover.html:19
+msgid "Keywords"
+msgstr "Schlagwörter"
+
+#: templates/discover.html:25
+msgid "Enter keywords"
+msgstr "Schlagwörter eingeben"
+
+#: templates/discover.html:29
+msgid "Search for keywords in"
+msgstr "Suche nach Schlagwörter im"
+
+#: templates/discover.html:38
+msgid "title only"
+msgstr "Titel allein"
+
+#: templates/discover.html:45
+msgid "title and text"
+msgstr "Titel und Text"
+
+#: templates/discover.html:50
+msgid "Languages"
+msgstr "Sprachen"
+
+#: templates/discover.html:76
+msgid "all"
+msgstr "alle"
+
+#: templates/discover.html:83
+msgid "select"
+msgstr "Auswahl"
+
+#: templates/discover.html:103
+msgid "Time frame"
+msgstr "Zeitraum"
+
+#: templates/discover.html:108
+msgid "Start date"
+msgstr "Startdatum"
+
+#: templates/discover.html:110 templates/discover.html:138
+msgid "Day"
+msgstr "Tag"
+
+#: templates/discover.html:117 templates/discover.html:145
+msgid "Month"
+msgstr "Monat"
+
+#: templates/discover.html:124 templates/discover.html:153
+msgid "Year"
+msgstr "Jahr"
+
+#: templates/discover.html:136
+msgid "End date"
+msgstr "Enddatum"
+
+#: templates/discover.html:171
+msgid "No results found. Try to use different keywords or parameters."
+msgstr ""
+"Keine Ergebnisse gefunden. Probiere die Suche mit neuen Schlagwörtern und "
+"Parameter erneut."
+
+#: templates/discover.html:183 templates/discover.html:191
 #: templates/index.html:30 templates/index.html:38 templates/user_page.html:48
 #: templates/user_page.html:56
 msgid "on"
 msgstr "am"
+
+#: templates/index.html:18
+msgid "Latest posts"
+msgstr "Neueste Einträge"
 
 #: templates/user_page.html:37
 msgid "Latest posts of"
