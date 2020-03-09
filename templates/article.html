@@ -10,21 +10,21 @@
 
     <!-- META tags -->
     <meta name="description" content="{{ content.summary }}">
-    <!-- <link rel="canonical" href="#"/> -->
     <meta property="og:locale" content="{{ general.cur_lang_short_name }}">
-    <meta property="og:type" content="article/website">
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="{{ content.creation_date.isoformat }}">
+    {% if content.last_edit_date %}
+        <meta property="article:modified_time" content="{{ content.last_edit_date.isoformat }}">
+    {% endif %}
+    <meta property="article:author" content="{% url 'show_user_page' author.username %}">
     <meta property="og:title" content="{{ content.title }}">
     <meta property="og:description" content="{{ content.summary }}">
-    <!--    <meta property="og:url" content="https://link-to.website.tld/article"> -->
     <meta property="og:site_name" content="{{ general.blog_title }}">
     <!--    <meta property="article:tag" content="tech">
         <meta property="article:tag" content="linux..."> -->
     {% for category in entry.categories.all %}
         <meta property="article:section" content="{{ category.id|get_category_name:general.cur_lang_short_name }}"/>
     {% endfor %}
-    <!--    <meta property="article:published_time" content="2019-08-14T12:00:59+00:00"/>
-        <meta property="article:modified_time" content="2019-11-13T07:51:32+00:00"/>
-        <meta property="og:updated_time" content="2019-11-13T07:51:32+00:00"/> -->
     {% if content.header_image %}
         <meta property="og:image"
               content="{{ content.header_image.file.url }}"/>
@@ -48,7 +48,8 @@
                     <h2 class="bold article-title">{{ content.title }}</h2>
                     {% if content.header_image %}
                         <div class="col-10 offset-1 article-image">
-                            <img src="{{ content.header_image.file.url }}" class="img-fluid" alt="{% trans 'Header image' %}">
+                            <img src="{{ content.header_image.file.url }}" class="img-fluid"
+                                 alt="{% trans 'Header image' %}">
                         </div>
                     {% endif %}
                     <p class="bold col-12 article-summary">{{ content.summary }}</p>
@@ -143,7 +144,8 @@
                                                 <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
                                                     <img src="{{ comment.author_user.profile_picture.url }}"
                                                          class="profile-picture mx-auto"
-                                                         height="40" alt="@{{ comment.author_user.username }}'s profile picture">
+                                                         height="40"
+                                                         alt="@{{ comment.author_user.username }}'s profile picture">
                                                 </div>
                                             {% else %}
                                                 <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
@@ -254,7 +256,8 @@
                                                             <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
                                                                 <img src="{{ comment_answer1.author_user.profile_picture.url }}"
                                                                      class="profile-picture mx-auto"
-                                                                     height="40" alt="@{{ comment.author_user.username }}'s profile picture">
+                                                                     height="40"
+                                                                     alt="@{{ comment.author_user.username }}'s profile picture">
                                                             </div>
                                                         {% else %}
                                                             <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
@@ -325,7 +328,8 @@
                                                     <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
                                                         <img src="{{ comment.author_user.profile_picture.url }}"
                                                              class="profile-picture mx-auto"
-                                                             height="40" alt="@{{ comment.author_user.username }}'s profile picture">
+                                                             height="40"
+                                                             alt="@{{ comment.author_user.username }}'s profile picture">
                                                     </div>
                                                 {% else %}
                                                     <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
@@ -389,7 +393,8 @@
                                                             <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
                                                                 <img src="{{ comment_answer1.author_user.profile_picture.url }}"
                                                                      class="profile-picture mx-auto"
-                                                                     height="40" alt="@{{ comment.author_user.username }}'s profile picture">
+                                                                     height="40"
+                                                                     alt="@{{ comment.author_user.username }}'s profile picture">
                                                             </div>
                                                         {% else %}
                                                             <div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture">
@@ -487,7 +492,8 @@
                             <div class="article-preview-aside text-dark row">
                                 {% if latest_post.header_image %}
                                     <div class="col-4 offset-1 text-center">
-                                        <img src="{{ latest_post.header_image.file.url }}" class="img-fluid mx-auto" alt="Header image">
+                                        <img src="{{ latest_post.header_image.file.url }}" class="img-fluid mx-auto"
+                                             alt="Header image">
                                     </div>
                                     <div class="col-6 text-center bold">
                                         {{ latest_post.title }}
