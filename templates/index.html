@@ -5,6 +5,8 @@
 
 {% block extended_head_data %}
     <title>Home - {{ general.blog_title.text }}</title>
+    <meta name="twitter:title" content="Home - {{ general.blog_title.text }}">
+    <meta property="og:title" content="Home">
 {% endblock %}
 
 {% block content %}
@@ -12,8 +14,8 @@
         <div class="row">
             <div class="col-lg-8 col-12">
                 <div class="col-10 offset-1 horizontal-divider top-line"></div>
-                <h2 class="bold">Welcome to the {{ general.blog_title.text }} blog!</h2>
-                <p class="bold">{{ general.blog_description.text | safe }}</p>
+                <h2 class="bold">{{ general.blog_subtitle.text }}</h2>
+                <p class="bold">{{ general.blog_description.text }}</p>
                 <div class="horizontal-divider-dotted col-8 offset-2"></div>
                 <h2 class="text-center bold post-preview-title">{% trans 'Latest posts' %}</h2>
 
@@ -22,7 +24,8 @@
                         {% if latest_post.header_image %}
                             <div class="row text-dark text-center text-md-left">
                                 <div class="col-md-4 col-8 offset-2 offset-md-0">
-                                    <img src="{{ latest_post.header_image.file.url }}" class="img-fluid" alt="Header image">
+                                    <img src="{{ latest_post.header_image.file.url }}" class="img-fluid"
+                                         alt="Header image">
                                 </div>
                                 <div class="col-md-8 col-12">
                                     <h4 class="bold">{{ latest_post.title }}</h4>

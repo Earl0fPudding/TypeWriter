@@ -163,7 +163,7 @@ msgstr "Schlagwörter eingeben"
 
 #: templates/discover.html:29
 msgid "Search for keywords in"
-msgstr "Suche nach Schlagwörter im"
+msgstr "Suche nach Schlagwörtern im"
 
 #: templates/discover.html:38
 msgid "title only"
