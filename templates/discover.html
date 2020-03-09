@@ -5,6 +5,8 @@
 
 {% block extended_head_data %}
     <title>{% trans 'Discover articles' %} - {{ general.blog_title.text }}</title>
+    <meta name="twitter:title" content="{% trans 'Discover articles' %} - {{ general.blog_title.text }}">
+    <meta property="og:title" content="{% trans 'Discover articles' %}">
 {% endblock %}
 
 {% block content %}
@@ -42,7 +44,8 @@
                                            class="custom-control-input" value="text"
                                             {% if form.data.title_or_text and form.data.title_or_text == 'text' %}
                                            checked {% endif %}>
-                                    <label class="custom-control-label" for="ckb_text">{% trans 'title and text' %}</label>
+                                    <label class="custom-control-label"
+                                           for="ckb_text">{% trans 'title and text' %}</label>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +83,8 @@
                                            class="custom-control-input" value="select"
                                             {% if form.data.all_cat and form.data.all_cat == 'select' %}
                                            checked {% endif %}>
-                                    <label class="custom-control-label" for="ckb_select_cat">{% trans 'select' %}</label>
+                                    <label class="custom-control-label"
+                                           for="ckb_select_cat">{% trans 'select' %}</label>
                                 </div>
                             </div>
                             <div class="col-12 col-md-8 offset-md-2" id="category_select_list"
@@ -161,7 +165,8 @@
                         </div>
                         <div class="row">
                             <div class="col-12" style="text-align: center;">
-                                <button class="btn btn-outline-dark" type="submit"><strong>{% trans 'Search' %}</strong></button>
+                                <button class="btn btn-outline-dark" type="submit"><strong>{% trans 'Search' %}</strong>
+                                </button>
                             </div>
                         </div>
                     </form>

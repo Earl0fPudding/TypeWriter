@@ -3,7 +3,9 @@
 {% load static %}
 
 {% block extended_head_data %}
-    <title>{{ page_title }} - TypeWriter</title>
+    <title>{{ page_title }} - {{general.blog_title.text}}</title>
+    <meta name="twitter:title" content="{{ page_title }} - {{ general.blog_title.text }}">
+    <meta property="og:title" content="{{ page_title }}">
 {% endblock %}
 
 {% block content %}
