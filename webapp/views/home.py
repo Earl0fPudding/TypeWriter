@@ -38,15 +38,17 @@ def show_article(request, id):
     page_context = {'general': get_default_context(request),
                     'content': content,
                     'author': author,
+                    'tags': map(lambda s: s.strip(), list(content.tags.split(','))),
                     'latest_posts': Content.objects.filter(entry_id__in=latest_entry_ids,
                                                            language__name_short__exact=get_language_short_name(
                                                                request)),
                     'comments_allowed': Settings.objects.get(id=1).comments_allowed,
                     'comment_manual_valuated': Settings.objects.get(id=1).comments_manual_valuation,
                     'comments_same_lang': Comment.objects.
-                        filter(passed=True, content__entry_id__exact=id, content__language_id__exact=Language.objects.filter(
-                        name_short__exact=get_language_short_name(
-                            request)).first().id),
+                        filter(passed=True, content__entry_id__exact=id,
+                               content__language_id__exact=Language.objects.filter(
+                                   name_short__exact=get_language_short_name(
+                                       request)).first().id),
                     'comments_different_lang': Comment.objects.filter(passed=True, content__entry_id__exact=id).exclude(
                         content__language_id__exact=Language.objects.filter(
                             name_short__exact=get_language_short_name(request)).first().id),
@@ -67,9 +69,9 @@ def get_default_context(request):
     cur_url = request.build_absolute_uri()
     urls = []
     for language in Language.objects.all():
-        url=cur_url.replace('/' + get_language_short_name(request) + '/', '/' + language.name_short + '/')
-        url=url[url.find('/')+2:]
-        url=url[url.find('/'):]
+        url = cur_url.replace('/' + get_language_short_name(request) + '/', '/' + language.name_short + '/')
+        url = url[url.find('/') + 2:]
+        url = url[url.find('/'):]
         urls.append(url)
     urls.reverse()
     context = {'blog_title': TranslatedSmalltext.objects.get(
@@ -77,8 +79,8 @@ def get_default_context(request):
         language__name_short__exact=get_language_short_name(request)),
         'languages': Language.objects.all(),
         'language_urls': urls,
-        'cur_lang_short_name':get_language_short_name(request),
-        'cur_lang':Language.objects.get(name_short__exact=get_language_short_name(request)),
+        'cur_lang_short_name': get_language_short_name(request),
+        'cur_lang': Language.objects.get(name_short__exact=get_language_short_name(request)),
         'categories_lang': TranslatedSmalltext.objects.filter(
             translatable_smalltext_id__in=Category.objects.all().values_list('name_id'),
             language__name_short__exact=get_language_short_name(request)),

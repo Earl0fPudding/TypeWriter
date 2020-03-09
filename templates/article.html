@@ -17,14 +17,15 @@
         <meta property="article:modified_time" content="{{ content.last_edit_date.isoformat }}">
     {% endif %}
     <meta property="article:author" content="{% url 'show_user_page' author.username %}">
+    {% for tag in tags %}
+        <meta property="article:tag" content="{{ tag }}">
+    {% endfor %}
     <meta property="og:title" content="{{ content.title }}">
     <meta property="og:description" content="{{ content.summary }}">
     <meta property="og:site_name" content="{{ general.blog_title }}">
-    <!--    <meta property="article:tag" content="tech">
-        <meta property="article:tag" content="linux..."> -->
-    {% for category in entry.categories.all %}
+    <!-- {% for category in entry.categories.all %}
         <meta property="article:section" content="{{ category.id|get_category_name:general.cur_lang_short_name }}"/>
-    {% endfor %}
+    {% endfor %} -->
     {% if content.header_image %}
         <meta property="og:image"
               content="{{ content.header_image.file.url }}"/>

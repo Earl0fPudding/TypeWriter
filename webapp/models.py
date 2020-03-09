@@ -138,6 +138,7 @@ class Content(models.Model):
     # attachments = models.ManyToManyField(Attachment, related_name='contents', blank=True)
     language = models.ForeignKey(Language, null=False, on_delete=models.CASCADE, related_name='contents')
     entry = models.ForeignKey(Entry, null=False, on_delete=models.CASCADE, related_name='contents')
+    tags = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
         return self.title
