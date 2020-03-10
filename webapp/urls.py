@@ -25,7 +25,11 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^robots.txt$', home.show_robots_txt)
+    url(r'^robots.txt$', home.show_robots_txt),
+    url(r'^favicon.ico$', home.show_favicon_ico),
+    url(r'^favicon.png$', home.show_favicon_png),
+    url(r'^mstile-144x144.png$', home.show_favicon_png),
+    url(r'^apple-touch-icon.png$', home.show_favicon_png)
 ]
 
 urlpatterns += i18n.i18n_patterns(

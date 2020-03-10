@@ -1,5 +1,6 @@
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 import datetime
+import os.path
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
@@ -18,6 +19,26 @@ def show_robots_txt(request):
                                 "Disallow: /privacy_policy\n" +
                                 "Disallow: /*/imprint\n" +
                                 "Disallow: /*/privacy_policy", content_type="text/plain; charset=utf-8")
+
+
+@require_http_methods(['GET'])
+def show_favicon_ico(request):
+    if Settings.objects.get(id=1).favicon_ico:
+        path = Settings.objects.get(id=1).favicon_ico.path
+        if os.path.isfile(path):
+            fsock = open(path, "rb")
+            return HttpResponse(content=fsock, content_type="image/x-icon")
+    raise Http404()
+
+
+@require_http_methods(['GET'])
+def show_favicon_png(request):
+    if Settings.objects.get(id=1).favicon_png:
+        path = Settings.objects.get(id=1).favicon_png.path
+        if os.path.isfile(path):
+            fsock = open(path, "rb")
+            return HttpResponse(content=fsock, content_type="image/png")
+    raise Http404()
 
 
 @require_http_methods(['GET'])
