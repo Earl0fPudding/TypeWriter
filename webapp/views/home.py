@@ -12,6 +12,15 @@ from users.models import CustomUser
 # Create your views here.
 
 @require_http_methods(['GET'])
+def show_robots_txt(request):
+    return HttpResponse(content="User-agent: *\n" +
+                                "Disallow: /imprint\n" +
+                                "Disallow: /privacy_policy\n" +
+                                "Disallow: /*/imprint\n" +
+                                "Disallow: /*/privacy_policy", content_type="text/plain; charset=utf-8")
+
+
+@require_http_methods(['GET'])
 def show_index(request):
     latest_entry_ids = list(Entry.objects.all().reverse().values_list('id', flat=True))[:5]
 

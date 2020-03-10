@@ -24,7 +24,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls)
+    path('admin/', admin.site.urls),
+    url(r'^robots.txt$', home.show_robots_txt)
 ]
 
 urlpatterns += i18n.i18n_patterns(
