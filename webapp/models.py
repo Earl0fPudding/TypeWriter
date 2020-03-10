@@ -71,6 +71,8 @@ class Settings(models.Model):
                                      blank=True)
     privacy_policy_text = models.ForeignKey(TranslatableTextgroup, related_name='+', on_delete=models.DO_NOTHING,
                                             null=True, blank=True)
+    default_meta_description = models.OneToOneField(TranslatableSmalltext, related_name='+', on_delete=models.CASCADE,
+                                                    blank=True, null=True)
 
 
 class Category(models.Model):

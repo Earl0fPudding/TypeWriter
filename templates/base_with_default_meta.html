@@ -4,11 +4,11 @@
     {% block extended_head_data %}
     {% endblock %}
     <!-- META tags -->
-    <meta name="description" content="{{general.blog_description.text}}">
+    <meta name="description" content="{{general.default_meta_description.text}}">
     <meta property="og:locale" content="{{ general.cur_lang_short_name }}">
     <meta property="og:type" content="website">
-    <meta property="og:description" content="{{ general.blog_description.text }}">
+    <meta property="og:description" content="{{ general.default_meta_description.text }}">
     <meta property="og:site_name" content="{{ general.blog_title }}">
-    <meta name="twitter:card" content="{{ general.blog_description.text }}">
-    <meta name="twitter:description" content="{{ general.blog_description.text }}">
+    <meta name="twitter:card" content="{{ general.default_meta_description.text }}">
+    <meta name="twitter:description" content="{{ general.default_meta_description.text }}">
 {% endblock %}

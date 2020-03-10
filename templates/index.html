@@ -14,8 +14,8 @@
         <div class="row">
             <div class="col-lg-8 col-12">
                 <div class="col-10 offset-1 horizontal-divider top-line"></div>
-                <h2 class="bold">{{ general.blog_subtitle.text }}</h2>
-                <p class="bold">{{ general.blog_description.text }}</p>
+                <h2 class="bold">{{ general.blog_subtitle.text | safe}}</h2>
+                <p class="bold">{{ general.blog_description.text | safe }}</p>
                 <div class="horizontal-divider-dotted col-8 offset-2"></div>
                 <h2 class="text-center bold post-preview-title">{% trans 'Latest posts' %}</h2>
 

@@ -92,6 +92,9 @@ def get_default_context(request):
         'blog_description': TranslatedText.objects.get(
             translatable_textgroup_id__exact=db_settings.blog_description.id,
             language__name_short__exact=get_language_short_name(request)),
+        'default_meta_description': TranslatedSmalltext.objects.get(
+            translatable_smalltext_id__exact=db_settings.default_meta_description.id,
+            language__name_short__exact=get_language_short_name(request)),
         'uploads_path': settings.MEDIA_URL,
         'static_path': settings.STATIC_URL}
     return context
