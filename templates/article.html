@@ -17,9 +17,11 @@
         <meta property="article:modified_time" content="{{ content.last_edit_date.isoformat }}">
     {% endif %}
     <meta property="article:author" content="{% url 'show_user_page' author.username %}">
-    {% for tag in tags %}
-        <meta property="article:tag" content="{{ tag }}">
-    {% endfor %}
+    {% if tags and tags|length > 0 and tags.0 != '' %}
+        {% for tag in tags %}
+            <meta property="article:tag" content="{{ tag }}">
+        {% endfor %}
+    {% endif %}
     <meta property="og:title" content="{{ content.title }}">
     <meta property="og:description" content="{{ content.summary }}">
     <meta property="og:site_name" content="{{ general.blog_title }}">

@@ -142,6 +142,13 @@ class Content(models.Model):
     entry = models.ForeignKey(Entry, null=False, on_delete=models.CASCADE, related_name='contents')
     tags = models.CharField(max_length=200, blank=True, null=True, default='')
 
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self.tags == None:
+            self.tags = ''
+        self.save_base()
+
+
     def __str__(self):
         return self.title
 
