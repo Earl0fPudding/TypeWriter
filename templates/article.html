@@ -507,7 +507,7 @@
                                     </div>
                                 {% endif %}
                                 <div class="col-12 text-center">
-                                    <a href="{% url 'show_article' latest_post.entry_id %}">
+                                    <a href="{% url 'show_article_readable' latest_post.entry_id latest_post.title|slugify %}">
                                         <button type="button" class="btn-outline-dark btn read-more-button">
                                             {% trans 'Read more' %}
                                         </button>

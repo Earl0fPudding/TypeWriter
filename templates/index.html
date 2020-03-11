@@ -20,7 +20,7 @@
                 <h2 class="text-center bold post-preview-title">{% trans 'Latest posts' %}</h2>
 
                 {% for latest_post in latest_posts %}
-                    <a class="post-preview text-dark" href="{% url 'show_article' latest_post.entry_id %}">
+                    <a class="post-preview text-dark" href="{% url 'show_article_readable' latest_post.entry_id latest_post.title|slugify %}">
                         {% if latest_post.header_image %}
                             <div class="row text-dark text-center text-md-left">
                                 <div class="col-md-4 col-8 offset-2 offset-md-0">
@@ -43,7 +43,7 @@
                             </div>
                         {% endif %}
                         <div class="col-12 text-center">
-                            <a href="{% url 'show_article' latest_post.entry_id %}">
+                            <a href="{% url 'show_article_readable' latest_post.entry_id latest_post.title|slugify %}">
                                 <button type="button" class="btn-outline-dark btn read-more-button">Read
                                     more
                                 </button>

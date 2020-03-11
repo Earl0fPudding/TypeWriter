@@ -54,7 +54,7 @@
                         <div class="horizontal-divider-dotted col-8 offset-2"></div>
                         <h2 class="text-center bold post-preview-title">{% trans 'Latest posts of' %} {{ user.first_name }}:</h2>
                         {% for content in author_content %}
-                            <a class="post-preview text-dark" href="{% url 'show_article' content.entry_id %}">
+                            <a class="post-preview text-dark" href="{% url 'show_article_readable' content.entry_id content.title|slugify %}">
                                 {% if content.header_image %}
                                     <div class="row text-dark text-center text-md-left">
                                         <div class="col-md-4 col-8 offset-2 offset-md-0">
@@ -76,7 +76,7 @@
                                     </div>
                                 {% endif %}
                                 <div class="col-12 text-center">
-                                    <a href="{% url 'show_article' content.entry_id %}">
+                                    <a href="{% url 'show_article_readable' content.entry_id content.title|slugify %}">
                                         <button type="button" class="btn-outline-dark btn read-more-button">
                                             {% trans 'Read more' %}
                                         </button>

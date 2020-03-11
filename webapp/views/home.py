@@ -4,6 +4,7 @@ import os.path
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
+from django.template.defaultfilters import slugify
 
 from webapp.forms import CommentForm, DiscoverForm, SearchForm
 from webapp.models import Entry, Content, Language, Category, Settings, Comment, TranslatedText, TranslatedSmalltext
@@ -38,6 +39,14 @@ def show_favicon_png(request):
         if os.path.isfile(path):
             fsock = open(path, "rb")
             return HttpResponse(content=fsock, content_type="image/png")
+    raise Http404()
+
+
+@require_http_methods(['GET'])
+def show_article_readable(request, id, title):
+    if title == slugify(
+            Content.objects.get(entry_id=id, language__name_short__exact=get_language_short_name(request)).title):
+        return show_article(request, id)
     raise Http404()
 
 
