@@ -9,6 +9,13 @@
     <meta property="og:type" content="website">
     <meta property="og:description" content="{{ general.default_meta_description.text }}">
     <meta property="og:site_name" content="{{ general.blog_title }}">
-    <meta name="twitter:card" content="{{ general.default_meta_description.text }}">
+    <meta name="twitter:card" content="summary">
     <meta name="twitter:description" content="{{ general.default_meta_description.text }}">
+    {% if general.settings.default_open_graph_image %}
+                <meta property="og:image"
+              content="{{ general.settings.default_open_graph_image.url }}"/>
+        <meta property="og:image:secure_url"
+              content="{{ general.settings.default_open_graph_image.url }}"/>
+        <meta name="twitter:image" content="{{ general.settings.default_open_graph_image.url }}">
+    {% endif %}
 {% endblock %}

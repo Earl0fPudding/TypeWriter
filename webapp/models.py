@@ -73,8 +73,9 @@ class Settings(models.Model):
                                             null=True, blank=True)
     default_meta_description = models.OneToOneField(TranslatableSmalltext, related_name='+', on_delete=models.CASCADE,
                                                     blank=True, null=True)
-    favicon_ico=models.FileField(upload_to='favicons/ico', null=True, blank=True)
-    favicon_png=models.FileField(upload_to='favicons/png', null=True, blank=True)
+    favicon_ico = models.FileField(upload_to='favicons/ico', null=True, blank=True)
+    favicon_png = models.FileField(upload_to='favicons/png', null=True, blank=True)
+    default_open_graph_image = models.FileField(upload_to='og_image', null=True, blank=True)
 
 
 class Category(models.Model):
@@ -149,7 +150,6 @@ class Content(models.Model):
         if self.tags == None:
             self.tags = ''
         self.save_base()
-
 
     def __str__(self):
         return self.title
