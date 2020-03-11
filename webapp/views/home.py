@@ -44,9 +44,10 @@ def show_favicon_png(request):
 
 @require_http_methods(['GET'])
 def show_article_readable(request, id, title):
-    if title == slugify(
-            Content.objects.get(entry_id=id, language__name_short__exact=get_language_short_name(request)).title):
-        return show_article(request, id)
+    contents = Content.objects.filter(entry_id=id)
+    for content in contents:
+        if title == slugify(content.title):
+            return show_article(request, id)
     raise Http404()
 
 
