@@ -30,10 +30,10 @@
     {% endfor %} -->
     {% if content.header_image %}
         <meta property="og:image"
-              content="{{ content.header_image.file.url }}"/>
+              content="{{ general.settings.socket }}{{ content.header_image.file.url }}"/>
         <meta property="og:image:secure_url"
-              content="{{ content.header_image.file.url }}"/>
-        <meta name="twitter:image" content="{{ content.header_image.file.url }}">
+              content="{{ general.settings.socket }}{{ content.header_image.file.url }}"/>
+        <meta name="twitter:image" content="{{ general.settings.socket }}{{ content.header_image.file.url }}">
         <meta name="twitter:card" content="summary_large_image">
     {% else %}
     <meta name="twitter:card" content="summary">

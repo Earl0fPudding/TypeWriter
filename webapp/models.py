@@ -76,6 +76,7 @@ class Settings(models.Model):
     favicon_ico = models.FileField(upload_to='favicons/ico', null=True, blank=True)
     favicon_png = models.FileField(upload_to='favicons/png', null=True, blank=True)
     default_open_graph_image = models.FileField(upload_to='og_image', null=True, blank=True)
+    socket=models.CharField(max_length=100, null=False, blank=False)
 
 
 class Category(models.Model):

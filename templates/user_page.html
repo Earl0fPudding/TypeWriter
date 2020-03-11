@@ -14,10 +14,10 @@
     <meta property="og:site_name" content="{{ general.blog_title }}">
     {% if user.profile_picture %}
         <meta property="og:image"
-              content="{{ user.profile_picture.url }}"/>
+              content="{{ general.settings.socket }}{{ user.profile_picture.url }}"/>
         <meta property="og:image:secure_url"
-              content="{{ user.profile_picture.url }}"/>
-        <meta name="twitter:image" content="{{ user.profile_picture.url }}">
+              content="{{ general.settings.socket }}{{ user.profile_picture.url }}"/>
+        <meta name="twitter:image" content="{{ general.settings.socket }}{{ user.profile_picture.url }}">
     {% endif %}
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="@{{ user.username }}'s profile - {{ general.blog_title.text }}">
