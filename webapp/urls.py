@@ -22,6 +22,7 @@ from .resource_controllers import comment_controller
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from webapp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -46,3 +47,5 @@ urlpatterns += i18n.i18n_patterns(
 )
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = views.home.http404

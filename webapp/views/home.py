@@ -14,6 +14,14 @@ from users.models import CustomUser
 # Create your views here.
 
 @require_http_methods(['GET'])
+def http404(request, exception):
+    page_context = {'general': get_default_context(request),
+                    'page_title': 'HTTP Error 404',
+                    'text': exception}
+    return render(request, 'blank_page.html', context=page_context)
+
+
+@require_http_methods(['GET'])
 def show_robots_txt(request):
     return HttpResponse(content="User-agent: *\n" +
                                 "Disallow: /imprint\n" +
@@ -72,6 +80,12 @@ def show_login(request):
 def show_article(request, id):
     author = Entry.objects.get(id=id).author
     latest_entry_ids = list(Entry.objects.all().reverse().values_list('id', flat=True))[:5]
+    if len(Content.objects.filter(entry_id=id, language__name_short__exact=get_language_short_name(request))) == 0:
+        langs=''
+        for content in  Content.objects.filter(entry_id=id):
+            langs+=content.language.name+' '
+        raise Http404("<h1>Article not available in your language</h1>\n<h3>Available languages are "+langs+"</h3>")
+
     content = Content.objects.filter(entry_id__exact=id,
                                      language__name_short__exact=get_language_short_name(
                                          request)).first()
@@ -159,7 +173,7 @@ def show_imprint(request):
                     'page_title': 'Imprint',
                     'text': TranslatedText.objects.get(
                         translatable_textgroup_id__exact=Settings.objects.get(id=1).imprint_text.id,
-                        language__name_short__exact=get_language_short_name(request))}
+                        language__name_short__exact=get_language_short_name(request)).text}
     return render(request, 'blank_page.html', context=page_context)
 
 
@@ -168,7 +182,7 @@ def show_privacy_policy(request):
                     'page_title': 'Privacy Policy',
                     'text': TranslatedText.objects.get(
                         translatable_textgroup_id__exact=Settings.objects.get(id=1).privacy_policy_text.id,
-                        language__name_short__exact=get_language_short_name(request))}
+                        language__name_short__exact=get_language_short_name(request)).text}
     return render(request, 'blank_page.html', context=page_context)
 
 
