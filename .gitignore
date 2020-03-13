@@ -105,3 +105,8 @@ venv.bak/
 
 # pyCharm
 .idea/
+
+
+uwsgi.ini
+webapp/uploads/
+TypeWriter/settings.py
