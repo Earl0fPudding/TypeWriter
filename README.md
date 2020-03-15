@@ -19,7 +19,8 @@ A powerful and customizable blog/weblog system written in Python Django supporti
   3. Create a new database and database user
   4. Edit in the settings.py things like database connection, upload paths, static paths, allowed IP addresses and possible languages
   5. Create the database structure with `python3 manage.py migrate`
-  6. Create the translation file with `python3 manage.py compilemessages`
-  7. Create a new superuser with `python3 manage.py createsuperuser`
-  8. Log into admin page and add things like languages, one settings object and the translated and translatable objects
-  9. Run or deploy the project as you wish
+  6. Generate static files for admin interface `python3 manage.py collectstatic`
+  7. Create the translation file with `python3 manage.py compilemessages`
+  8. Create a new superuser with `python3 manage.py createsuperuser`
+  9. Log into admin page and add things like languages, one settings object and the translated and translatable objects
+  10. Run or deploy the project as you wish
