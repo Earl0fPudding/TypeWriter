@@ -110,5 +110,5 @@ venv.bak/
 uwsgi.ini
 webapp/uploads/
 TypeWriter/settings.py
-webapp/static/admin
-webapp/static/ckeditor
+webapp/static/admin/
+webapp/static/ckeditor/
