@@ -13,12 +13,11 @@ from users.models import CustomUser
 
 # Create your views here.
 
-@require_http_methods(['GET'])
 def http404(request, exception):
     page_context = {'general': get_default_context(request),
                     'page_title': 'HTTP Error 404',
                     'text': exception}
-    return render(request, 'blank_page.html', context=page_context)
+    return render(request, 'blank_page.html', context=page_context, status=404)
 
 
 @require_http_methods(['GET'])
@@ -56,7 +55,7 @@ def show_article_readable(request, id, title):
     for content in contents:
         if title == slugify(content.title):
             return show_article(request, id)
-    raise Http404()
+    return http404(request, "<h1>Article not found</h2>")
 
 
 @require_http_methods(['GET'])
@@ -84,7 +83,7 @@ def show_article(request, id):
         langs = ''
         for content in Content.objects.filter(entry_id=id):
             langs += content.language.name + ' '
-        raise Http404("<h1>Article not available in your language</h1>\n<h3>Available languages are " + langs + "</h3>")
+        return http404(request, "<h1>Article not available in your language</h1>\n<h3>Available languages are " + langs + "</h3>")
 
     content = Content.objects.filter(entry_id__exact=id,
                                      language__name_short__exact=get_language_short_name(
@@ -176,7 +175,7 @@ def show_imprint(request):
         for text in TranslatedText.objects.filter(
                 translatable_textgroup_id__exact=Settings.objects.get(id=1).imprint_text.id):
             langs += text.language.name + ' '
-        raise Http404("<h1>Page not available in your language</h1>\n<h3>Available languages are " + langs + "</h3>")
+        return http404(request, "<h1>Page not available in your language</h1>\n<h3>Available languages are " + langs + "</h3>")
 
     page_context = {'general': get_default_context(request),
                     'page_title': 'Imprint',
@@ -194,7 +193,7 @@ def show_privacy_policy(request):
         for text in TranslatedText.objects.filter(
                 translatable_textgroup_id__exact=Settings.objects.get(id=1).privacy_policy_text.id):
             langs += text.language.name + ' '
-        raise Http404("<h1>Page not available in your language</h1>\n<h3>Available languages are " + langs + "</h3>")
+        return http404(request,"<h1>Page not available in your language</h1>\n<h3>Available languages are " + langs + "</h3>")
 
     page_context = {'general': get_default_context(request),
                     'page_title': 'Privacy Policy',

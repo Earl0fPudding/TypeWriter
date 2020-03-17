@@ -49,4 +49,4 @@ urlpatterns += i18n.i18n_patterns(
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
-handler404 = views.home.http404
+#handler404 = views.home.http404
