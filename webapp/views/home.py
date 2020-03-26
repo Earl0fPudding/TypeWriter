@@ -65,7 +65,7 @@ def show_index(request):
     page_context = {'general': get_default_context(request),
                     'latest_posts': Content.objects.filter(entry_id__in=latest_entry_ids,
                                                            language__name_short__exact=get_language_short_name(
-                                                               request)),
+                                                               request), is_public=True),
                     }
     return render(request, 'index.html', context=page_context)
 
@@ -94,7 +94,7 @@ def show_article(request, id):
                     'tags': map(lambda s: s.strip(), list(content.tags.split(','))),
                     'latest_posts': Content.objects.filter(entry_id__in=latest_entry_ids,
                                                            language__name_short__exact=get_language_short_name(
-                                                               request)),
+                                                               request), is_public=True),
                     'comments_allowed': Settings.objects.get(id=1).comments_allowed,
                     'comment_manual_valuated': Settings.objects.get(id=1).comments_manual_valuation,
                     'comments_same_lang': Comment.objects.
@@ -162,7 +162,7 @@ def show_user_page(request, username):
                         language__name_short__exact=get_language_short_name(request)),
                     'author_content': Content.objects.filter(entry__author=user,
                                                              language__name_short__exact=get_language_short_name(
-                                                                 request))
+                                                                 request), is_public=True)
                     }
     return render(request, 'user_page.html', context=page_context)
 
@@ -224,7 +224,7 @@ def show_discover(request):
                                      23, 59, 59)
         contents = Content.objects.filter(language__in=selected_langs,
                                           entry__categories__in=selected_cats,
-                                          creation_date__range=[start_date, end_date]).distinct()
+                                          creation_date__range=[start_date, end_date], is_public=True).distinct()
 
         if 'keywords' in form.data and form.data['keywords'] != '':
             keyword_filtered_contents = []
@@ -243,7 +243,7 @@ def show_discover(request):
         form = SearchForm(request.GET)
         if form.is_valid():
             contents = Content.objects.filter(title__icontains=form.data['keywords'],
-                                              language__name_short__exact=get_language_short_name(request))
+                                              language__name_short__exact=get_language_short_name(request), is_public=True)
     page_context = {
         'general': get_default_context(request),
         'current_language': Language.objects.get(name_short__exact=get_language_short_name(request)),

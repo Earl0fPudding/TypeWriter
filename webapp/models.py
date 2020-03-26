@@ -76,7 +76,7 @@ class Settings(models.Model):
     favicon_ico = models.FileField(upload_to='favicons/ico', null=True, blank=True)
     favicon_png = models.FileField(upload_to='favicons/png', null=True, blank=True)
     default_open_graph_image = models.FileField(upload_to='og_image', null=True, blank=True)
-    socket=models.CharField(max_length=100, null=False, blank=False)
+    socket = models.CharField(max_length=100, null=False, blank=False)
 
 
 class Category(models.Model):
@@ -145,6 +145,7 @@ class Content(models.Model):
     language = models.ForeignKey(Language, null=False, on_delete=models.CASCADE, related_name='contents')
     entry = models.ForeignKey(Entry, null=False, on_delete=models.CASCADE, related_name='contents')
     tags = models.CharField(max_length=200, blank=True, null=True, default='')
+    is_public=models.BooleanField(default=False, blank=False, null=False)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
