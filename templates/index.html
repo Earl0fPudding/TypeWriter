@@ -42,7 +42,7 @@
                                     {{ latest_post.summary }}</p>
                             </div>
                         {% endif %}
-                        <div class="col-12 text-center">
+                        <div class="col-12 text-center" style="margin-bottom: 20px;">
                             <a href="{% url 'show_article_readable' latest_post.entry.token latest_post.title|slugify %}">
                                 <button type="button" class="btn-outline-dark btn read-more-button">Read
                                     more
