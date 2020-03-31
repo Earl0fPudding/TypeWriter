@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-31 12:49+0000\n"
+"POT-Creation-Date: 2020-03-31 14:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,65 +26,73 @@ msgstr "Englisch"
 msgid "German"
 msgstr "Deutsch"
 
-#: templates/article.html:55
+#: templates/article.html:56
 msgid "Header image"
 msgstr "Artikelbild"
 
-#: templates/article.html:60
+#: templates/article.html:61
 msgid "written on"
 msgstr "verfasst am"
 
-#: templates/article.html:61 templates/article.html:64
+#: templates/article.html:62 templates/article.html:65
 msgid "at"
 msgstr "um"
 
-#: templates/article.html:63
+#: templates/article.html:64
 msgid "last edited on"
 msgstr "zuletzt editiert am"
 
-#: templates/article.html:66 templates/discover.html:188
+#: templates/article.html:67 templates/discover.html:188
 #: templates/discover.html:196 templates/index.html:33 templates/index.html:41
 #: templates/user_page.html:66 templates/user_page.html:74
 msgid "by"
 msgstr "von"
 
-#: templates/article.html:68
+#: templates/article.html:69
 msgid "in category"
 msgstr "in der Kategorie"
 
-#: templates/article.html:71
+#: templates/article.html:72
 msgid "in categories"
 msgstr "in den Kategorien"
 
-#: templates/article.html:89
+#: templates/article.html:90
+msgid "Link copied!"
+msgstr "Link kopiert!"
+
+#: templates/article.html:91
+msgid "Share this article"
+msgstr "Teile diesen Artikel"
+
+#: templates/article.html:99
 msgid "Comments"
 msgstr "Kommentare"
 
-#: templates/article.html:93
+#: templates/article.html:103
 msgid "Write a new comment"
 msgstr "Verfasse einen neuen Kommentar"
 
-#: templates/article.html:100
+#: templates/article.html:110
 msgid "Your name:"
 msgstr "Ihr Name:"
 
-#: templates/article.html:103
+#: templates/article.html:113
 msgid "May I ask, what is your name?"
 msgstr "Ich bitte um Ihren Namen."
 
-#: templates/article.html:105
+#: templates/article.html:115
 msgid "This name will be displayed publicly"
 msgstr "Der Name wird öffentlich lesbar sein"
 
-#: templates/article.html:109
+#: templates/article.html:119
 msgid "Your comment:"
 msgstr "Ihr Kommentar:"
 
-#: templates/article.html:111
+#: templates/article.html:121
 msgid "May I ask for your opinion?"
 msgstr "Dürfte ich um Ihre Meinung fragen?"
 
-#: templates/article.html:118
+#: templates/article.html:128
 msgid ""
 "I agree that <u>only my name and comment text</u> will be saved on this "
 "server and can be made publicly available for everyone to read."
@@ -92,32 +100,32 @@ msgstr ""
 "Ich stimme zu dass <u>nur meine Name und Kommentar</u> auf dieser Webseite "
 "öffentlich verfügbar gemacht werden können."
 
-#: templates/article.html:123
+#: templates/article.html:133
 msgid "Submit"
 msgstr "Abschicken"
 
-#: templates/article.html:140 templates/article.html:252
-#: templates/article.html:323 templates/article.html:389
+#: templates/article.html:150 templates/article.html:262
+#: templates/article.html:333 templates/article.html:399
 msgid "Delete"
 msgstr "Löschen"
 
-#: templates/article.html:185 templates/article.html:370
+#: templates/article.html:195 templates/article.html:380
 msgid "Reply"
 msgstr "Antworten"
 
-#: templates/article.html:455 templates/wrong_lang_article.html:68
+#: templates/article.html:465 templates/wrong_lang_article.html:68
 msgid "About the author:"
 msgstr "Über diesen Autor:"
 
-#: templates/article.html:478 templates/wrong_lang_article.html:91
+#: templates/article.html:488 templates/wrong_lang_article.html:91
 msgid "More from this author"
 msgstr "Mehr von diesem Autor"
 
-#: templates/article.html:489 templates/wrong_lang_article.html:102
+#: templates/article.html:499 templates/wrong_lang_article.html:102
 msgid "Latest posts:"
 msgstr "Neueste Einträge:"
 
-#: templates/article.html:512 templates/user_page.html:81
+#: templates/article.html:522 templates/user_page.html:81
 #: templates/wrong_lang_article.html:125
 msgid "Read more"
 msgstr "Weiterlesen"
@@ -235,7 +243,9 @@ msgstr "Neueste Einträge von"
 msgid ""
 "This article is not available in the chosen language. Please select one of "
 "the following languages:"
-msgstr "Dieser Eintrag ist nicht in der gewünschten Sprache verfügbar. Bitte wähle eine der aufgelisteten Sprachen aus:"
+msgstr ""
+"Dieser Eintrag ist nicht in der gewünschten Sprache verfügbar. Bitte wähle "
+"eine der aufgelisteten Sprachen aus:"
 
 #: users/managers.py:16
 msgid "The username must be set"
