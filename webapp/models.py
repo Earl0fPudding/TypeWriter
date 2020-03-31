@@ -90,10 +90,12 @@ class Category(models.Model):
             return "Empty category"
 
 
-def random_string(string_length=10):
+def random_string(string_length=10, include_chars=True):
     """Generate a random string of fixed length """
-    letters_and_digits = string.ascii_letters + string.digits
-    return ''.join(random.choice(letters_and_digits) for i in range(string_length))
+    pool = string.digits
+    if include_chars:
+        pool += string.ascii_letters
+    return ''.join(random.choice(pool) for i in range(string_length))
 
 
 def get_list_of_files(dirName):
@@ -112,9 +114,9 @@ def get_list_of_files(dirName):
 
 
 def get_attachment_path(instance, filename):
-    rnd_str = random_string(42)
+    rnd_str = random_string(42, True)
     while any(rnd_str in s for s in get_list_of_files(settings.MEDIA_ROOT + "/attachments/")):
-        rnd_str = random_string(42)
+        rnd_str = random_string(42, True)
     return 'attachments/' + rnd_str + '/' + filename
 
 
@@ -123,8 +125,18 @@ class Attachment(models.Model):
 
 
 class Entry(models.Model):
+    token = models.CharField(max_length=6, blank=False, null=False, unique=True, default='000000')
     categories = models.ManyToManyField(Category, related_name='entries', blank=False)
     author = models.ForeignKey(CustomUser, null=False, on_delete=models.CASCADE, related_name='entries')
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self.id is None or self.id == '':
+            rnd_str = random_string(6, False)
+            while any(rnd_str in s for s in list(Entry.objects.values_list('token', flat=True))):
+                rnd_str = random_string(6, False)
+            self.token=rnd_str
+        self.save_base()
 
     def __str__(self):
         if len(Content.objects.filter(entry_id=self.id)) > 0:
@@ -145,11 +157,11 @@ class Content(models.Model):
     language = models.ForeignKey(Language, null=False, on_delete=models.CASCADE, related_name='contents')
     entry = models.ForeignKey(Entry, null=False, on_delete=models.CASCADE, related_name='contents')
     tags = models.CharField(max_length=200, blank=True, null=True, default='')
-    is_public=models.BooleanField(default=False, blank=False, null=False)
+    is_public = models.BooleanField(default=False, blank=False, null=False)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        if self.tags == None:
+        if self.tags is None:
             self.tags = ''
         self.save_base()
 
