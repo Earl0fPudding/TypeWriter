@@ -176,7 +176,7 @@
                         <p>{% trans 'No results found. Try to use different keywords or parameters.' %}</p>
                     {% endif %}
                     {% for content in results %}
-                        <a class="post-preview text-dark" href="{% url 'show_article_readable' content.entry_id content.title|slugify %}">
+                        <a class="post-preview text-dark" href="{% url 'show_article_readable' content.entry.token content.title|slugify %}">
                             {% if content.header_image %}
                                 <div class="row text-dark text-center text-md-left">
                                     <div class="col-md-4 col-8 offset-2 offset-md-0">
