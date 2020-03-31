@@ -51,7 +51,7 @@
                     <h1 class="bold article-title h2">{{ content.title }}</h1>
 
                     <h5>
-                        This article is not available in the chosen language. Please select one of the following languages:
+                        {% trans 'This article is not available in the chosen language. Please select one of the following languages:' %}
                     <ul>
                         {% for avail_lang in avail_langs %}
                             <li><a href="{{ avail_urls.pop }}" class="text-dark underline-on-hover">{{ avail_lang.name }}</a></li>
