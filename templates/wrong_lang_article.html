@@ -1,0 +1,238 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+{% load custom_tags %}
+
+{% block head_data %}
+    <title>{{ content.title }} - TypeWriter</title>
+    <link rel="stylesheet" href="{% static 'css/prism-solar.css' %}">
+    <script type="text/javascript" src="{% static 'js/prism-solar.js' %}"></script>
+
+    <!-- META tags -->
+    <meta name="description" content="{{ content.summary }}">
+    <meta property="og:locale" content="{{ general.cur_lang_short_name }}">
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="{{ content.creation_date.isoformat }}">
+    {% if content.last_edit_date %}
+        <meta property="article:modified_time" content="{{ content.last_edit_date.isoformat }}">
+    {% endif %}
+    <meta property="article:author" content="{% url 'show_user_page' author.username %}">
+    {% for tag in tags %}
+        {% if tag != '' %}
+            <meta property="article:tag" content="{{ tag }}">
+        {% endif %}
+    {% endfor %}
+    <meta property="og:title" content="{{ content.title }}">
+    <meta property="og:description" content="{{ content.summary }}">
+    <meta property="og:site_name" content="{{ general.blog_title }}">
+    <!-- {% for category in entry.categories.all %}
+        <meta property="article:section" content="{{ category.id|get_category_name:general.cur_lang_short_name }}"/>
+    {% endfor %} -->
+    {% if content.header_image %}
+        <meta property="og:image"
+              content="{{ general.settings.socket }}{{ content.header_image.file.url }}"/>
+        <meta property="og:image:secure_url"
+              content="{{ general.settings.socket }}{{ content.header_image.file.url }}"/>
+        <meta name="twitter:image" content="{{ general.settings.socket }}{{ content.header_image.file.url }}">
+        <meta name="twitter:card" content="summary_large_image">
+    {% else %}
+        <meta name="twitter:card" content="summary">
+    {% endif %}
+    <meta name="twitter:title" content="{{ content.title }}">
+    <meta name="twitter:description" content="{{ content.summary }}">
+{% endblock %}
+
+{% block content %}
+    <main>
+        <article>
+            <div class="row">
+                <div class="col-lg-8 col-12">
+                    <div class="col-10 offset-1 horizontal-divider top-line"></div>
+                    <h1 class="bold article-title h2">{{ content.title }}</h1>
+
+                    <h5>
+                        This article is not available in the chosen language. Please select one of the following languages:
+                    <ul>
+                        {% for avail_lang in avail_langs %}
+                            <li><a href="{{ avail_urls.pop }}" class="text-dark underline-on-hover">{{ avail_lang.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                    </h5>
+
+                </div>
+                <aside class="col-lg-4 col-md-12">
+                    <div class="author-information-aside">
+                        <div class="row">
+                            <div class="col-10 offset-1 horizontal-divider top-line"></div>
+                            <div class="col-lg-12 text-center bold h5" style="margin-bottom: 10px;">
+                                {% trans 'About the author:' %}
+                            </div>
+                            {% if author.profile_picture %}
+                                <div class="col-12 text-center" style="margin-bottom: 10px;">
+                                    <img src="{{ author.profile_picture.url }}" class="profile-picture mx-auto"
+                                         height="100" alt="@{{ author.username }}'s profile picture">
+                                </div>
+                            {% else %}
+                                <div class="col-12 text-center" style="margin-bottom: 10px;">
+                                    <img src="{% static 'img/default_profile_pic.svg' %}"
+                                         class="profile-picture mx-auto"
+                                         height="100" alt="Default profile picture">
+                                </div>
+                            {% endif %}
+                            <div class="col-lg-12 text-center bold">
+                                {{ author.first_name }} {{ author.last_name }}
+                            </div>
+                            <div class="col-lg-12 text-center">
+                                {{ author_desc.text | safe }}
+                            </div>
+                            <div class="col-lg-12 text-center">
+                                <a href="{% url 'show_user_page' author.username %}">
+                                    <button type="button" class="btn-outline-dark btn read-more-button">
+                                        {% trans 'More from this author' %}
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="latest-posts-aside">
+
+                        <div class="col-10 offset-1 horizontal-divider top-line"></div>
+                        <div class="col-12 text-center bold h5">
+                            {% trans 'Latest posts:' %}
+                        </div>
+                        {% for latest_post in latest_posts %}
+                            {% if forloop.counter0 != 0 %}
+                                <div class="col-8 offset-2 horizontal-divider-dotted"></div>
+                            {% endif %}
+                            <div class="article-preview-aside text-dark row">
+                                {% if latest_post.header_image %}
+                                    <div class="col-4 offset-1 text-center">
+                                        <img src="{{ latest_post.header_image.file.url }}" class="img-fluid mx-auto"
+                                             alt="Header image">
+                                    </div>
+                                    <div class="col-6 text-center bold">
+                                        {{ latest_post.title }}
+                                    </div>
+                                {% else %}
+                                    <div class="col-10 offset-1 text-center bold">
+                                        {{ latest_post.title }}
+                                    </div>
+                                {% endif %}
+                                <div class="col-12 text-center">
+                                    <a href="{% url 'show_article_readable' latest_post.entry_id latest_post.title|slugify %}">
+                                        <button type="button" class="btn-outline-dark btn read-more-button">
+                                            {% trans 'Read more' %}
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </aside>
+            </div>
+        </article>
+    </main>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let uploads_path = "{{ general.uploads_path }}";
+            let static_path = "{{ general.static_path }}";
+
+            $(".comment-delete-btn").click(function () {
+                let comment_id = this.value;
+                $.ajax({
+                    type: "DELETE",
+                    url: "{% url 'comment_delete' '0' %}".replace('0', comment_id),
+                    success: function () {
+                        $("#comment-id-" + comment_id).slideToggle(1000);
+                    }
+                });
+            });
+
+            $(".comment-reply-button").click(function () {
+                    let id = $(this).parent().parent().attr('id').replace('comment-id-', '');
+                    $('#answer-comment-form-' + id).slideToggle(1000);
+                    $("#comment-reply-button-" + id).slideToggle(1000);
+                    $("#comment-reply-close-" + id).slideToggle(1000);
+                }
+            );
+
+            $(".comment-submit").click(function () {
+                let data, isAnswer, id;
+                if ($(this).parent().parent().find("input").hasClass("hidden-answer-id")) {
+                    id = $(this).parent().parent().find("input")[1].value; // [0] -> csrf_token; [1] -> id
+                    data = $('#answer-comment-form-' + id).serialize();
+                    isAnswer = true;
+                } else {
+                    data = $("#new-comment-form").serialize();
+                    isAnswer = false;
+                }
+                if ((!isAnswer && $('#new_comment_ckb_id').is(':checked')) || (isAnswer && $('#answer_comment_ckb_id_' + id).is(':checked'))) {
+                    $.ajax({
+                        type: "POST",
+                        url: "{% url 'post_comment' %}",
+                        data: data,
+                        success: function (data) {
+                            let new_comment = data[0];
+
+                            let appendString = '<div class="comment">';
+                            if (new_comment.fields.author_user != null) {
+                                let author = JSON.parse(new_comment.fields.author_user)[0];
+                                let profile_pic_path;
+                                if (author.fields.profile_picture != '') {
+                                    profile_pic_path = uploads_path + author.fields.profile_picture;
+                                } else {
+                                    profile_pic_path = static_path + 'img/default_profile_pic.svg';
+                                }
+                                appendString += '<div class="row"><div class="col-sm-1 col-md-1 col-lg-1 col-2 text-center comment-profile-picture"><img src="' + profile_pic_path + '" class="profile-picture mx-auto" height="40"></div><div class="row col-sm-9 col-md-10 col-lg-10 col-10 comment-name-at-profile-picture">\n'
+                                    +
+                                    '                                                <div class="col-12 text-left bold">\n' +
+                                    author.fields.first_name + ' ' + author.fields.last_name +
+                                    '                                                </div>\n' +
+                                    '                                                <div class="col-12 text-left text-secondary h6">\n'
+                                    +
+                                    new Date(new_comment.fields.publish_date).toString() +
+                                    '                                                </div>\n' +
+                                    '                                            </div>\n' +
+                                    '                                        </div>\n';
+                            } else {
+                                {% if comment_manual_valuated == 1 %}
+                                    appendString += '<div class="text-center text-danger">Comment needs to be verified by the author to be public!</div>';
+                                {% endif %}
+                                appendString += '<div class="col-lg-6 col-md-12 text-left bold">\n'
+                                    +
+                                    new_comment.fields.author_name +
+                                    '                                        </div>\n' +
+                                    '                                        <div class="col-lg-6 col-md-12 text-left text-secondary h6">\n'
+                                    +
+                                    new Date(new_comment.fields.publish_date).toString() +
+                                    '                                        </div>\n';
+                            }
+                            appendString += '<div class="col-12">\n' +
+                                new_comment.fields.text +
+                                '                                    </div>\n';
+
+
+                            let append_item = $(appendString).hide();
+                            if (isAnswer) {
+                                $('#answer-comment-form-' + id).trigger("reset");
+                                $('#answer-comment-form-' + id).slideToggle(1000);
+                                $("#comment-reply-button-" + id).slideToggle(1000);
+                                $("#comment-reply-close-" + id).slideToggle(1000);
+                                $('#comment-answer-list-id-' + id).prepend(append_item);
+                            } else {
+                                $('#new-comment-form').trigger("reset");
+                                $("#comment-section").prepend(append_item);
+                            }
+                            append_item.show('slow');
+
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+{% endblock %}

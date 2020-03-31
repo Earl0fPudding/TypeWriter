@@ -80,10 +80,51 @@ def show_article(request, id):
     author = Entry.objects.get(id=id).author
     latest_entry_ids = list(Entry.objects.all().reverse().values_list('id', flat=True))[:5]
     if len(Content.objects.filter(entry_id=id, language__name_short__exact=get_language_short_name(request))) == 0:
-        langs = ''
-        for content in Content.objects.filter(entry_id=id):
-            langs += content.language.name + ' '
-        return http404(request, "<h1>Article not available in your language</h1>\n<h3>Available languages are " + langs + "</h3>")
+        content = Content.objects.filter(entry_id=id, language__default_language=True)
+        if len(content) == 0:
+            content = Content.objects.filter(entry_id=id)
+
+        content=content[0]
+
+        default_context=get_default_context(request)
+
+        langs = Language.objects.filter(contents__entry_id=id)
+        urls=[]
+        for url in default_context['language_urls']:
+            for lang in langs:
+                if '/'+lang.name_short+'/' in url:
+                    urls.append(url)
+                    break
+
+
+
+        page_context = {'general': default_context,
+                        'content': content,
+                        'author': author,
+                        'tags': map(lambda s: s.strip(), list(content.tags.split(','))),
+                        'latest_posts': Content.objects.filter(entry_id__in=latest_entry_ids,
+                                                               language__name_short__exact=get_language_short_name(
+                                                                   request), is_public=True),
+                        'comments_allowed': Settings.objects.get(id=1).comments_allowed,
+                        'comment_manual_valuated': Settings.objects.get(id=1).comments_manual_valuation,
+                        'comments_same_lang': Comment.objects.
+                            filter(passed=True, content__entry_id__exact=id,
+                                   content__language_id__exact=Language.objects.filter(
+                                       name_short__exact=get_language_short_name(
+                                           request)).first().id),
+                        'comments_different_lang': Comment.objects.filter(passed=True,
+                                                                          content__entry_id__exact=id).exclude(
+                            content__language_id__exact=Language.objects.filter(
+                                name_short__exact=get_language_short_name(request)).first().id),
+                        'author_desc': TranslatedText.objects.get(
+                            translatable_textgroup_id__exact=author.description_short.id,
+                            language__name_short__exact=get_language_short_name(request)),
+                        'avail_langs': langs,
+                        'avail_urls': urls
+
+                        }
+
+        return render(request, 'wrong_lang_article.html', context=page_context)
 
     content = Content.objects.filter(entry_id__exact=id,
                                      language__name_short__exact=get_language_short_name(
@@ -175,7 +216,8 @@ def show_imprint(request):
         for text in TranslatedText.objects.filter(
                 translatable_textgroup_id__exact=Settings.objects.get(id=1).imprint_text.id):
             langs += text.language.name + ' '
-        return http404(request, "<h1>Page not available in your language</h1>\n<h3>Available languages are " + langs + "</h3>")
+        return http404(request,
+                       "<h1>Page not available in your language</h1>\n<h3>Available languages are " + langs + "</h3>")
 
     page_context = {'general': get_default_context(request),
                     'page_title': 'Imprint',
@@ -193,7 +235,8 @@ def show_privacy_policy(request):
         for text in TranslatedText.objects.filter(
                 translatable_textgroup_id__exact=Settings.objects.get(id=1).privacy_policy_text.id):
             langs += text.language.name + ' '
-        return http404(request,"<h1>Page not available in your language</h1>\n<h3>Available languages are " + langs + "</h3>")
+        return http404(request,
+                       "<h1>Page not available in your language</h1>\n<h3>Available languages are " + langs + "</h3>")
 
     page_context = {'general': get_default_context(request),
                     'page_title': 'Privacy Policy',
@@ -243,7 +286,8 @@ def show_discover(request):
         form = SearchForm(request.GET)
         if form.is_valid():
             contents = Content.objects.filter(title__icontains=form.data['keywords'],
-                                              language__name_short__exact=get_language_short_name(request), is_public=True)
+                                              language__name_short__exact=get_language_short_name(request),
+                                              is_public=True)
     page_context = {
         'general': get_default_context(request),
         'current_language': Language.objects.get(name_short__exact=get_language_short_name(request)),
