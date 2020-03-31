@@ -7,6 +7,7 @@
     <title>{{ content.title }} - TypeWriter</title>
     <link rel="stylesheet" href="{% static 'css/prism-solar.css' %}">
     <script type="text/javascript" src="{% static 'js/prism-solar.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/clipboard.min.js' %}"></script>
 
     <!-- META tags -->
     <meta name="description" content="{{ content.summary }}">
@@ -36,7 +37,7 @@
         <meta name="twitter:image" content="{{ general.settings.socket }}{{ content.header_image.file.url }}">
         <meta name="twitter:card" content="summary_large_image">
     {% else %}
-    <meta name="twitter:card" content="summary">
+        <meta name="twitter:card" content="summary">
     {% endif %}
     <meta name="twitter:title" content="{{ content.title }}">
     <meta name="twitter:description" content="{{ content.summary }}">
@@ -82,6 +83,15 @@
                     </p>
                     <div class="horizontal-divider-dotted col-8 offset-2 top-line"></div>
                     {{ content.text | safe }}
+
+                    <div class="col-lg-12 text-center">
+                        <a href="#!">
+                            <button type="button" class="btn-outline-dark btn read-more-button" id="share-button"
+                                    style="margin-bottom: 20px;" data-clipboard-text="{{ share_url }}" data-toggle="tooltip" data-placement="top" title="Link copied!">
+                                {% trans 'Share this article' %}
+                            </button>
+                        </a>
+                    </div>
 
 
                     {% if comments_allowed == 1 %}
@@ -525,6 +535,10 @@
 {% block script %}
     <script type="text/javascript">
         $(document).ready(function () {
+            new ClipboardJS('#share-button');
+
+            $('#share-button').tooltip({'trigger':'click focus'});
+
             let uploads_path = "{{ general.uploads_path }}";
             let static_path = "{{ general.static_path }}";
 

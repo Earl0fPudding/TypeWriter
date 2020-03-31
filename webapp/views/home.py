@@ -84,19 +84,17 @@ def show_article(request, id):
         if len(content) == 0:
             content = Content.objects.filter(entry_id=id)
 
-        content=content[0]
+        content = content[0]
 
-        default_context=get_default_context(request)
+        default_context = get_default_context(request)
 
         langs = Language.objects.filter(contents__entry_id=id)
-        urls=[]
+        urls = []
         for url in default_context['language_urls']:
             for lang in langs:
-                if '/'+lang.name_short+'/' in url:
+                if '/' + lang.name_short + '/' in url:
                     urls.append(url)
                     break
-
-
 
         page_context = {'general': default_context,
                         'content': content,
@@ -148,7 +146,8 @@ def show_article(request, id):
                             name_short__exact=get_language_short_name(request)).first().id),
                     'author_desc': TranslatedText.objects.get(
                         translatable_textgroup_id__exact=author.description_short.id,
-                        language__name_short__exact=get_language_short_name(request))
+                        language__name_short__exact=get_language_short_name(request)),
+                    'share_url': request.build_absolute_uri().replace('/' + get_language_short_name(request) + '/', '/')
                     }
 
     return render(request, 'article.html', context=page_context)
