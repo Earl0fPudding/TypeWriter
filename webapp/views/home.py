@@ -50,20 +50,20 @@ def show_favicon_png(request):
 
 
 @require_http_methods(['GET'])
-def show_article_readable(request, id, title):
-    contents = Content.objects.filter(entry_id=id)
+def show_article_readable(request, token, title):
+    contents = Content.objects.filter(entry__token=token)
     for content in contents:
         if title == slugify(content.title):
-            return show_article(request, id)
+            return show_article(request, token)
     return http404(request, "<h1>Article not found</h2>")
 
 
 @require_http_methods(['GET'])
 def show_index(request):
-    latest_entry_ids = list(Entry.objects.all().reverse().values_list('id', flat=True))[:5]
+    latest_entry_tokens = list(Entry.objects.all().reverse().values_list('token', flat=True))[:5]
 
     page_context = {'general': get_default_context(request),
-                    'latest_posts': Content.objects.filter(entry_id__in=latest_entry_ids,
+                    'latest_posts': Content.objects.filter(entry__token__in=latest_entry_tokens,
                                                            language__name_short__exact=get_language_short_name(
                                                                request), is_public=True),
                     }
@@ -76,19 +76,23 @@ def show_login(request):
 
 
 @require_http_methods(['GET'])
-def show_article(request, id):
-    author = Entry.objects.get(id=id).author
-    latest_entry_ids = list(Entry.objects.all().reverse().values_list('id', flat=True))[:5]
-    if len(Content.objects.filter(entry_id=id, language__name_short__exact=get_language_short_name(request))) == 0:
-        content = Content.objects.filter(entry_id=id, language__default_language=True)
+def show_article(request, token):
+    if len(Entry.objects.filter(token=token)) == 0:
+        return http404(request, "<h1>Article not found</h2>")
+
+    author = Entry.objects.get(token=token).author
+    latest_entry_tokens = list(Entry.objects.all().reverse().values_list('token', flat=True))[:5]
+    if len(Content.objects.filter(entry__token=token,
+                                  language__name_short__exact=get_language_short_name(request))) == 0:
+        content = Content.objects.filter(entry__token=token, language__default_language=True)
         if len(content) == 0:
-            content = Content.objects.filter(entry_id=id)
+            content = Content.objects.filter(entry__token=token)
 
         content = content[0]
 
         default_context = get_default_context(request)
 
-        langs = Language.objects.filter(contents__entry_id=id)
+        langs = Language.objects.filter(contents__entry__token=token)
         urls = []
         for url in default_context['language_urls']:
             for lang in langs:
@@ -100,18 +104,18 @@ def show_article(request, id):
                         'content': content,
                         'author': author,
                         'tags': map(lambda s: s.strip(), list(content.tags.split(','))),
-                        'latest_posts': Content.objects.filter(entry_id__in=latest_entry_ids,
+                        'latest_posts': Content.objects.filter(entry__token__in=latest_entry_tokens,
                                                                language__name_short__exact=get_language_short_name(
                                                                    request), is_public=True),
                         'comments_allowed': Settings.objects.get(id=1).comments_allowed,
                         'comment_manual_valuated': Settings.objects.get(id=1).comments_manual_valuation,
                         'comments_same_lang': Comment.objects.
-                            filter(passed=True, content__entry_id__exact=id,
+                            filter(passed=True, content__entry__token__exact=token,
                                    content__language_id__exact=Language.objects.filter(
                                        name_short__exact=get_language_short_name(
                                            request)).first().id),
                         'comments_different_lang': Comment.objects.filter(passed=True,
-                                                                          content__entry_id__exact=id).exclude(
+                                                                          content__entry__token__exact=token).exclude(
                             content__language_id__exact=Language.objects.filter(
                                 name_short__exact=get_language_short_name(request)).first().id),
                         'author_desc': TranslatedText.objects.get(
@@ -124,24 +128,25 @@ def show_article(request, id):
 
         return render(request, 'wrong_lang_article.html', context=page_context)
 
-    content = Content.objects.filter(entry_id__exact=id,
+    content = Content.objects.filter(entry__token__exact=token,
                                      language__name_short__exact=get_language_short_name(
                                          request)).first()
     page_context = {'general': get_default_context(request),
                     'content': content,
                     'author': author,
                     'tags': map(lambda s: s.strip(), list(content.tags.split(','))),
-                    'latest_posts': Content.objects.filter(entry_id__in=latest_entry_ids,
+                    'latest_posts': Content.objects.filter(entry__token__in=latest_entry_tokens,
                                                            language__name_short__exact=get_language_short_name(
                                                                request), is_public=True),
                     'comments_allowed': Settings.objects.get(id=1).comments_allowed,
                     'comment_manual_valuated': Settings.objects.get(id=1).comments_manual_valuation,
                     'comments_same_lang': Comment.objects.
-                        filter(passed=True, content__entry_id__exact=id,
+                        filter(passed=True, content__entry__token__exact=token,
                                content__language_id__exact=Language.objects.filter(
                                    name_short__exact=get_language_short_name(
                                        request)).first().id),
-                    'comments_different_lang': Comment.objects.filter(passed=True, content__entry_id__exact=id).exclude(
+                    'comments_different_lang': Comment.objects.filter(passed=True,
+                                                                      content__entry__token__exact=token).exclude(
                         content__language_id__exact=Language.objects.filter(
                             name_short__exact=get_language_short_name(request)).first().id),
                     'author_desc': TranslatedText.objects.get(
