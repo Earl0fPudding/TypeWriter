@@ -28,7 +28,7 @@ class TranslatableSmalltext(models.Model):
 
 
 class TranslatedSmalltext(models.Model):
-    text = models.CharField(max_length=50, null=False, blank=False)
+    text = models.CharField(max_length=120, null=False, blank=False)
     translatable_smalltext = models.ForeignKey(TranslatableSmalltext, related_name='translated_smalltexts', null=False,
                                                blank=False, on_delete=models.CASCADE)
     language = models.ForeignKey(Language, related_name='translated_smalltexts', null=False, blank=False,
